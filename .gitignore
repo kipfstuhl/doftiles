@@ -2,3 +2,6 @@
 
 # Do not share username and e-mail from .gitconfig
 git/.gitconfig
+
+# Emacs backup files
+*~
