@@ -1,3 +1,6 @@
+;; Adjust the visual appearence at the beginning, this gives a feeling
+;; of fast loading init file
+
 ; hide menu bar
 (menu-bar-mode 0)
 ; hide tool bar
@@ -6,21 +9,24 @@
 (scroll-bar-mode 0)
 ; do not blink
 (blink-cursor-mode 0)
+; display current time
+(display-time-mode 1)
+; load a nice theme
+(load-theme 'tango-dark)
+; remove the box around the mode line
+; this has to be after loading the theme
+(set-face-attribute 'mode-line nil
+		    :box nil)
+; again for the inactive "windows" (emacs jargon)
+(set-face-attribute 'mode-line-inactive nil
+		    :box nil)
+
 ; no startup screen
 (setq inhibit-startup-message t)
 
-; set font: Fira Code
-(add-to-list 'default-frame-alist
-	     '(font . "Fira Code"))
-
-; set font size
-(set-face-attribute 'default nil
-		    :height 120)
-
-; display current time
-(display-time-mode 1)
 
 ;(setq prettify-symbols-unprettify-at-point 'right-edge) ; set this via customize
+
 
 ;; non specific keybindings
 (global-set-key (kbd "C-c r") 'replace-string) ; non-qery replace keybinding
@@ -28,6 +34,8 @@
 (global-set-key (kbd "C-c c") 'comment-or-uncomment-region)
 (global-set-key (kbd "C-c u") 'uncomment-region)
 
+
+;; Setup package archives
 (require 'package) ;; You might already have this line
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
@@ -36,11 +44,13 @@
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 (package-initialize) ;; You might already have this line
 
+;; improved package menu
+(require 'paradox)
+(paradox-enable)
 
 
 (require 'auto-complete)
 (global-auto-complete-mode t)
-
 ;; fix autocomplete
 (define-key ac-completing-map [return] nil)
 (define-key ac-completing-map "\r" nil)
@@ -54,12 +64,9 @@
 (add-hook 'racer-mode-hook 'ac-racer-setup)
 
 
-;; improved package menu
-(require 'paradox)
-(paradox-enable)
-
 ;; Make Magit and GitHub work together like a charm
 (require 'magithub)
+
 
 ;; multiple-cursors
 (require 'multiple-cursors)
@@ -71,9 +78,15 @@
 
 
 
+;; Set the font to Fira Code
+;; this is not as easy as it sounds
 
-
-
+; set font: Fira Code
+(add-to-list 'default-frame-alist
+	     '(font . "Fira Code"))
+; set font size
+(set-face-attribute 'default nil
+		    :height 120)
 ;; font support: use the superior Fira Code font
 ; enable for daemon and emacsclient
 (add-hook 'after-make-frame-functions (lambda (frame) (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")))
@@ -214,13 +227,16 @@
 (add-hook 'prog-mode-hook
 	  #'add-fira-code-symbol-keywords)
 
+
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
+
 
 ;; SLIME
 ;; Set your lisp system and, optionally, some contribs
  (setq inferior-lisp-program "/usr/bin/sbcl")
  (setq slime-contribs '(slime-fancy))
+
 
 ;; Für den semantic-mode
 (global-ede-mode t)                      ; Enable the Project management system
@@ -240,11 +256,11 @@
 ;; semantic include paths for cuda
 (semantic-add-system-include "/usr/include/nvidia-384" 'c-mode)
 
+
 ;; IPython
 (require 'python)
 (setq python-shell-interpreter "ipython"
       python-shell-interpreter-args "--simple-prompt -i")
-
 
 ;; More Python
 ; Jedi for autocompletion
@@ -350,7 +366,7 @@
      (output-dvi "xdvi")
      (output-pdf "Evince")
      (output-html "xdg-open"))))
- '(custom-enabled-themes (quote (tango-dark)))
+ ;'(custom-enabled-themes (quote (tango-dark)))
  '(font-latex-fontify-script nil)
  '(package-selected-packages
    (quote
@@ -364,11 +380,3 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-
-; remove the box around the mode line
-; this has to be after loading the theme
-(set-face-attribute 'mode-line nil
-		    :box nil)
-; again for the inactive "windows" (emacs jargon)
-(set-face-attribute 'mode-line-inactive nil
-		    :box nil)
