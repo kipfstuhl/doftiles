@@ -2,17 +2,17 @@
 ;; of fast loading init file
 
 ; hide menu bar
-(menu-bar-mode 0)
+;(menu-bar-mode 0)
 ; hide tool bar
-(tool-bar-mode 0)
+;(tool-bar-mode 0)
 ; hide scroll bar on the side
-(scroll-bar-mode 0)
+;(scroll-bar-mode 0)
 ; do not blink
-(blink-cursor-mode 0)
+;(blink-cursor-mode 0)
 ; display current time
-(display-time-mode 1)
+;(display-time-mode 1)
 ; load a nice theme
-(load-theme 'tango-dark-new t)	 ;don't confirm the load
+;(load-theme 'tango-dark-new t)	 ;don't confirm the load
 ; remove the box around the mode line
 ; this has to be after loading the theme
 ; now it is in the new theme
@@ -21,9 +21,10 @@
 ;; ; again for the inactive "windows" (emacs jargon)
 ;; (set-face-attribute 'mode-line-inactive nil
 ;; 		    :box nil)
-(set-fringe-mode '(nil . 0))
+;; don't add a column for wrapped lines at the right side, only left
+;(set-fringe-mode '(nil . 0))
 ; no startup screen
-(setq inhibit-startup-message t)
+;(setq inhibit-startup-message t)
 
 
 ;(setq prettify-symbols-unprettify-at-point 'right-edge) ; set this via customize
@@ -375,16 +376,21 @@
      (output-dvi "xdvi")
      (output-pdf "Evince")
      (output-html "xdg-open"))))
+ '(ansi-color-names-vector
+   ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
+ '(blink-cursor-mode nil)
  '(custom-safe-themes
    (quote
-    ("b587774bd67083d98778e40b093ba822d25b5f842aaf95116015d4dbd624b5d1" "00e0c2f0373582a2bf6df1e63eddc05d7eb2ba7a7688b175d13c7e9ef53eeef6" default)))
+    ("b462e2411830a39699856dcce0a72f9b11e6952dd07be5c65ae5f2f91eea25f1" "bf21a33d9f35ee10c2378ce999424002836ac3f6bdc2c94f2396ad44ce32c998" "b587774bd67083d98778e40b093ba822d25b5f842aaf95116015d4dbd624b5d1" "00e0c2f0373582a2bf6df1e63eddc05d7eb2ba7a7688b175d13c7e9ef53eeef6" default)))
+ '(display-time-mode t)
  '(font-latex-fontify-script nil)
  '(package-selected-packages
    (quote
     (magithub nyan-mode paradox multiple-cursors ac-c-headers ac-math ac-racer toml-mode ac-octave auto-complete-c-headers ssh slime-volleyball slime-theme slime-ritz slime-docker slime-annot python3-info python-info python-docstring org matlab-mode markdown-mode magit julia-shell jedi-direx google-maps german-holidays ess-view ess-smart-underscore ess-smart-equals ess-R-object-popup ess-R-data-view ein-mumamo cython-mode cuda-mode cargo calfw c-eldoc auctex-lua auctex-latexmk aes ac-slime)))
  '(paradox-github-token t)
  '(prettify-symbols-unprettify-at-point (quote right-edge))
- '(reftex-plug-into-AUCTeX nil))
+ '(reftex-plug-into-AUCTeX nil)
+ '(scroll-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
