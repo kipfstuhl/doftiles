@@ -12,15 +12,16 @@
 ; display current time
 (display-time-mode 1)
 ; load a nice theme
-(load-theme 'tango-dark)
+(load-theme 'tango-dark-new t)	 ;don't confirm the load
 ; remove the box around the mode line
 ; this has to be after loading the theme
-(set-face-attribute 'mode-line nil
-		    :box nil)
-; again for the inactive "windows" (emacs jargon)
-(set-face-attribute 'mode-line-inactive nil
-		    :box nil)
-
+; now it is in the new theme
+;; (set-face-attribute 'mode-line nil
+;; 		    :box nil)
+;; ; again for the inactive "windows" (emacs jargon)
+;; (set-face-attribute 'mode-line-inactive nil
+;; 		    :box nil)
+(set-fringe-mode '(nil . 0))
 ; no startup screen
 (setq inhibit-startup-message t)
 
@@ -293,6 +294,14 @@
 
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Some maybe useful instructions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (setq make-backup-files nil) ; stop creating those backup~ files
+;; (setq auto-save-default nil) ; stop creating those #autosave# files
+;; (transient-mark-mode 1) ; highlight text selection
+;; (delete-selection-mode 1) ; delete seleted text when typing
+
 
 ;auctex LuaLaTeX
 ;(eval-after-load "tex"
@@ -366,7 +375,9 @@
      (output-dvi "xdvi")
      (output-pdf "Evince")
      (output-html "xdg-open"))))
- ;'(custom-enabled-themes (quote (tango-dark)))
+ '(custom-safe-themes
+   (quote
+    ("b587774bd67083d98778e40b093ba822d25b5f842aaf95116015d4dbd624b5d1" "00e0c2f0373582a2bf6df1e63eddc05d7eb2ba7a7688b175d13c7e9ef53eeef6" default)))
  '(font-latex-fontify-script nil)
  '(package-selected-packages
    (quote
