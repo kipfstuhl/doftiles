@@ -12,7 +12,7 @@
 ; display current time
 ;(display-time-mode 1)
 ; load a nice theme
-;(load-theme 'tango-dark-new t)	 ;don't confirm the load
+(load-theme 'tango-dark-new t)	 ;don't confirm the load
 ; remove the box around the mode line
 ; this has to be after loading the theme
 ; now it is in the new theme
@@ -381,7 +381,7 @@
  '(blink-cursor-mode nil)
  '(custom-safe-themes
    (quote
-    ("b462e2411830a39699856dcce0a72f9b11e6952dd07be5c65ae5f2f91eea25f1" "bf21a33d9f35ee10c2378ce999424002836ac3f6bdc2c94f2396ad44ce32c998" "b587774bd67083d98778e40b093ba822d25b5f842aaf95116015d4dbd624b5d1" "00e0c2f0373582a2bf6df1e63eddc05d7eb2ba7a7688b175d13c7e9ef53eeef6" default)))
+    ("e9cbee60387b249e622a961db3f51a77d11ce1a5d735c8f6264f9a3541faf60b" "b462e2411830a39699856dcce0a72f9b11e6952dd07be5c65ae5f2f91eea25f1" "bf21a33d9f35ee10c2378ce999424002836ac3f6bdc2c94f2396ad44ce32c998" "b587774bd67083d98778e40b093ba822d25b5f842aaf95116015d4dbd624b5d1" "00e0c2f0373582a2bf6df1e63eddc05d7eb2ba7a7688b175d13c7e9ef53eeef6" default)))
  '(display-time-mode t)
  '(font-latex-fontify-script nil)
  '(package-selected-packages

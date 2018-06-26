@@ -157,14 +157,14 @@ Without ugly boxes.")
   (custom-theme-set-variables
    'tango-dark-new
    `(ansi-color-names-vector [,alum-7 ,red-0 ,cham-0 ,butter-1
-				      ,blue-1 ,plum-1 ,blue-0 ,alum-1]))
+				      ,blue-1 ,plum-1 ,blue-0 ,alum-1])
   '(display-time-mode t)
   '(blink-cursor nil)
   '(scroll-bar-mode nil)
   '(tool-bar-mode nil)
   '(menu-bar-mode nil)
   '(fringe-mode (quote (nil . 0)))
-  '(inhibit-startup-message t))
+  '(inhibit-startup-message t)))
 
 (provide-theme 'tango-dark-new)
 
