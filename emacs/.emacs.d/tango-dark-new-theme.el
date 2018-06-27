@@ -33,7 +33,7 @@
   "Face colors using the Tango palette (dark background).
 Basic, Font Lock, Isearch, Gnus, Message, Ediff, Flyspell,
 Semantic, and Ansi-Color faces are included.
-Without ugly boxes.")
+Without ugly boxes but with Magit.")
 
 (let ((class '((class color) (min-colors 89)))
       ;; Tango palette colors.
