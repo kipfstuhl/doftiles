@@ -154,7 +154,7 @@ Without ugly boxes.")
    `(semantic-tag-boundary-face ((,class (:overline ,blue-1))))
    `(semantic-unmatched-syntax-face ((,class (:underline ,red-1))))
    ;; Magit faces
-   `(magit-section-highlight ((,class (:background ,alum-5))))
+   `(magit-section-highlight ((,class (:background ,alum-5.5))))
    )
 
   (custom-theme-set-variables
