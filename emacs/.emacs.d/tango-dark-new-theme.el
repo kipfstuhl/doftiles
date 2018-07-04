@@ -50,6 +50,19 @@ Without ugly boxes but with Magit.")
       (cham-0 "#b4fa70") (blue-0 "#8cc4ff") (plum-0 "#e9b2e3")
       (red-0 "#ff4b4b")  (alum-5.5 "#41423f") (alum-7 "#212526"))
 
+  (custom-theme-set-variables
+   'tango-dark-new
+   `(ansi-color-names-vector [,alum-7 ,red-0 ,cham-0 ,butter-1
+				      ,blue-1 ,plum-1 ,blue-0 ,alum-1])
+   '(display-time-mode t)
+   '(blink-cursor nil)
+   '(scroll-bar-mode nil)
+   '(tool-bar-mode nil)
+   '(menu-bar-mode nil)
+   '(fringe-mode (quote (nil . 0)))
+   '(inhibit-startup-message t))
+
+  
   (custom-theme-set-faces
    'tango-dark-new
    ;; Ensure sufficient contrast on low-color terminals.
@@ -157,18 +170,20 @@ Without ugly boxes but with Magit.")
    `(magit-section-highlight ((,class (:background ,alum-5.5))))
    )
 
-  (custom-theme-set-variables
-   'tango-dark-new
-   `(ansi-color-names-vector [,alum-7 ,red-0 ,cham-0 ,butter-1
-				      ,blue-1 ,plum-1 ,blue-0 ,alum-1])
-  '(display-time-mode t)
-  '(blink-cursor nil)
-  '(scroll-bar-mode nil)
-  '(tool-bar-mode nil)
-  '(menu-bar-mode nil)
-  '(fringe-mode (quote (nil . 0)))
-  '(inhibit-startup-message t)))
-
+  ;; set the variables at beginning for better appearance
+  ;; (custom-theme-set-variables
+  ;;  'tango-dark-new
+  ;;  `(ansi-color-names-vector [,alum-7 ,red-0 ,cham-0 ,butter-1
+  ;; 				      ,blue-1 ,plum-1 ,blue-0 ,alum-1])
+  ;; '(display-time-mode t)
+  ;; '(blink-cursor nil)
+  ;; '(scroll-bar-mode nil)
+  ;; '(tool-bar-mode nil)
+  ;; '(menu-bar-mode nil)
+  ;; '(fringe-mode (quote (nil . 0)))
+  ;; '(inhibit-startup-message t)))
+  )
+  
 (provide-theme 'tango-dark-new)
 
 ;; Local Variables:
