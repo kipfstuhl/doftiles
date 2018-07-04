@@ -82,18 +82,22 @@
 
 ;; Set the font to Fira Code
 ;; this is not as easy as it sounds
-
 ; set font: Fira Code
+
+;; (add-to-list 'default-frame-alist ; works, but size is difficult
+;; 	     '(font . "Fira Code"))
+
+;; Fira Code in size 10.5 pt
+;; this is the height attribute of XFLD (X Logical Font Description)
 (add-to-list 'default-frame-alist
-	     '(font . "Fira Code"))
-; set font size
-(set-face-attribute 'default nil
-		    :height 120)
+	     '(font . "-*-Fira Code-*-*-*-*-*-105-*-*-*-*-*-*"))
 ;; font support: use the superior Fira Code font
 ; enable for daemon and emacsclient
 (add-hook 'after-make-frame-functions (lambda (frame) (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")))
 ; enable without server/client
-(set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")
+(set-fontset-font t '(#Xe100 . #Xe16f)
+		  (font-spec :font "Fira Code Symbol"
+			     :height 105))
 
 (defconst fira-code-font-lock-keywords-alist
   (mapcar (lambda (regex-char-pair)
@@ -228,7 +232,6 @@
 ;; for the programming mode
 (add-hook 'prog-mode-hook
 	  #'add-fira-code-symbol-keywords)
-
 
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
