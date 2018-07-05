@@ -36,6 +36,8 @@
 (global-set-key (kbd "C-c c") 'comment-or-uncomment-region)
 (global-set-key (kbd "C-c u") 'uncomment-region)
 
+;; avoid long confirmations
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Setup package archives
 (require 'package) ;; You might already have this line
