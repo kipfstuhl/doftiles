@@ -300,10 +300,22 @@
 ;; packages that deal with interpreted languages
 (define-key julia-mode-map (kbd "C-c C-c") 'julia-shell-run-region-or-line)
 (define-key julia-mode-map (kbd "C-c C-r") 'julia-shell-run-region)
-(define-key julia-mode-map (kbd "C-c C-k") 'Julia-shell-eval-buffer)
+(define-key julia-mode-map (kbd "C-c C-k") 'julia-shell-eval-buffer)
+(define-key julia-mode-map (kbd "C-c M-n") 'julia-shell-reset-julia)
+(define-key inferior-julia-shell-mode-map (kbd "C-c M-n") 'julia-shell-reset-workspace) ;for use in shell buffer
+;; this function should be in julia-shell.el
+;; It resets the workspace, i.e. deletes all variables and functions,
+;; then it loads the emacstools library for proper interaction with julia-shell.el
+(defun julia-shell-reset-workspace ()
+  "reset the Julia workspace, run worskpace() and reload the emacs-init file"
+  (interactive)
+  (let ((julia-emacsinit (expand-file-name "julia-shell-emacstools.jl" (file-name-directory (locate-library "julia-shell"))))
+	(julia-shell-buffer (julia-shell-buffer-or-complain)))
+    (comint-send-string (get-buffer-process julia-shell-buffer)
+			(format "workspace();include(\"%s\")" julia-emacsinit))))
 ;; this function should be in julia-shell.el
 ;; It is quite the same as
-;; julia-shell-save-and-go bu as the name suggests without the save step
+;; julia-shell-save-and-go but as the name suggests without the save step
 (defun julia-shell-eval-buffer ()
   "eval this buffer in a Julia shell."
   (interactive)
