@@ -292,13 +292,43 @@
 ;; make julia-mode and julia-shell-mode (e.g. run-julia) work together
 (require 'julia-mode)
 (require 'julia-shell)
-;(defun my-julia-mode-hooks ()
-;  (require 'julia-shell-mode))
-;(add-hook 'julia-mode-hook 'my-julia-mode-hooks)
+;;(defun my-julia-mode-hooks ()
+;;  (require 'julia-shell-mode))
+;;(add-hook 'julia-mode-hook 'my-julia-mode-hooks)
+
+;; these keybindings are inspired by SLIME, very similar to many other
+;; packages that deal with interpreted languages
 (define-key julia-mode-map (kbd "C-c C-c") 'julia-shell-run-region-or-line)
-;(define-key julia-mode-map (kbd "C-c C-s") 'julia-shell-save-and-go) ; for saving and directly executing the buffer
+(define-key julia-mode-map (kbd "C-c C-r") 'julia-shell-run-region)
+(define-key julia-mode-map (kbd "C-c C-k") 'Julia-shell-eval-buffer)
+;; this function should be in julia-shell.el
+;; It is quite the same as
+;; julia-shell-save-and-go bu as the name suggests without the save step
+(defun julia-shell-eval-buffer ()
+  "eval this buffer in a Julia shell."
+  (interactive)
+    (let ((julia-shell-buffer (julia-shell-buffer-or-complain))
+        (filename (buffer-file-name))
+        (last-cmd nil)
+        (last-cmd-with-prompt nil)
+        (inhibit-field-text-motion t))
+    (with-current-buffer julia-shell-buffer
+      (if (not (julia-shell-on-prompt-p))
+          (error "Julia shell is busy!")
+        (beginning-of-line)
+        (setq last-cmd-with-prompt
+              (buffer-substring (point) (line-end-position)))
+        (setq last-cmd (replace-regexp-in-string
+                        julia-shell-prompt-regexp "" last-cmd-with-prompt))
+        (delete-region (point) (line-end-position))
+        (comint-simple-send (get-buffer-process (current-buffer))
+                            (format "include(\"%s\")" filename))
+        (goto-char (point-max))
+        (insert last-cmd)
+        (goto-char (point-max))))))
 
 
+  
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Some maybe useful instructions
