@@ -303,6 +303,7 @@
 (define-key julia-mode-map (kbd "C-c C-k") 'julia-shell-eval-buffer)
 (define-key julia-mode-map (kbd "C-c M-n") 'julia-shell-reset-julia)
 (define-key inferior-julia-shell-mode-map (kbd "C-c M-n") 'julia-shell-reset-workspace) ;for use in shell buffer
+(define-key julia-mode-map (kbd "C-c C-d") 'julia-shell-show-documentation)
 ;; this function should be in julia-shell.el
 ;; It resets the workspace, i.e. deletes all variables and functions,
 ;; then it loads the emacstools library for proper interaction with julia-shell.el
@@ -339,7 +340,22 @@
         (insert last-cmd)
         (goto-char (point-max))))))
 
+;; this function should be in julia-shell.el
+;; it Displays the Julia documentation in a
+;; temporary buffer
+(defun julia-shell-show-documentation ()
+  "show documentaton for word at point"
+  (interactive)
+    (with-output-to-temp-buffer "*Julia Doc*"
+      (print (julia-shell-collect-command-output
+	      (concat "@doc(" (thing-at-point 'word 'no-properties) ")")))))
 
+
+
+
+;; FORTRAN
+; Use Fortran mode for pfUnit (.pf) files
+(add-to-list 'auto-mode-alist '("\\.pf\\'" . fortran-mode))
   
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
