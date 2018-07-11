@@ -344,10 +344,22 @@
 ;; this function should be in julia-shell.el
 ;; it Displays the Julia documentation in a
 ;; temporary buffer
+;; because I am quite lazy and don't want to create a new
+;; temporary buffer that is handled the correct way (closing
+;; after pressing enter and things like this) misuse the
+;; buffer for completions -> this is not good code
 (defun julia-shell-show-documentation ()
   "show documentaton for word at point"
   (interactive)
-    (with-output-to-temp-buffer "*Julia Doc*"
+  ;; this code is more or less copied from julia-shell.el, i.e.
+  ;; matlab.el
+  (if (get-buffer-window "*Completions*")
+      nil
+    (setq julia-shell-window-exists-for-display-completion-flag
+	  (if (eq (next-window) (selected-window))
+	      'delete
+	    'bury)))
+    (with-output-to-temp-buffer "*Completions*"
       (print (julia-shell-collect-command-output
 	      (concat "@doc(" (thing-at-point 'word 'no-properties) ")")))))
 
