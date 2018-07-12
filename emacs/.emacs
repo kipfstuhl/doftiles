@@ -353,15 +353,17 @@
   (interactive)
   ;; this code is more or less copied from julia-shell.el, i.e.
   ;; matlab.el
-  (if (get-buffer-window "*Completions*")
-      nil
-    (setq julia-shell-window-exists-for-display-completion-flag
-	  (if (eq (next-window) (selected-window))
-	      'delete
-	    'bury)))
-    (with-output-to-temp-buffer "*Completions*"
-      (print (julia-shell-collect-command-output
-	      (format "@doc(%s)" (thing-at-point 'word 'no-properties))))))
+  (let ((doc-output (julia-shell-collect-command-output
+		    (format "@doc(%s)" (thing-at-point 'word 'no-properties)))))
+    (when doc-output
+      (if (get-buffer-window "*Completions*")
+	  nil
+	(setq julia-shell-window-exists-for-display-completion-flag
+	      (if (eq (next-window) (selected-window))
+		  'delete
+		'bury)))
+      (with-output-to-temp-buffer "*Completions*"
+	(print doc-output)))))
 
 
 
