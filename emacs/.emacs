@@ -361,7 +361,7 @@
 	    'bury)))
     (with-output-to-temp-buffer "*Completions*"
       (print (julia-shell-collect-command-output
-	      (concat "@doc(" (thing-at-point 'word 'no-properties) ")")))))
+	      (format "@doc(%s)" (thing-at-point 'word 'no-properties))))))
 
 
 
