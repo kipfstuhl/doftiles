@@ -371,7 +371,9 @@
 ;; FORTRAN
 ; Use Fortran mode for pfUnit (.pf) files
 (add-to-list 'auto-mode-alist '("\\.pf\\'" . fortran-mode))
-  
+
+;; Start emacs server for being able to use emacsclient
+(server-start)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Some maybe useful instructions
