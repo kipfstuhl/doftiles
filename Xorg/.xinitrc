@@ -55,4 +55,6 @@ fi
 # exec xterm -geometry 80x66+0+0 -name login
 
 xbindkeys
+# execute the profile
+[-f~/.xprofile]&&.~/.xprofile
 exec awesome
