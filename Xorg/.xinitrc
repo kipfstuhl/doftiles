@@ -56,5 +56,5 @@ fi
 
 xbindkeys
 # execute the profile
-[-f~/.xprofile]&&.~/.xprofile
+[ -f ~/.xprofile ] && . ~/.xprofile
 exec awesome
