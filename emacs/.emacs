@@ -71,6 +71,9 @@
 ;; Make Magit and GitHub work together like a charm
 (require 'magithub)
 
+;; keybinding for Magit
+(global-set-key (kbd "C-x g") 'magit-status)
+
 
 ;; multiple-cursors
 (require 'multiple-cursors)
