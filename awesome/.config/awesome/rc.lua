@@ -16,10 +16,14 @@ require("awful.hotkeys_popup.keys")
 
 
 -- enable power widget
-local power = require("power_widget")
-power.critical_percentage = 15
-power:init()
+-- local power = require("power_widget")
+-- power.critical_percentage = 15
+-- power:init()
 
+-- simple awesome widgets
+local battery_arc_widget = require("awesome-wm-widgets.batteryarc-widget.batteryarc")
+local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
+local ram_widget = require("awesome-wm-widgets.ram-widget.ram-widget")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -123,6 +127,22 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 
 -- Keyboard map indicator and switcher
 mykeyboardlayout = awful.widget.keyboardlayout()
+kbdcfg = {}
+kbdcfg.cmd = "setxkbmap"
+kbdcfg.layout = { {"eu", ""}, {"de",""} }
+kbdcfg.current = 2
+kbdcfg.widget = wibox.widget.textbox()
+kbdcfg.widget:set_text(" " .. kbdcfg.layout[kbdcfg.current][1] .. " ")
+kbdcfg.switch = function ()
+   kbdcfg.current = kbdcfg.current % #(kbdcfg.layout) + 1
+   local t = kbdcfg.layout[kbdcfg.current]
+   kbdcfg.widget:set_text(" " .. t[1] .. " ")
+   os.execute( kbdcfg.cmd .. " " .. t[1] .. " " .. t[2] )
+end
+-- mouse binding
+kbdcfg.widget:buttons(
+   awful.util.table.join(awful.button({ }, 1, function () kbdcfg.switch() end))
+)
 
 -- {{{ Wibar
 -- Create a textclock widget
@@ -225,8 +245,12 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
+	    kbdcfg.widget,
             wibox.widget.systray(),
-            power,
+            -- power, -- use other library
+	    battery_arc_widget,
+	    ram_widget,
+	    cpu_widget,
 	    mytextclock,
             s.mylayoutbox,
         },
