@@ -55,6 +55,13 @@ fi
 # exec xterm -geometry 80x66+0+0 -name login
 
 xbindkeys
+#setxkbmap -rules xorg -layout "eu,de" -option "grp:alt_shift_toggle"
+
+# activate screen locker
+xset s 300 10
+#xss-lock -n /usr/lib/xsecurelock/dimmer -l -- "env XSECURELOCK_SAVER=saver_xscreensaver xsecurelock"
+xss-loxk -n /usr/lib/xsecurelock/dimmer -l -- xsecurelock
+
 # execute the profile
 [ -f ~/.xprofile ] && . ~/.xprofile
 exec awesome
