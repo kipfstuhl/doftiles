@@ -131,7 +131,10 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- }}}
 
 -- Keyboard map indicator and switcher
-mykeyboardlayout = awful.widget.keyboardlayout()
+-- mykeyboardlayout = awful.widget.keyboardlayout()
+--
+-- use this, as it works like supposed. The other way does not do
+-- anything, settings via Xorg config files seem not to do the job.
 kbdcfg = {}
 kbdcfg.cmd = "setxkbmap"
 kbdcfg.layout = { {"eu", ""}, {"de",""} }
@@ -144,7 +147,7 @@ kbdcfg.switch = function ()
    kbdcfg.widget:set_text(" " .. t[1] .. " ")
    os.execute( kbdcfg.cmd .. " " .. t[1] .. " " .. t[2] )
 end
--- mouse binding
+-- action for mouse click
 kbdcfg.widget:buttons(
    awful.util.table.join(awful.button({ }, 1, function () kbdcfg.switch() end))
 )
@@ -249,7 +252,7 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            mykeyboardlayout,
+            -- mykeyboardlayout,
 	    kbdcfg.widget,
             wibox.widget.systray(),
             -- power, -- use other library
