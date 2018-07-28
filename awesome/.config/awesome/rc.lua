@@ -67,6 +67,11 @@ editor_cmd = terminal .. " -e " .. editor
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 
+-- convenient definitions
+altkey = "Mod1"
+browser = "firefox"
+
+
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
     awful.layout.suit.floating,
@@ -290,7 +295,7 @@ globalkeys = gears.table.join(
         {description = "focus previous by index", group = "client"}
     ),
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
-              {description = "show main menu", group = "awesome"}),
+       {description = "show main menu", group = "awesome"}),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
@@ -314,7 +319,7 @@ globalkeys = gears.table.join(
 
     -- also use standard keybindig
     -- Mod1 is Alt key
-    awful.key({"Mod1",           }, "Tab",
+    awful.key({altkey,           }, "Tab",
        function ()
 	  awful.client.focus.history.previous()
 	  if client.focus then
@@ -332,6 +337,12 @@ globalkeys = gears.table.join(
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
               {description = "quit awesome", group = "awesome"}),
+    -- editor
+    awful.key({modkey,            }, "i", function () awesome.spawn("emacsclient -c") end,
+       {description = "open emacs in client mode", group = "launcher"}),
+    -- browser
+    awful.key({modkey,            }, "b", function () awesome.spawn(browser) end,
+       {description = "open browser", group = "launcher"}),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
               {description = "increase master width factor", group = "layout"}),
@@ -365,6 +376,10 @@ globalkeys = gears.table.join(
     awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
               {description = "run prompt", group = "launcher"}),
 
+    -- get more like KDE
+    awful.key({ altkey },            " ",     function () awful.screen.focused().mypromptbox:run() end,
+       {description = "run prompt", group = "launcher"}),
+    
     awful.key({ modkey }, "x",
               function ()
                   awful.prompt.run {
@@ -377,7 +392,11 @@ globalkeys = gears.table.join(
               {description = "lua execute prompt", group = "awesome"}),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end,
-              {description = "show the menubar", group = "launcher"})
+       {description = "show the menubar", group = "launcher"}),
+
+    -- lock screen
+    awful.key({altkey, "Control" }, "k", function () awful.spawn("xset s activate") end,
+       {description = "lock screen", group = "awesome"})
 )
 
 clientkeys = gears.table.join(
