@@ -4,6 +4,12 @@ autoload -Uz compinit
 compinit
 setopt COMPLETE_ALIASES
 
+# history
+HISTSIZE=1000
+SAVEHIST=1000
+HISTFILE=~/.zsh_history
+setopt HIST_IGNORE_SPACE
+
 # prompt
 autoload -Uz promptinit
 promptinit
@@ -12,6 +18,11 @@ prompt redhat
 # PATH variable
 typeset -U path
 path=(~/bin ~/.local/bin $path[@])
+
+# 'Go faster' power user options from guide
+setopt AUTO_CD
+
+
 
 # aliases from bash
 
