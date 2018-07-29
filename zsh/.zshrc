@@ -22,7 +22,9 @@ path=(~/bin ~/.local/bin $path[@])
 # 'Go faster' power user options from guide
 setopt AUTO_CD
 
-
+# better word separators, default is
+# WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
+export WORDCHARS='*?_[]~=&;!#$%^(){}<>'
 
 # aliases from bash
 
