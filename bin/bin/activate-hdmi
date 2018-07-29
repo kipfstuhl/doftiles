@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# only works for FullHD monitor
+xrandr --output eDP1 --off --output HDMI2 --auto --size 1920x1080

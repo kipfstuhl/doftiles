@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# simply reload the kernel module for handling mouses and tablets
+sudo rmmod psmouse && sudo modprobe psmouse

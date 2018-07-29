@@ -1,0 +1,9 @@
+#!/bin/sh
+if xinput list-props "Synaptics TM2668-002" | grep "Device Enabled (144):.*1" >/dev/null
+then
+    xinput disable "Synaptics TM2668-002"
+    notify-send -u low -i mouse "Trackpad disabled"
+else
+    xinput enable "Synaptics TM2668-002"
+    notify-send -u low -i mouse "Trackpad enabled"
+fi
