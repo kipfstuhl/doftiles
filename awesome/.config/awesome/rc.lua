@@ -26,6 +26,9 @@ os.setlocale("de_DE.UTF-8", "time")
 local battery_arc_widget = require("awesome-wm-widgets.batteryarc-widget.batteryarc")
 local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
 local ram_widget = require("awesome-wm-widgets.ram-widget.ram-widget")
+local volume_arc_widget = require("awesome-wm-widgets.volumearc-widget.volumearc")
+local volume_widget = require("awesome-wm-widgets.volume-widget.volume")
+-- local volume_bar_widget = require("awesome-wm-widgets.volumebar-widget.volumebar")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -55,7 +58,8 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 -- beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
-beautiful.init(gears.filesystem.get_themes_dir() .. "zenburn/theme.lua")
+-- beautiful.init(gears.filesystem.get_themes_dir() .. "zenburn/theme.lua")
+beautiful.init("~/.config/awesome/themes/zenburn/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 --terminal = "xterm"
@@ -276,6 +280,9 @@ awful.screen.connect_for_each_screen(function(s)
 	    kbdcfg.widget,
             wibox.widget.systray(),
             -- power, -- use other library
+	    volume_arc_widget,
+	    volume_widget,
+	    -- volume_bar_widget,
 	    battery_arc_widget,
 	    ram_widget,
 	    cpu_widget,
@@ -573,7 +580,8 @@ awful.rules.rules = {
 
     -- Add titlebars to normal clients and dialogs
     { rule_any = {type = { "normal", "dialog" }
-      }, properties = { titlebars_enabled = true }
+		 -- }, properties = { titlebars_enabled = true }
+            }, properties = { titlebars_enabled = false } -- no titlebars
     },
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
