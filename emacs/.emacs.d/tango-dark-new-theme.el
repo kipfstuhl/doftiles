@@ -60,8 +60,9 @@ Without ugly boxes but with Magit.")
    '(tool-bar-mode nil)
    '(menu-bar-mode nil)
    '(fringe-mode (quote (nil . 0)))
+   '(column-number-mode)
    '(inhibit-startup-message t))
-
+  
   
   (custom-theme-set-faces
    'tango-dark-new
