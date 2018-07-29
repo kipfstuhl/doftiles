@@ -148,9 +148,25 @@ kbdcfg.widget:set_text(" " .. kbdcfg.layout[kbdcfg.current][1] .. " ")
 kbdcfg.switch = function ()
    kbdcfg.current = kbdcfg.current % #(kbdcfg.layout) + 1
    local t = kbdcfg.layout[kbdcfg.current]
-   kbdcfg.widget:set_text(" " .. t[1] .. " ")
    os.execute( kbdcfg.cmd .. " " .. t[1] .. " " .. t[2] )
+   kbdcfg.widget:set_text(" " .. t[1] .. " ")
 end
+kbdcfg.set = function (i)
+   -- some sanity checks, silently correct the value to some more or
+   -- less arbitrary value in the allowed range
+   if i < 1 then
+      i = 1
+   elseif i > #(kbdcfg.layout) then
+      i = #(kbdcfg.layout)
+   end
+   kbdcfg.current = i
+   local t = kbdcfg.layout[i]
+   os.execute( kbdcfg.cmd .. " " .. t[1] .. " " .. t[2] )
+   kbdcfg.widget:set_text(" " .. t[1] .. " ")
+end
+-- set the layout
+kbdcfg.set(2)
+   
 -- action for mouse click
 kbdcfg.widget:buttons(
    awful.util.table.join(awful.button({ }, 1, function () kbdcfg.switch() end))
@@ -402,8 +418,12 @@ globalkeys = gears.table.join(
        {description = "show the menubar", group = "launcher"}),
 
     -- lock screen
-    awful.key({altkey, "Control" }, "k", function () awful.spawn("xset s activate") end,
-       {description = "lock screen", group = "awesome"})
+    awful.key({altkey, "Control" }, "l", function () awful.spawn("xset s activate") end,
+       {description = "lock screen", group = "awesome"}),
+    
+    -- change keyboardlayout
+    awful.key({altkey, "Control" }, "k", function () kbdcfg.switch() end,
+       {description = "change keyboard layout", group = "awesome"})
 )
 
 clientkeys = gears.table.join(
