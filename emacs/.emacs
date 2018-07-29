@@ -59,6 +59,10 @@
 (define-key ac-completing-map [return] nil)
 (define-key ac-completing-map "\r" nil)
 
+;; Markdown
+; do not use pandoc, it has huge dependencies, cmark is small, fast
+; and works well
+(setq markdown-command "cmark")
 
 ;; Rust
 ; Cargo mode for rust files
