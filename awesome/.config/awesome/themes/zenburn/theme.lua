@@ -14,7 +14,7 @@ theme.wallpaper = themes_path .. "zenburn/zenburn-background.png"
 
 -- {{{ Styles
 -- theme.font      = "sans 8"
-theme.font      = "FiraMono 10"
+theme.font      = "Fira Sans 9"
 
 -- {{{ Colors
 theme.fg_normal  = "#DCDCCC"
@@ -71,7 +71,7 @@ theme.mouse_finder_color = "#CC9393"
 -- menu_[bg|fg]_[normal|focus]
 -- menu_[border_color|border_width]
 -- theme.menu_height = dpi(15)
-theme.menu_height = dpi(60)
+theme.menu_height = dpi(30)
 theme.menu_width  = dpi(100)
 -- }}}
 

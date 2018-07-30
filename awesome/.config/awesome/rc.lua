@@ -23,6 +23,9 @@ os.setlocale("de_DE.UTF-8", "time")
 -- power:init()
 
 -- simple awesome widgets
+-- beautiful.tooltip_fg = beautiful.fg_normal#
+-- beautiful.tooltip_bg = beautiful.bg_normal
+-- beautiful.tooltip_fg = "#ffffff"
 local battery_arc_widget = require("awesome-wm-widgets.batteryarc-widget.batteryarc")
 local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
 local ram_widget = require("awesome-wm-widgets.ram-widget.ram-widget")
