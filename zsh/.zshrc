@@ -59,3 +59,5 @@ alias cd..="cd .."
 export ALTERNATE_EDITOR=""
 export EDITOR=emacsclient
 
+# fuzzy find
+source /usr/share/fzf/key-bindings.zsh
