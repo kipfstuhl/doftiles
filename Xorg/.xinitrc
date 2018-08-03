@@ -59,8 +59,8 @@ xbindkeys
 
 # activate screen locker
 xset s 300 10
-#xss-lock -n /usr/lib/xsecurelock/dimmer -l -- "env XSECURELOCK_SAVER=saver_xscreensaver xsecurelock"
-xss-loxk -n /usr/lib/xsecurelock/dimmer -l -- xsecurelock
+xss-lock -n /usr/lib/xsecurelock/dimmer -l -- env XSECURELOCK_SAVER=saver_xscreensaver xsecurelock &
+#xss-lock -n /usr/lib/xsecurelock/dimmer -l -- xsecurelock &
 
 # execute the profile
 [ -f ~/.xprofile ] && . ~/.xprofile
