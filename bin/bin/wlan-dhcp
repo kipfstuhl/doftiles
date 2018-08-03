@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# connect to wlan via wpa_supplicant with config file wpa.conf
+# root permissions are required, run with sudo
+
+wpa_supplicant -iwlp3s0 -c/home/jonas/wpa.conf -B
+dhcpcd wlp3s0
