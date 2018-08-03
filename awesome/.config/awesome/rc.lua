@@ -84,6 +84,11 @@ modkey = "Mod4"
 altkey = "Mod1"
 browser = "firefox"
 
+-- more definitions
+-- volume_get     = 'amixer sget Master'
+-- volume_inc     = 'amixer sset Master 5%+'
+-- volume_dec     = 'amixer sset Master 5%-'
+-- volume_toggle = 'amixer sset Master toggle'
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
@@ -448,7 +453,7 @@ globalkeys = gears.table.join(
 
     -- toggle the dropdown container
     awful.key({ modkey }, "z", function () quake:toggle() end,
-       {description = "togle dropdown container", group = "awesome"})
+       {description = "togle dropdown container", group = "awesome"}),
 )
 
 clientkeys = gears.table.join(
