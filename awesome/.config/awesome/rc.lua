@@ -30,7 +30,7 @@ local battery_arc_widget = require("awesome-wm-widgets.batteryarc-widget.battery
 local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
 local ram_widget = require("awesome-wm-widgets.ram-widget.ram-widget")
 local volume_arc_widget = require("awesome-wm-widgets.volumearc-widget.volumearc")
-local volume_widget = require("awesome-wm-widgets.volume-widget.volume")
+--local volume_widget = require("awesome-wm-widgets.volume-widget.volume")
 -- local volume_bar_widget = require("awesome-wm-widgets.volumebar-widget.volumebar")
 
 -- {{{ Error handling
@@ -285,11 +285,11 @@ awful.screen.connect_for_each_screen(function(s)
             wibox.widget.systray(),
             -- power, -- use other library
 	    volume_arc_widget,
-	    volume_widget,
+	    -- volume_widget,
 	    -- volume_bar_widget,
-	    battery_arc_widget,
 	    ram_widget,
 	    cpu_widget,
+	    battery_arc_widget,
 	    mytextclock,
             s.mylayoutbox,
         },
