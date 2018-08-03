@@ -453,7 +453,7 @@ globalkeys = gears.table.join(
 
     -- toggle the dropdown container
     awful.key({ modkey }, "z", function () quake:toggle() end,
-       {description = "togle dropdown container", group = "awesome"}),
+       {description = "togle dropdown container", group = "awesome"})
 )
 
 clientkeys = gears.table.join(
