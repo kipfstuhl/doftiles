@@ -459,7 +459,7 @@
       "dvi2tty")
      ((output-dvi style-pstricks)
       "dvips and gv")
-     (output-pdf "Okular")
+     (output-pdf "Zathura")
      (output-dvi "xdvi")
      (output-pdf "Evince")
      (output-html "xdg-open"))))
@@ -473,7 +473,7 @@
  '(font-latex-fontify-script nil)
  '(package-selected-packages
    (quote
-    (lua-mode magithub nyan-mode paradox multiple-cursors ac-c-headers ac-math ac-racer toml-mode ac-octave auto-complete-c-headers ssh slime-volleyball slime-theme slime-ritz slime-docker slime-annot python3-info python-info python-docstring org matlab-mode markdown-mode magit julia-shell jedi-direx google-maps german-holidays ess-view ess-smart-underscore ess-smart-equals ess-R-object-popup ess-R-data-view ein-mumamo cython-mode cuda-mode cargo calfw c-eldoc auctex-lua auctex-latexmk aes ac-slime)))
+    (auctex lua-mode magithub nyan-mode paradox multiple-cursors ac-c-headers ac-math ac-racer toml-mode ac-octave auto-complete-c-headers ssh slime-volleyball slime-theme slime-ritz slime-docker slime-annot python3-info python-info python-docstring org matlab-mode markdown-mode magit julia-shell jedi-direx google-maps german-holidays ess-view ess-smart-underscore ess-smart-equals ess-R-object-popup ess-R-data-view ein-mumamo cython-mode cuda-mode cargo calfw c-eldoc auctex-lua auctex-latexmk aes ac-slime)))
  '(paradox-github-token t)
  '(prettify-symbols-unprettify-at-point (quote right-edge))
  '(reftex-plug-into-AUCTeX nil)
