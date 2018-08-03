@@ -13,6 +13,9 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
+-- use lain library
+local lain = require("lain")
+
 
 -- set locale
 os.setlocale("de_DE.UTF-8", "time")
@@ -173,11 +176,18 @@ kbdcfg.set = function (i)
 end
 -- set the layout
 kbdcfg.set(2)
-   
+
 -- action for mouse click
 kbdcfg.widget:buttons(
    awful.util.table.join(awful.button({ }, 1, function () kbdcfg.switch() end))
 )
+
+
+-- dropdown like container with kitty (terminal)
+local quake = lain.util.quake( {app = terminal, argname = "--name %s",
+				height = 0.85, width = 0.85, horiz = "center" })
+
+
 
 -- {{{ Wibar
 -- Create a textclock widget
@@ -434,7 +444,11 @@ globalkeys = gears.table.join(
     
     -- change keyboardlayout
     awful.key({altkey, "Control" }, "k", function () kbdcfg.switch() end,
-       {description = "change keyboard layout", group = "awesome"})
+       {description = "change keyboard layout", group = "awesome"}),
+
+    -- toggle the dropdown container
+    awful.key({ modkey }, "z", function () quake:toggle() end,
+       {description = "togle dropdown container", group = "awesome"})
 )
 
 clientkeys = gears.table.join(
