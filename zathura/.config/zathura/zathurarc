@@ -1,0 +1,5 @@
+# check if functions are unreachable now
+map n scroll down
+map p scroll up
+map f scroll half-down
+map b scroll half-up

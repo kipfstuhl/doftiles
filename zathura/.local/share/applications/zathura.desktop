@@ -1,0 +1,4 @@
+[Desktop Entry]
+Name=zathura
+exec=zathura
+MimeType=application/pdf;
