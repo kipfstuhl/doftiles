@@ -6,11 +6,13 @@ Konfiguratinsdatein für die Verwaltung mit GNU Stow
 
 
 ## Installation ##
-First install Gnu Stow via packet manager.
+First install GNU Stow preferably via the packet manager of your
+distribution.
 
-Install applications that should be used, e.g. Emacs, mplayer, X server, …
+Install applications that should be used, e.g. Emacs, mplayer, X
+server, …
 
-Clone this repo in the home directory, i.e.
+Clone this repository in the home directory, i.e.
 
 ```bash
 cd ~
@@ -24,3 +26,43 @@ cd dotfiles
 stow emacs
 ```
 Use the shorter command `stow .` if everything is to be installed.
+
+## Installation ##
+Zuerst muss GNU Stow installiert werden, idealer Weise mit dem Paketmanager.
+
+Danach die gewünschten Programme installieren, z.B. Emacs, mplayer, X
+Server, …
+
+Dieses Repository klonen:
+```bash
+cd ~
+git clone https://github.com/kipfstuhl/dotfiles.git
+
+```
+
+Anschließend stow für die gewünschten Anwendungen ausführen:
+```bash
+cd dotfiles
+stow emacs
+```
+
+Wenn alles installiert werden soll, funktioniert auch das kurze Kommando `stow .`
+
+
+## Current Programs ##
+Here is a short list of programs that are currently configured in this
+repository.
+
+  * **Emacs** best text editor
+  * **kitty** terminal emulator
+  * **zsh** Z shell: more user friendly than bash
+  * **bash** Bourne again shell: still a good choice
+  * **zathura** PDF reader: fully configurable, can be used with keyboard
+    only, has synctex support
+  * **awesome** Window manage: nomen est omen
+  * **julia** scientific computing language
+  * **kitty** Terminal emulator: just works as expected and supports Fira
+    Code font
+  * **mplayer** video player
+  * **stow** software installation manager: very handy tool
+
