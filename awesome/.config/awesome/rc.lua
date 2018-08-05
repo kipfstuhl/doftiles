@@ -456,7 +456,13 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, "z", function () quake:toggle() end,
        {description = "togle dropdown container", group = "awesome"}),
     awful.key({ modkey }, "o", function () quake:toggle() end,
-       {description = "togle dropdown container", group = "awesome"})
+       {description = "togle dropdown container", group = "awesome"}),
+
+    -- toggle wibar (aka menubar)
+    awful.key({ modkey }, "a", function ()
+	  mouse.screen.mywibox.visible = not mouse.screen.mywibox.visible
+			       end,
+       {description = "toggle wibar", group = "awesome"})
 )
 
 clientkeys = gears.table.join(
