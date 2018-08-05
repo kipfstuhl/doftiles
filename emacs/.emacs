@@ -82,8 +82,8 @@
 ;; multiple-cursors
 (require 'multiple-cursors)
 (global-set-key (kbd "C-s-s C-s-s") 'mc/edit-lines)
-(global-set-key (kbd "s-n") 'mc/mark-next-like-this)      
-(global-set-key (kbd "s-p") 'mc/mark-previous-like-this)
+(global-set-key (kbd "M-s-n") 'mc/mark-next-like-this)
+(global-set-key (kbd "M-s-p") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c s-n") 'mc/mark-all-like-this)
 
 
