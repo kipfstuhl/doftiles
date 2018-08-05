@@ -5,6 +5,7 @@
 # xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Natural Scrolling Enabled" 1
 # xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Tapping Enabled" 1
 
+DEVICE_ID=$(xinput | grep "Synaptics T" | sed 's/.*id=\([0-9]*\).*/\1/')
 
-xinput set-prop "12" "libinput Natural Scrolling Enabled" 1
-xinput set-prop "12" "libinput Tapping Enabled" 1
+xinput set-prop $DEVICE_ID "libinput Natural Scrolling Enabled" 1
+xinput set-prop $DEVICE_ID "libinput Tapping Enabled" 1
