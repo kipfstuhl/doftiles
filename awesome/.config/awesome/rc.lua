@@ -190,7 +190,8 @@ kbdcfg.widget:buttons(
 
 -- dropdown like container with kitty (terminal)
 local quake = lain.util.quake( {app = terminal, argname = "--name %s",
-				height = 0.85, width = 0.85, horiz = "center" })
+				height = 0.85, width = 0.85, horiz = "center",
+				followtag = true})
 
 
 
