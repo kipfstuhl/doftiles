@@ -459,9 +459,12 @@ globalkeys = gears.table.join(
        {description = "togle dropdown container", group = "awesome"}),
 
     -- toggle wibar (aka menubar)
-    awful.key({ modkey }, "a", function ()
-	  mouse.screen.mywibox.visible = not mouse.screen.mywibox.visible
-			       end,
+    awful.key({ modkey }, "a",
+       function ()
+	  -- mouse.screen.mywibox.visible = not mouse.screen.mywibox.visible
+	  myscreen = awful.screen.focused()
+	  myscreen.mywibox.visible = not myscreen.mywibox.visible
+       end,
        {description = "toggle wibar", group = "awesome"})
 )
 
