@@ -19,6 +19,9 @@ prompt redhat
 typeset -U path
 path=(~/bin ~/.local/bin $path[@])
 
+# more advanced completions
+fpath=(/usr/share/zsh/site-functions $fpath)
+
 # 'Go faster' power user options from guide
 setopt AUTO_CD
 
