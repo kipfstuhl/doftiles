@@ -65,4 +65,11 @@ repository.
     Code font
   * **mplayer** video player
   * **stow** software installation manager: very handy tool
+  * **xsecurelock, xss-lock, xscreensaver** bundle for locking the screen
 
+	  xss-lock provides handy features for timeout, locking upon request
+
+	  xsecurelock does the work to securely lock the workspace
+
+	  xscreensaver is the most useless tool for this task, it just
+      displays some nice animations or images when the screen is locked
