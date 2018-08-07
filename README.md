@@ -25,7 +25,7 @@ Then use stow for the desired applications.
 cd dotfiles
 stow emacs
 ```
-Use the shorter command `stow .` if everything is to be installed.
+<!-- Use the shorter command `stow .` if everything is to be installed. -->
 
 ## Installation ##
 Zuerst muss GNU Stow installiert werden, idealer Weise mit dem Paketmanager.
@@ -46,7 +46,7 @@ cd dotfiles
 stow emacs
 ```
 
-Wenn alles installiert werden soll, funktioniert auch das kurze Kommando `stow .`
+<!-- Wenn alles installiert werden soll, funktioniert auch das kurze Kommando `stow .` -->
 
 
 ## Current Programs ##
