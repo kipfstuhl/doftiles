@@ -80,3 +80,6 @@ repository.
 
 	  xscreensaver is the most useless tool for this task, it just
       displays some nice animations or images when the screen is locked
+  * **pwgen** password generator
+  * **yay** AUR helper: install software from AUR, do not use yaourt,
+    this is not maintained anymore
