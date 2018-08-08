@@ -46,6 +46,13 @@ cd dotfiles
 stow emacs
 ```
 
+Um manche Programme auch in einer XDG Umgebung verwenden zu können,
+z.B. mit xdg-open, müssen diese noch registriert werden.\
+Beispiel: zathura als standard für PDF Dateien verwenden.
+```bash
+xdg-mime default zathura.desktop application/pdf
+```
+
 <!-- Wenn alles installiert werden soll, funktioniert auch das kurze Kommando `stow .` -->
 
 
