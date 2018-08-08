@@ -1,4 +1,7 @@
 [Desktop Entry]
 Name=zathura
-exec=zathura
+Terminal=false
+TryExec=zathura
+Exec=zathura %f
 MimeType=application/pdf;
+Icon=application-pdf
