@@ -20,19 +20,26 @@ local lain = require("lain")
 -- set locale
 os.setlocale("de_DE.UTF-8", "time")
 
--- enable power widget
--- local power = require("power_widget")
--- power.critical_percentage = 15
--- power:init()
+local dpi = require("beautiful.xresources").apply_dpi
 
 -- simple awesome widgets
 -- beautiful.tooltip_fg = beautiful.fg_normal#
 -- beautiful.tooltip_bg = beautiful.bg_normal
 -- beautiful.tooltip_fg = "#ffffff"
-local battery_arc_widget = require("awesome-wm-widgets.batteryarc-widget.batteryarc")
-local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
-local ram_widget = require("awesome-wm-widgets.ram-widget.ram-widget")
-local volume_arc_widget = require("awesome-wm-widgets.volumearc-widget.volumearc")
+
+-- local battery_arc_widget = require("awesome-wm-widgets.batteryarc-widget.batteryarc")
+-- local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
+-- local ram_widget = require("awesome-wm-widgets.ram-widget.ram-widget")
+-- local volume_arc_widget = require("awesome-wm-widgets.volumearc-widget.volumearc")
+
+local my_vol_wid = require("widgets.vol")
+local my_cpu_wid = require("widgets.cpu")
+local my_bat_wid = require("widgets.bat")
+local my_sep = wibox.widget{
+   forced_width = dpi(5),
+   widget = wibox.widget.separator
+}
+
 --local volume_widget = require("awesome-wm-widgets.volume-widget.volume")
 -- local volume_bar_widget = require("awesome-wm-widgets.volumebar-widget.volumebar")
 
@@ -300,12 +307,17 @@ awful.screen.connect_for_each_screen(function(s)
 	    kbdcfg.widget,
             wibox.widget.systray(),
             -- power, -- use other library
-	    volume_arc_widget,
+	    -- volume_arc_widget,
 	    -- volume_widget,
 	    -- volume_bar_widget,
-	    ram_widget,
-	    cpu_widget,
-	    battery_arc_widget,
+	    -- ram_widget,
+	    -- cpu_widget,
+	    -- battery_arc_widget,
+	    my_vol_wid,
+	    my_sep,
+	    my_cpu_wid,
+	    my_sep,
+	    my_bat_wid,
 	    mytextclock,
             s.mylayoutbox,
         },
