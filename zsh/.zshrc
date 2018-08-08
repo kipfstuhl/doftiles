@@ -1,6 +1,14 @@
 
-# completions
 autoload -Uz compinit
+# more advanced completions
+fpath=(/usr/share/zsh/site-functions $fpath)
+# add cargo (rust) support
+fpath=(.rustup/toolchains/stable-x86_64-unknown-linux-gnu/share/zsh/site-functions $fpath)
+# put other completions there, e.g. rustup
+fpath=(~/.zfunc $fpath)
+
+# completions
+# autoload -Uz compinit
 compinit
 setopt COMPLETE_ALIASES
 
@@ -18,9 +26,6 @@ prompt redhat
 # PATH variable
 typeset -U path
 path=(~/bin ~/.local/bin $path[@])
-
-# more advanced completions
-fpath=(/usr/share/zsh/site-functions $fpath)
 
 # 'Go faster' power user options from guide
 setopt AUTO_CD
