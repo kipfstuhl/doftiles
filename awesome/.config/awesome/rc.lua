@@ -80,6 +80,18 @@ terminal = "kitty"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 
+
+-- try to reduce memory usage
+-- create timer that calls the Lua garbage collector regularly
+local t = gears.timer({ timeout = 600 }) -- ten minutes
+t:connect_signal("timeout",
+		 function() collectgarbage("collect") end
+)
+t:start()
+t:emit_signal("timeout")
+
+
+
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
 -- If you do not like this or do not have such a key,
