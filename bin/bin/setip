@@ -7,3 +7,9 @@ ip link set enp0s20u1 addr 00:90:f5:cd:37:38
 ip addr add 10.155.41.120/24 broadcast + dev enp0s20u1
 ip link set enp0s20u1 up
 ip route add default via 10.155.41.254 dev enp0s20u1
+
+# ip link set enp0s20u3u1u3 down
+# ip link set enp0s20u3u1u3 addr 00:90:f5:cd:37:38
+# ip addr add 10.155.41.120/24 broadcast + dev enp0s20u3u1u3
+# ip link set enp0s20u3u1u3 up
+# ip route add default via 10.155.41.254 dev enp0s20u3u1u3
