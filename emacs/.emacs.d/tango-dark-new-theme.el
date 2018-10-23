@@ -40,9 +40,9 @@ Without ugly boxes but with Magit.")
       (butter-1 "#fce94f") (butter-2 "#edd400") (butter-3 "#c4a000")
       (orange-1 "#fcaf3e") (orange-2 "#f57900") (orange-3 "#ce5c00")
       (choc-1 "#e9b96e") (choc-2 "#c17d11") (choc-3 "#8f5902")
-      (cham-1 "#8ae234") (cham-2 "#73d216") (cham-3 "#4e9a06")
+      (cham-1 "#8ae234") (cham-2 "#50c003") (cham-3 "#4e9a30")
       (blue-1 "#729fcf") (blue-2 "#3465a4") (blue-3 "#204a87")
-      (plum-1 "#e090d7") (plum-2 "#75507b") (plum-3 "#5c3566")
+      (plum-1 "#d080c7") (plum-2 "#75507b") (plum-3 "#5c3566")
       (red-1 "#ef2929")  (red-2 "#cc0000")  (red-3 "#a40000")
       (alum-1 "#eeeeec") (alum-2 "#d3d7cf") (alum-3 "#babdb6")
       (alum-4 "#888a85") (alum-5 "#555753") (alum-6 "#2e3436")
@@ -54,26 +54,23 @@ Without ugly boxes but with Magit.")
    'tango-dark-new
    `(ansi-color-names-vector [,alum-7 ,red-0 ,cham-0 ,butter-1
 				      ,blue-1 ,plum-1 ,blue-0 ,alum-1])
-   '(display-time-mode t)
-   '(blink-cursor nil)
-   '(scroll-bar-mode nil)
-   '(tool-bar-mode nil)
-   '(menu-bar-mode nil)
-   '(fringe-mode (quote (nil . 0)))
-   '(column-number-mode)
-   '(inhibit-startup-message t))
-  
+   ;; '(display-time-mode t)
+   ;; '(blink-cursor nil)
+   ;; '(fringe-mode (quote (nil . 0)))
+   ;; '(column-number-mode)
+   ;; '(inhibit-startup-message t))
+   )
   
   (custom-theme-set-faces
    'tango-dark-new
    ;; Ensure sufficient contrast on low-color terminals.
    `(default ((((class color) (min-colors 4096))
-	       (:foreground ,alum-1 :background ,alum-6))
+	       (:foreground ,alum-3 :background ,alum-6))
 	      (((class color) (min-colors 256))
 	       (:foreground ,alum-1 :background "#222"))
 	      (,class
 	       (:foreground ,alum-1 :background "black"))))
-   `(cursor ((,class (:background ,butter-1))))
+   `(cursor ((,class (:background ,butter-3))))
    ;; Highlighting faces
    ;; `(fringe ((,class (:background ,alum-7))))
    `(fringe ((,class (:background ,alum-6))))
@@ -85,27 +82,27 @@ Without ugly boxes but with Magit.")
    `(trailing-whitespace ((,class (:background ,red-3))))
    ;; Mode line faces
    `(mode-line ((,class
-		 (:background ,alum-2 :foreground ,alum-6))))
+		 (:background ,alum-4 :foreground ,alum-7))))
    `(mode-line-inactive ((,class
-			  (:background ,alum-5 :foreground ,alum-1))))
+			  (:background ,alum-5 :foreground ,alum-3))))
    `(compilation-mode-line-fail ((,class (:foreground ,red-3))))
    `(compilation-mode-line-run  ((,class (:foreground ,orange-3))))
    `(compilation-mode-line-exit ((,class (:foreground ,cham-3))))
    ;; Escape and prompt faces
-   `(minibuffer-prompt ((,class (:foreground ,cham-0))))
+   `(minibuffer-prompt ((,class (:foreground ,cham-2))))
    `(escape-glyph ((,class (:foreground ,butter-3))))
    `(error ((,class (:foreground ,red-0))))
    `(warning ((,class (:foreground ,orange-1))))
    `(success ((,class (:foreground ,cham-1))))
    ;; Font lock faces
    `(font-lock-builtin-face ((,class (:foreground ,plum-1))))
-   `(font-lock-comment-face ((,class (:foreground ,cham-2))))
+   `(font-lock-comment-face ((,class (:foreground ,cham-3))))
    `(font-lock-constant-face ((,class (:foreground ,plum-0))))
-   `(font-lock-function-name-face ((,class (:foreground ,butter-1))))
-   `(font-lock-keyword-face ((,class (:foreground ,cham-0))))
-   `(font-lock-string-face ((,class (:foreground ,choc-1))))
-   `(font-lock-type-face ((,class (:foreground ,blue-0))))
-   `(font-lock-variable-name-face ((,class (:foreground ,orange-1))))
+   `(font-lock-function-name-face ((,class (:foreground ,butter-3))))
+   `(font-lock-keyword-face ((,class (:foreground ,cham-2))))
+   `(font-lock-string-face ((,class (:foreground ,choc-2))))
+   `(font-lock-type-face ((,class (:foreground ,blue-1))))
+   `(font-lock-variable-name-face ((,class (:foreground ,orange-2))))
    ;; Button and link faces
    `(link ((,class (:underline t :foreground ,blue-1))))
    `(link-visited ((,class (:underline t :foreground ,blue-2))))
@@ -167,10 +164,21 @@ Without ugly boxes but with Magit.")
      ((,class (:background ,alum-5.5))))
    `(semantic-tag-boundary-face ((,class (:overline ,blue-1))))
    `(semantic-unmatched-syntax-face ((,class (:underline ,red-1))))
+   `(semantic-highlight-func-current-tag-face
+     ((,class (:background ,alum-5.5))))
    ;; Magit faces
    `(magit-section-highlight ((,class (:background ,alum-5.5))))
+   ;; term colors
+   `(term-color-black ((,class (:foreground ,alum-7))))
+   `(term-color-red ((,class (:foreground ,red-0))))
+   `(term-color-green ((,class (:foreground ,cham-2))))
+   `(term-color-yellow ((,class (:foreground ,butter-2))))
+   `(term-color-blue ((,class (:foreground ,blue-0))))
+   `(term-color-magenta ((,class (:foreground ,plum-1))))
+   `(term-color-cyan ((,class (:foreground ,blue-1))))
+   `(term-color-white ((,class (:foreground ,alum-3))))
    )
-
+  
   ;; set the variables at beginning for better appearance
   ;; (custom-theme-set-variables
   ;;  'tango-dark-new
