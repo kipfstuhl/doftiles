@@ -78,41 +78,6 @@
 (paradox-enable)
 
 
-(require 'auto-complete)
-(global-auto-complete-mode t)
-;; fix autocomplete
-(define-key ac-completing-map [return] nil)
-(define-key ac-completing-map "\r" nil)
-
-;; Markdown
-; do not use pandoc, it has huge dependencies, cmark is small, fast
-; and works well
-(setq markdown-command "cmark")
-
-;; Rust
-; Cargo mode for rust files
-(add-hook 'rust-mode-hook 'cargo-minor-mode)
-; racer autocomletion using auto-comlete
-(add-hook 'rust-mode-hook 'racer-mode)
-(add-hook 'racer-mode-hook 'ac-racer-setup)
-
-
-;; Make Magit and GitHub work together like a charm
-(require 'magithub)
-
-;; keybinding for Magit
-(global-set-key (kbd "C-x g") 'magit-status)
-
-
-;; multiple-cursors
-(require 'multiple-cursors)
-(global-set-key (kbd "C-s-s C-s-s") 'mc/edit-lines)
-(global-set-key (kbd "M-s-n") 'mc/mark-next-like-this)
-(global-set-key (kbd "M-s-p") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c s-n") 'mc/mark-all-like-this)
-
-
-
 
 ;; Set the font to Fira Code
 ;; this is not as easy as it sounds
@@ -127,7 +92,9 @@
 	     '(font . "-*-Fira Code-*-*-*-*-*-105-*-*-*-*-*-*"))
 ;; font support: use the superior Fira Code font
 ; enable for daemon and emacsclient
-(add-hook 'after-make-frame-functions (lambda (frame) (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")))
+(add-hook 'after-make-frame-functions
+	  (lambda (frame)
+	    (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")))
 ; enable without server/client
 (set-fontset-font t '(#Xe100 . #Xe16f)
 		  (font-spec :font "Fira Code Symbol"
@@ -261,7 +228,8 @@
 
 ;; this function enables the ligatures
 (defun add-fira-code-symbol-keywords ()
-  (font-lock-add-keywords nil fira-code-font-lock-keywords-alist))
+  (when (display-graphic-p)
+    (font-lock-add-keywords nil fira-code-font-lock-keywords-alist)))
 
 ;; for the programming mode
 (add-hook 'prog-mode-hook
@@ -271,11 +239,93 @@
 (set-default-coding-systems 'utf-8)
 
 
+;; do not ask to save when compiling
+(setq compilation-ask-about-save nil)
+
+;; remove auto-complete
+;; (require 'auto-complete)
+;; (global-auto-complete-mode t)
+;; ;; fix autocomplete
+;; (define-key ac-completing-map [return] nil)
+;; (define-key ac-completing-map "\r" nil)
+
+;; use company in all buffers
+(require 'company)
+(add-hook 'after-init-hook 'global-company-mode)
+
+(setq company-backends (delete 'company-semantic company-backends))
+(setq company-tooltip-align-annotations t)
+; cycle through possible completions when hitting TAB several times
+(substitute-key-definition 'company-complete-common
+			   'company-complete-common-or-cycle
+			   company-active-map)
+(define-key company-active-map (kbd "ESC") 'company-abort)
+;; maybe this comes in unhandy, test it for a while
+;(define-key company-active-map (kbd "SPC") 'company-complete-selection) ;not very handy
+
+;; make company available in c and c++ mode
+(require 'cc-mode)
+(define-key c-mode-map (kbd "TAB") 'company-indent-or-complete-common)
+(define-key c++-mode-map (kbd "TAB") 'company-indent-or-complete-common)
+
+;; Markdown
+; do not use pandoc, it has huge dependencies, cmark is small, fast
+; and works well
+(setq markdown-command "cmark")
+
+;; Rust
+(require 'rust-mode)
+; Cargo mode for rust files
+(add-hook 'rust-mode-hook #'cargo-minor-mode)
+; racer autocomletion using company
+(add-hook 'rust-mode-hook 'racer-mode)
+(add-hook 'racer-mode-hook #'eldoc-mode)
+(add-hook 'racer-mode-hook #'company-mode) ;make sure it is started
+;; define the keys after the other hooks to be sure they are defined as
+;; they should be
+(add-hook 'racer-mode-hook
+	  (lambda () 
+	    (progn
+	      (define-key racer-mode-map (kbd "M-.")
+		'racer-find-definition-other-window)
+	      (define-key racer-mode-map (kbd "M-.")
+		'racer-find-definition-other-window)
+	      (define-key racer-mode-map (kbd "C-x 4 .")
+		'racer-find-definition)
+	      ;; this may also be useful for other modes
+	      (setq compilation-auto-jump-to-first-error t))))
+
+;; improve cargo mode
+(add-hook 'cargo-minor-mode-hook
+	  (lambda ()
+	    (progn
+	      (defvar cargo-process--command-run-release "run --release")
+	      (defun cargo-process-run-release ()
+		(interactive)
+		(cargo-process--start "Run" cargo-process--command-run-release))
+	      (define-key cargo-minor-mode-map (kbd "C-c C-c C-SPC")
+		'cargo-process-run-release))))
+
+
+(setq rust-format-on-save t)
+ 
+;; Make Magit and GitHub work together like a charm
+;; (require 'magithub)
+
+;; keybinding for Magit
+(global-set-key (kbd "C-x g") 'magit-status)
+
+;; multiple-cursors
+(require 'multiple-cursors)
+(global-set-key (kbd "C-s-s C-s-s") 'mc/edit-lines)
+(global-set-key (kbd "M-s-n") 'mc/mark-next-like-this)
+(global-set-key (kbd "M-s-p") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c s-n") 'mc/mark-all-like-this)
+
 ;; SLIME
 ;; Set your lisp system and, optionally, some contribs
 (setq inferior-lisp-program "/usr/bin/sbcl")
 (setq slime-contribs '(slime-fancy))
-
 
 ;; Für den semantic-mode
 (global-ede-mode t)                      ; Enable the Project management system
@@ -295,7 +345,6 @@
 ;; semantic include paths for cuda
 (semantic-add-system-include "/usr/include/nvidia-384" 'c-mode)
 
-
 ;; IPython
 (require 'python)
 (setq python-shell-interpreter "ipython"
@@ -304,21 +353,21 @@
 ;; More Python
 ; Jedi for autocompletion
 ; does not work anymore
-(add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:setup-keys t)                      ; optional
-(setq jedi:complete-on-dot t)                 ; optional
+;; (add-hook 'python-mode-hook 'jedi:setup)      ; no direct setup with company
+;; (setq jedi:setup-keys t)                      ; optional
+;; (setq jedi:complete-on-dot t)                 ; optional
+;; (defun my-python-mode-company-hook ()
+;;   (add-to-list 'company-backends 'company-jedi))
+(add-hook 'python-mode-hook
+	  (lambda ()
+	    (add-to-list 'company-backends 'company-jedi))) ; use as backend for company
+
 ; EIN and Jedi
-(add-hook 'ein:connect-mode-hook 'ein:jedi-setup)
+;; (add-hook 'ein:connect-mode-hook 'ein:jedi-setup)
 ; Jedi with Python3
 (setq jedi:environment-root "jedi")  ; or any other name you like
 (setq py-python-command "/usr/bin/python3")
-
-;; (setq jedi:environment-virtualenv
-;;      (append python-environment-virtualenv
-;;              ("--python" "/usr/bin/python3")))
-
-
-
+(define-key python-mode-map (kbd "TAB") 'company-indent-or-complete-common)
 
 ;; Julia
 ;; make julia-mode and julia-shell-mode (e.g. run-julia) work together
@@ -334,7 +383,8 @@
 (define-key julia-mode-map (kbd "C-c C-r") 'julia-shell-run-region)
 (define-key julia-mode-map (kbd "C-c C-k") 'julia-shell-eval-buffer)
 (define-key julia-mode-map (kbd "C-c M-n") 'julia-shell-reset-julia)
-(define-key inferior-julia-shell-mode-map (kbd "C-c M-n") 'julia-shell-reset-workspace) ;for use in shell buffer
+(define-key inferior-julia-shell-mode-map
+  (kbd "C-c M-n") 'julia-shell-reset-workspace) ;for use in shell buffer
 (define-key julia-mode-map (kbd "C-c d") 'julia-shell-show-documentation)
 (define-key inferior-julia-shell-mode-map (kbd "C-c d") 'julia-shell-show-documentation)
 ;; this function should be in julia-shell.el
@@ -343,7 +393,9 @@
 (defun julia-shell-reset-workspace ()
   "reset the Julia workspace, run worskpace() and reload the emacs-init file"
   (interactive)
-  (let ((julia-emacsinit (expand-file-name "julia-shell-emacstools.jl" (file-name-directory (locate-library "julia-shell"))))
+  (let ((julia-emacsinit
+	 (expand-file-name "julia-shell-emacstools.jl"
+			   (file-name-directory (locate-library "julia-shell"))))
 	(julia-shell-buffer (julia-shell-buffer-or-complain)))
     (comint-send-string (get-buffer-process julia-shell-buffer)
 			(format "workspace();include(\"%s\")" julia-emacsinit))))
@@ -398,14 +450,32 @@
 	(print doc-output)))))
 
 
-
-
 ;; FORTRAN
 ; Use Fortran mode for pfUnit (.pf) files
 (add-to-list 'auto-mode-alist '("\\.pf\\'" . fortran-mode))
 
 ;; Start emacs server for being able to use emacsclient
-(server-start)
+;; do not start it when already running, this is useful if you edit the
+;; Emacs configuration and use eval-buffer for testing the effects.
+(require 'server)
+(unless (server-running-p)
+    (server-start))
+
+;; Org Mode
+(require 'org)
+(global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-c a") 'org-agenda)
+;(global-set-key (kbd "C-c c") 'org-capture)
+(global-set-key (kbd "C-c b") 'org-switchb)
+
+; fix key bindings
+; the Lenovo doesn't like shift with other modifiers
+(define-key org-mode-map (kbd "<C-M-return>") 'org-insert-todo-heading)
+(define-key org-mode-map (kbd "<C-M-left>") 'org-table-delete-column)
+(define-key org-mode-map (kbd "<C-M-right>") 'org-table-insert-column)
+(define-key org-mode-map (kbd "<C-M-up>") 'org-table-kill-row)
+(define-key org-mode-map (kbd "<C-M-down>") 'org-table-insert-row)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Some maybe useful instructions
@@ -491,14 +561,26 @@
  '(ansi-color-names-vector
    ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
  '(blink-cursor-mode nil)
+ '(column-number-mode t)
  '(custom-safe-themes
    (quote
-    ("e9cbee60387b249e622a961db3f51a77d11ce1a5d735c8f6264f9a3541faf60b" "b462e2411830a39699856dcce0a72f9b11e6952dd07be5c65ae5f2f91eea25f1" "bf21a33d9f35ee10c2378ce999424002836ac3f6bdc2c94f2396ad44ce32c998" "b587774bd67083d98778e40b093ba822d25b5f842aaf95116015d4dbd624b5d1" "00e0c2f0373582a2bf6df1e63eddc05d7eb2ba7a7688b175d13c7e9ef53eeef6" default)))
+    ("5c81684770e011d4d6a0b1661be470e0acf7918873c28a02e49d932cb69cd4d8" "9f53915e90dc34e6035e34a6267dc6166b15bb8fa2430c478b872bf4fe3d3d37" "2538910ec98a0f023714cd0b13e2337b7219ee48f19b5ec73b11abaf58f00f91" "e385b7e0dba6ef3bf631f7e3a08b891259b2563fcbf2b5b9a6438c51fa9f4566" "ada51151eb886bbe7f027e807bb1a02242d09a5a64b35eca8b6d8b9597f5d2d2" "e9cbee60387b249e622a961db3f51a77d11ce1a5d735c8f6264f9a3541faf60b" "b462e2411830a39699856dcce0a72f9b11e6952dd07be5c65ae5f2f91eea25f1" "bf21a33d9f35ee10c2378ce999424002836ac3f6bdc2c94f2396ad44ce32c998" "b587774bd67083d98778e40b093ba822d25b5f842aaf95116015d4dbd624b5d1" "00e0c2f0373582a2bf6df1e63eddc05d7eb2ba7a7688b175d13c7e9ef53eeef6" default)))
  '(display-time-mode t)
+ '(exec-path
+   (quote
+    ("/home/jonas/bin" "/home/jonas/.local/bin" "/home/jonas/.cargo/bin" "/usr/local/sbin" "/usr/local/bin" "/usr/bin" "/usr/lib/jvm/default/bin" "/usr/bin/site_perl" "/usr/bin/vendor_perl" "/usr/bin/core_perl" "/usr/lib/emacs/26.1/x86_64-pc-linux-gnu" "/home/jonas/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin")))
  '(font-latex-fontify-script nil)
+ '(org-agenda-files (quote ("~/example.org")))
+ '(org-file-apps
+   (quote
+    ((auto-mode . emacs)
+     ("\\.mm\\'" . default)
+     ("\\.x?html?\\'" . default)
+     ("\\.pdf::\\([0-9]+\\)\\'" . "zathura -P %1 %s")
+     ("\\.pdf\\'" . "zathura %s"))))
  '(package-selected-packages
    (quote
-    (fzf auctex lua-mode magithub nyan-mode paradox multiple-cursors ac-c-headers ac-math ac-racer toml-mode ac-octave auto-complete-c-headers ssh slime-volleyball slime-theme slime-ritz slime-docker slime-annot python3-info python-info python-docstring org matlab-mode markdown-mode magit julia-shell jedi-direx google-maps german-holidays ess-view ess-smart-underscore ess-smart-equals ess-R-object-popup ess-R-data-view ein-mumamo cython-mode cuda-mode cargo calfw c-eldoc auctex-lua auctex-latexmk aes ac-slime)))
+    (slime slime-company company company-auctex company-c-headers company-jedi company-racer fd-dired fzf auctex lua-mode magithub nyan-mode paradox multiple-cursors ac-c-headers ac-math toml-mode ac-octave auto-complete-c-headers ssh slime-volleyball slime-theme slime-ritz slime-docker slime-annot python3-info python-info python-docstring org matlab-mode markdown-mode magit julia-shell jedi-direx google-maps german-holidays ess-view ess-smart-underscore ess-smart-equals ess-R-object-popup ess-R-data-view ein-mumamo cython-mode cuda-mode cargo calfw c-eldoc auctex-lua auctex-latexmk aes ac-slime)))
  '(paradox-github-token t)
  '(prettify-symbols-unprettify-at-point (quote right-edge))
  '(reftex-plug-into-AUCTeX nil)
