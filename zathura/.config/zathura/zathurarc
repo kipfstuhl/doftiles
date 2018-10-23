@@ -1,5 +1,10 @@
 # check if functions are unreachable now
-map n scroll down
-map p scroll up
-map f scroll half-down
-map b scroll half-up
+map n     scroll down
+map p     scroll up
+map f     scroll half-down
+map b     scroll half-up
+map <A-n> scroll full-down
+map <A-p> scroll full-up
+map <C-s> search next
+map <C-r> search previous
+map <C-o> follow
