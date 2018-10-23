@@ -12,7 +12,32 @@
 ; display current time
 ;(display-time-mode 1)
 ; load a nice theme
+;; (if (display-graphic-p)
+;;     (progn
+;;       (tool-bar-mode -1)
+;;       (menu-bar-mode -1)
+;;       (scroll-bar-mode -1)))
 (load-theme 'tango-dark-new t)	 ;don't confirm the load
+
+;; for use in server mode, called as emacsclient [-c]
+
+;; do these things only when a new frame is made, then it is possible
+;; to determine wheter or not we are in graphic mode. Before the server
+;; is started as server, this implies there is no graphic output.
+(defun new-frame-setup (frame)
+    (when (display-graphic-p frame)
+	(progn
+	  (tool-bar-mode -1)
+	  (menu-bar-mode -1)
+	  (scroll-bar-mode -1))))
+(add-hook 'after-make-frame-functions 'new-frame-setup)
+
+;; these things should always be set, they are not specific to grapics.
+(blink-cursor-mode -1)
+(column-number-mode)
+(setq inhibit-startup-message t)
+(display-time-mode t)
+
 ; remove the box around the mode line
 ; this has to be after loading the theme
 ; now it is in the new theme
