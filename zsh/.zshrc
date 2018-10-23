@@ -1,9 +1,11 @@
 
 autoload -Uz compinit
-# more advanced completions
-fpath=(/usr/share/zsh/site-functions $fpath)
+# more advanced completions, already default
+# fpath=(/usr/share/zsh/site-functions $fpath)
+# more completions, already default
+# fpath=(/usr/share/zsh/functions/Completion/Linux $fpath)
 # add cargo (rust) support
-fpath=(.rustup/toolchains/stable-x86_64-unknown-linux-gnu/share/zsh/site-functions $fpath)
+fpath=(~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/share/zsh/site-functions $fpath)
 # put other completions there, e.g. rustup
 fpath=(~/.zfunc $fpath)
 
@@ -32,7 +34,8 @@ setopt AUTO_CD
 
 # better word separators, default is
 # WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
-export WORDCHARS='*?_[]~=&;!#$%^(){}<>'
+#export WORDCHARS='*?_[]~=&;!#$%^(){}<>'
+export WORDCHARS='*?[]~=&;!#$%^(){}<>'
 
 # aliases from bash
 
@@ -69,3 +72,6 @@ export EDITOR=emacsclient
 
 # fuzzy find
 source /usr/share/fzf/key-bindings.zsh
+
+# autocompletion like fish
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
