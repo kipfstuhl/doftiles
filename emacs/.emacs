@@ -288,8 +288,6 @@
 	    (progn
 	      (define-key racer-mode-map (kbd "M-.")
 		'racer-find-definition-other-window)
-	      (define-key racer-mode-map (kbd "M-.")
-		'racer-find-definition-other-window)
 	      (define-key racer-mode-map (kbd "C-x 4 .")
 		'racer-find-definition)
 	      ;; this may also be useful for other modes
