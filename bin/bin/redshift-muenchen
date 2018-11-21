@@ -1,3 +1,13 @@
 #!/bin/sh
 
-redshift -l 48.25:11.66 &
+# [[ `pgrep redshift` ]] && redshift -l 48.25:11.66 || echo "already running"
+
+# the -x option is needed for exact matching, otherwise it will always
+# match because this script has redshift in its name!!!!
+if pgrep -x redshift > /dev/null; then
+    echo "redshift läuft schon"
+else
+    echo "starte redshift"
+    redshift -l 48.25:11.66 &!
+fi
+   
