@@ -8,3 +8,4 @@ map <A-p> scroll full-up
 map <C-s> search next
 map <C-r> search previous
 map <C-o> follow
+map <A-r> rotate rotate-ccw
