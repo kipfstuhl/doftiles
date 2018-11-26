@@ -10,25 +10,30 @@ case $1 in
 esac
 
 filename=$1
-if [ -z "$2" ]; then
-    page=1
-else
-    page=$2
-fi
+# if [ -z "$2" ]; then
+#     page=1
+# else
+#     page=$2
+# fi
 
-if [ -z "$filename" ] || [ "$page" -le 0 ]; then
+if [ -z "$filename" ] || ( [ -n "$2" ] && [ "$2" -le 0 ]); then
     echo "usage: open-pdf <filename> <page-number>"
     exit 1
 fi
 
 # sed /grepping/s/query/replace/ is used for grepping and the replacing
 # PID=$(pgrep -a zathura | sed '/'"$filename"'/s/\([0-9]*\)/\1/')
-PID=$(pgrep -a zathura | grep "$filename" |  sed 's/\(^[0-9]*\).*/\1/')
 
+# PID=$(pgrep -a zathura | grep "$filename" |  sed 's/\(^[0-9]*\).*/\1/')
+PID=$(pgrep -af "zathura.*$filename" | sed 's/\(^[0-9]*\).*/\1/')
 
 if [ -z "$PID" ]; then
     # echo "zathura not running"
-    zathura --fork -P "$page" "$filename"
+    if [ -n "$2" ]; then
+	zathura --fork -P "$2" "$filename"
+    else
+	zathura --fork "$filename"
+    fi
 else
     # echo "zathura has pid: $PID"
     # echo "page: $(($page-1))"
@@ -40,6 +45,6 @@ else
 		  --dest=org.pwmt.zathura.PID-"$PID" \
 		  --type=method_call \
 		  /org/pwmt/zathura \
-		  org.pwmt.zathura.GotoPage uint32:$(($page-1))
+		  org.pwmt.zathura.GotoPage uint32:$(($2-1))
     fi
 fi
