@@ -25,7 +25,7 @@ fi
 # PID=$(pgrep -a zathura | sed '/'"$filename"'/s/\([0-9]*\)/\1/')
 
 # PID=$(pgrep -a zathura | grep "$filename" |  sed 's/\(^[0-9]*\).*/\1/')
-PID=$(pgrep -af "zathura.*$filename" | sed 's/\(^[0-9]*\).*/\1/')
+PID=$(pgrep -af "zathura.*$filename.*" | sed 's/\(^[0-9]*\).*/\1/')
 
 if [ -z "$PID" ]; then
     # echo "zathura not running"
