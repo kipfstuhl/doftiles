@@ -475,6 +475,43 @@
 (define-key org-mode-map (kbd "<C-M-down>") 'org-table-insert-row)
 
 
+;; add support for opening files with zathura
+(defun open-file (file &optional page)
+  "opens the file FILE  or jumps to the page PAGE if already opened
+
+FILE gives the filename or path
+PAGE is the page number, starting at page 1 (D-Bus interface is 0 based)
+
+This function opens the file at the specified page or jumps to
+this page. If no page number is given the file is opened without
+anything, this should integrate in the desktop environment, or if
+file is open nothing is done.
+"
+  (let ((pgrep-out (with-output-to-string
+	      (call-process "pgrep" nil standard-output nil
+			    "-af"
+			    (shell-quote-wildcard-pattern
+			     (concat "zathura.*" file ".*"))))))
+    (if (seq-empty-p pgrep-out)
+	(if page
+	    (start-process "reader" nil "zathura"
+			   "--fork"
+			   "-P"
+			   (number-to-string page)
+			   file)
+	  (start-process "reader" nil "zathura"
+			 "--fork"
+			 file))
+      (when page
+	(dbus-call-method-asynchronously
+	 :session
+	 (concat "org.pwmt.zathura.PID-" (car (split-string pgrep-out)))
+	 "/org/pwmt/zathura"
+	 "org.pwmt.zathura" "GotoPage" nil (1- page))))))
+
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Some maybe useful instructions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
