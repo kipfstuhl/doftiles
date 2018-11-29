@@ -55,6 +55,13 @@
 ;(setq prettify-symbols-unprettify-at-point 'right-edge) ; set this via customize
 
 
+;; Start emacs server for being able to use emacsclient
+;; do not start it when already running, this is useful if you edit the
+;; Emacs configuration and use eval-buffer for testing the effects.
+(require 'server)
+(unless (server-running-p)
+    (server-start))
+
 ;; non specific keybindings
 (global-set-key (kbd "C-c r") 'replace-string) ; non-qery replace keybinding
 (global-set-key (kbd "C-x C-b") 'ibuffer)      ; better overview of buffers
@@ -451,13 +458,6 @@
 ;; FORTRAN
 ; Use Fortran mode for pfUnit (.pf) files
 (add-to-list 'auto-mode-alist '("\\.pf\\'" . fortran-mode))
-
-;; Start emacs server for being able to use emacsclient
-;; do not start it when already running, this is useful if you edit the
-;; Emacs configuration and use eval-buffer for testing the effects.
-(require 'server)
-(unless (server-running-p)
-    (server-start))
 
 ;; Org Mode
 (require 'org)
