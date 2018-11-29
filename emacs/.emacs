@@ -68,6 +68,9 @@
 (global-set-key (kbd "C-c c") 'comment-or-uncomment-region)
 (global-set-key (kbd "C-c u") 'uncomment-region)
 
+(global-set-key (kbd "C-c C-f") 'fzf)
+(global-set-key (kbd "C-c f") 'fzf-directory)
+
 ;; avoid long confirmations
 (defalias 'yes-or-no-p 'y-or-n-p)
 
