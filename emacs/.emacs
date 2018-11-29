@@ -474,6 +474,13 @@
 (define-key org-mode-map (kbd "<C-M-up>") 'org-table-kill-row)
 (define-key org-mode-map (kbd "<C-M-down>") 'org-table-insert-row)
 
+; add better support for interleave-mode
+(define-key org-mode-map (kbd "C-c i") 'interleave-mode)
+
+;; activate pdf-tools this is a replacement for docview, it has more
+;; features for pdf files
+;; (pdf-loader-install) ; bad performance when opening a pdf file
+(pdf-tools-install)
 
 ;; add support for opening files with zathura
 (defun open-file (file &optional page)
@@ -507,6 +514,7 @@ file is open nothing is done.
 	 :session
 	 (concat "org.pwmt.zathura.PID-" (car (split-string pgrep-out)))
 	 "/org/pwmt/zathura"
+	 ;; in the D-Bus interface page numbers start at 0
 	 "org.pwmt.zathura" "GotoPage" nil (1- page))))))
 
 
@@ -605,6 +613,7 @@ file is open nothing is done.
    (quote
     ("/home/jonas/bin" "/home/jonas/.local/bin" "/home/jonas/.cargo/bin" "/usr/local/sbin" "/usr/local/bin" "/usr/bin" "/usr/lib/jvm/default/bin" "/usr/bin/site_perl" "/usr/bin/vendor_perl" "/usr/bin/core_perl" "/usr/lib/emacs/26.1/x86_64-pc-linux-gnu" "/home/jonas/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin")))
  '(font-latex-fontify-script nil)
+ '(interleave-disable-narrowing t)
  '(org-agenda-files (quote ("~/example.org")))
  '(org-file-apps
    (quote
@@ -615,7 +624,7 @@ file is open nothing is done.
      ("\\.pdf\\'" . "zathura %s"))))
  '(package-selected-packages
    (quote
-    (slime slime-company company company-auctex company-c-headers company-jedi company-racer fd-dired fzf auctex lua-mode magithub nyan-mode paradox multiple-cursors ac-c-headers ac-math toml-mode ac-octave auto-complete-c-headers ssh slime-volleyball slime-theme slime-ritz slime-docker slime-annot python3-info python-info python-docstring org matlab-mode markdown-mode magit julia-shell jedi-direx google-maps german-holidays ess-view ess-smart-underscore ess-smart-equals ess-R-object-popup ess-R-data-view ein-mumamo cython-mode cuda-mode cargo calfw c-eldoc auctex-lua auctex-latexmk aes ac-slime)))
+    (interleave pdf-tools slime slime-company company company-auctex company-c-headers company-jedi company-racer fd-dired fzf auctex lua-mode magithub nyan-mode paradox multiple-cursors ac-c-headers ac-math toml-mode ac-octave auto-complete-c-headers ssh slime-volleyball slime-theme slime-ritz slime-docker slime-annot python3-info python-info python-docstring org matlab-mode markdown-mode magit julia-shell jedi-direx google-maps german-holidays ess-view ess-smart-underscore ess-smart-equals ess-R-object-popup ess-R-data-view ein-mumamo cython-mode cuda-mode cargo calfw c-eldoc auctex-lua auctex-latexmk aes ac-slime)))
  '(paradox-github-token t)
  '(prettify-symbols-unprettify-at-point (quote right-edge))
  '(reftex-plug-into-AUCTeX nil)
