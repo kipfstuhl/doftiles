@@ -389,6 +389,17 @@
 (define-key julia-repl-mode-map (kbd "C-c C-k") 'julia-repl-send-buffer)
 (define-key julia-repl-mode-map (kbd "C-c d") 'julia-repl-doc)
 
+(define-key julia-repl-mode-map (kbd "C-c M-n") 'julia-repl-reset)
+;; reset the workspace, i.e. complete restart of julia
+(defun julia-repl-reset ()
+  "reset the julia repl"
+  (interactive)
+  (let (julia-inferior-buffer (julia-repl-inferior-buffer))
+    (julia-repl--send-string
+     "atexit( () -> run(`$(append!(Base.julia_cmd().exec, [\"-q\"]))`) ); exit()")))
+
+
+
 ;; these keybindings are inspired by SLIME, very similar to many other
 ;; packages that deal with interpreted languages
 ;; (define-key julia-mode-map (kbd "C-c C-c") 'julia-shell-run-region-or-line)
