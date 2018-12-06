@@ -1,17 +1,18 @@
 ;; Adjust the visual appearence at the beginning, this gives a feeling
 ;; of fast loading init file
 
-; hide menu bar
-;(menu-bar-mode 0)
-; hide tool bar
-;(tool-bar-mode 0)
-; hide scroll bar on the side
-;(scroll-bar-mode 0)
-; do not blink
-;(blink-cursor-mode 0)
-; display current time
-;(display-time-mode 1)
-; load a nice theme
+;; hide menu bar
+;;(menu-bar-mode 0)
+;; hide tool bar
+;;(tool-bar-mode 0)
+;; hide scroll bar on the side
+;;(scroll-bar-mode 0)
+;; do not blink
+;;(blink-cursor-mode 0)
+;; display current time
+;;(display-time-mode 1)
+
+;; load a nice theme
 ;; (if (display-graphic-p)
 ;;     (progn
 ;;       (tool-bar-mode -1)
@@ -25,11 +26,11 @@
 ;; to determine wheter or not we are in graphic mode. Before the server
 ;; is started as server, this implies there is no graphic output.
 (defun new-frame-setup (frame)
-    (when (display-graphic-p frame)
-	(progn
-	  (tool-bar-mode -1)
-	  (menu-bar-mode -1)
-	  (scroll-bar-mode -1))))
+  (when (display-graphic-p frame)
+    (progn
+      (tool-bar-mode -1)
+      (menu-bar-mode -1)
+      (scroll-bar-mode -1))))
 (add-hook 'after-make-frame-functions 'new-frame-setup)
 
 ;; these things should always be set, they are not specific to grapics.
@@ -38,21 +39,21 @@
 (setq inhibit-startup-message t)
 (display-time-mode t)
 
-; remove the box around the mode line
-; this has to be after loading the theme
-; now it is in the new theme
+;; remove the box around the mode line
+;; this has to be after loading the theme
+;; now it is in the new theme
 ;; (set-face-attribute 'mode-line nil
 ;; 		    :box nil)
 ;; ; again for the inactive "windows" (emacs jargon)
 ;; (set-face-attribute 'mode-line-inactive nil
 ;; 		    :box nil)
 ;; don't add a column for wrapped lines at the right side, only left
-;(set-fringe-mode '(nil . 0))
-; no startup screen
-;(setq inhibit-startup-message t)
+;;(set-fringe-mode '(nil . 0))
+;; no startup screen
+;;(setq inhibit-startup-message t)
 
 
-;(setq prettify-symbols-unprettify-at-point 'right-edge) ; set this via customize
+;;(setq prettify-symbols-unprettify-at-point 'right-edge) ; set this via customize
 
 
 ;; Start emacs server for being able to use emacsclient
@@ -60,7 +61,7 @@
 ;; Emacs configuration and use eval-buffer for testing the effects.
 (require 'server)
 (unless (server-running-p)
-    (server-start))
+  (server-start))
 
 ;; non specific keybindings
 (global-set-key (kbd "C-c r") 'replace-string) ; non-qery replace keybinding
@@ -91,7 +92,7 @@
 
 ;; Set the font to Fira Code
 ;; this is not as easy as it sounds
-; set font: Fira Code
+;; set font: Fira Code
 
 ;; (add-to-list 'default-frame-alist ; works, but size is difficult
 ;; 	     '(font . "Fira Code"))
@@ -101,11 +102,11 @@
 (add-to-list 'default-frame-alist
 	     '(font . "-*-Fira Code-*-*-*-*-*-105-*-*-*-*-*-*"))
 ;; font support: use the superior Fira Code font
-; enable for daemon and emacsclient
+;; enable for daemon and emacsclient
 (add-hook 'after-make-frame-functions
 	  (lambda (frame)
 	    (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")))
-; enable without server/client
+;; enable without server/client
 (set-fontset-font t '(#Xe100 . #Xe16f)
 		  (font-spec :font "Fira Code Symbol"
 			     :height 105))
@@ -225,13 +226,11 @@
             ("[^<]\\(~~\\)"                #Xe168)
             ("\\(~~>\\)"                   #Xe169)
             ("[^%]\\(%%\\)[^%]"            #Xe16a) ;does not work at the
-						;beginning of a line
-					;anymore
+					;beginning of a line anymore
 	    ;; ("\\(x\\)"                   #Xe16b) This ended up being hard to do properly so i'm leaving it out.
 	    ("0\\(x\\)[0-9]"               #Xe16b) ; not exactly what we
-						 ; want but a cheap
-						 ; replacement for
-						 ; main feature
+					; want but a cheap replacement
+					; for main feature
             ("[^:=]\\(:\\)[^:=]"           #Xe16c)
             ("[^\\+<>]\\(\\+\\)[^\\+<>]"   #Xe16d)
             ("[^\\*/<>]\\(\\*\\)[^\\*/<>]" #Xe16f))))
@@ -265,13 +264,13 @@
 
 (setq company-backends (delete 'company-semantic company-backends))
 (setq company-tooltip-align-annotations t)
-; cycle through possible completions when hitting TAB several times
+;; cycle through possible completions when hitting TAB several times
 (substitute-key-definition 'company-complete-common
 			   'company-complete-common-or-cycle
 			   company-active-map)
 (define-key company-active-map (kbd "ESC") 'company-abort)
 ;; maybe this comes in unhandy, test it for a while
-;(define-key company-active-map (kbd "SPC") 'company-complete-selection) ;not very handy
+;;(define-key company-active-map (kbd "SPC") 'company-complete-selection) ;not very handy
 
 ;; make company available in c and c++ mode
 (require 'cc-mode)
@@ -279,15 +278,15 @@
 (define-key c++-mode-map (kbd "TAB") 'company-indent-or-complete-common)
 
 ;; Markdown
-; do not use pandoc, it has huge dependencies, cmark is small, fast
-; and works well
+;; do not use pandoc, it has huge dependencies, cmark is small, fast
+;; and works well
 (setq markdown-command "cmark")
 
 ;; Rust
 (require 'rust-mode)
-; Cargo mode for rust files
+;; Cargo mode for rust files
 (add-hook 'rust-mode-hook #'cargo-minor-mode)
-; racer autocomletion using company
+;; racer autocomletion using company
 (add-hook 'rust-mode-hook 'racer-mode)
 (add-hook 'racer-mode-hook #'eldoc-mode)
 (add-hook 'racer-mode-hook #'company-mode) ;make sure it is started
@@ -316,7 +315,7 @@
 
 
 (setq rust-format-on-save t)
- 
+
 ;; Make Magit and GitHub work together like a charm
 ;; (require 'magithub)
 
@@ -347,8 +346,8 @@
 
 (require 'semantic/bovine/gcc)
 (semantic-mode 1)
-;(semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion
-;(global-srecode-minor-mode 1)            ; Enable template insertion menu
+;;(semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion
+;;(global-srecode-minor-mode 1)            ; Enable template insertion menu
 
 ;; semantic include paths for cuda
 (semantic-add-system-include "/usr/include/nvidia-384" 'c-mode)
@@ -359,8 +358,8 @@
       python-shell-interpreter-args "--simple-prompt -i")
 
 ;; More Python
-; Jedi for autocompletion
-; does not work anymore
+;; Jedi for autocompletion
+;; does not work anymore
 ;; (add-hook 'python-mode-hook 'jedi:setup)      ; no direct setup with company
 ;; (setq jedi:setup-keys t)                      ; optional
 ;; (setq jedi:complete-on-dot t)                 ; optional
@@ -370,9 +369,9 @@
 	  (lambda ()
 	    (add-to-list 'company-backends 'company-jedi))) ; use as backend for company
 
-; EIN and Jedi
+;; EIN and Jedi
 ;; (add-hook 'ein:connect-mode-hook 'ein:jedi-setup)
-; Jedi with Python3
+;; Jedi with Python3
 (setq jedi:environment-root "jedi")  ; or any other name you like
 (setq py-python-command "/usr/bin/python3")
 (define-key python-mode-map (kbd "TAB") 'company-indent-or-complete-common)
@@ -381,7 +380,7 @@
 ;; make julia-mode and julia-shell-mode (e.g. run-julia) work together
 (require 'julia-mode)
 (require 'julia-repl)
-;(require 'julia-shell)
+;;(require 'julia-shell)
 ;;(defun my-julia-mode-hooks ()
 ;;  (require 'julia-shell-mode))
 ;;(add-hook 'julia-mode-hook 'my-julia-mode-hooks)
@@ -476,25 +475,25 @@
 
 
 ;; FORTRAN
-; Use Fortran mode for pfUnit (.pf) files
+;; Use Fortran mode for pfUnit (.pf) files
 (add-to-list 'auto-mode-alist '("\\.pf\\'" . fortran-mode))
 
 ;; Org Mode
 (require 'org)
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c a") 'org-agenda)
-;(global-set-key (kbd "C-c c") 'org-capture)
+;;(global-set-key (kbd "C-c c") 'org-capture)
 (global-set-key (kbd "C-c b") 'org-switchb)
 
-; fix key bindings
-; the Lenovo doesn't like shift with other modifiers
+;; fix key bindings
+;; the Lenovo doesn't like shift with other modifiers
 (define-key org-mode-map (kbd "<C-M-return>") 'org-insert-todo-heading)
 (define-key org-mode-map (kbd "<C-M-left>") 'org-table-delete-column)
 (define-key org-mode-map (kbd "<C-M-right>") 'org-table-insert-column)
 (define-key org-mode-map (kbd "<C-M-up>") 'org-table-kill-row)
 (define-key org-mode-map (kbd "<C-M-down>") 'org-table-insert-row)
 
-; add better support for interleave-mode
+;; add better support for interleave-mode
 (define-key org-mode-map (kbd "C-c i") 'interleave-mode)
 
 ;; activate pdf-tools this is a replacement for docview, it has more
@@ -515,10 +514,10 @@ anything, this should integrate in the desktop environment, or if
 file is open nothing is done.
 "
   (let ((pgrep-out (with-output-to-string
-	      (call-process "pgrep" nil standard-output nil
-			    "-af"
-			    (shell-quote-wildcard-pattern
-			     (concat "zathura.*" file ".*")))))
+		     (call-process "pgrep" nil standard-output nil
+				   "-af"
+				   (shell-quote-wildcard-pattern
+				    (concat "zathura.*" file ".*")))))
 	(page-str (if (stringp page)
 		      page
 		    (number-to-string page)))
@@ -554,10 +553,10 @@ file is open nothing is done.
 ;; (delete-selection-mode 1) ; delete seleted text when typing
 
 
-;auctex LuaLaTeX
-;(eval-after-load "tex"
-;  '(add-to-list 'Tex-command-list
-;		'("LuaLaTex" "lualatex %s" TeX-run-comman t t :help "Run LuaLaTex") t))
+;;auctex LuaLaTeX
+;;(eval-after-load "tex"
+;;  '(add-to-list 'Tex-command-list
+;;		'("LuaLaTex" "lualatex %s" TeX-run-comman t t :help "Run LuaLaTex") t))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
