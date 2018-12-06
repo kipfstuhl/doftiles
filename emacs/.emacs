@@ -645,8 +645,18 @@ file is open nothing is done.
     ((auto-mode . emacs)
      ("\\.mm\\'" . default)
      ("\\.x?html?\\'" . default)
-     ("\\.pdf::\\([0-9]+\\)\\'" . "open-pdf %s %1")
-     ("\\.pdf\\'" . "open-pdf %s"))))
+     ("\\.pdf::\\([0-9]+\\)\\'" lambda
+      (file path)
+      (let
+	  ((page
+	    (substring path
+		       (+
+			(string-match "::\\([0-9]+\\)\\'" path)
+			2))))
+	(open-file file page)))
+     ("\\.pdf\\'" lambda
+      (file path)
+      (open-file file)))))
  '(package-selected-packages
    (quote
     (interleave pdf-tools slime slime-company company company-auctex company-c-headers company-jedi company-racer fd-dired fzf auctex lua-mode magithub nyan-mode paradox multiple-cursors ac-c-headers ac-math toml-mode ac-octave auto-complete-c-headers ssh slime-volleyball slime-theme slime-ritz slime-docker slime-annot python3-info python-info python-docstring org matlab-mode markdown-mode magit jedi-direx google-maps german-holidays ess-view ess-smart-underscore ess-smart-equals ess-R-object-popup ess-R-data-view ein-mumamo cython-mode cuda-mode cargo calfw c-eldoc auctex-lua auctex-latexmk aes ac-slime)))
