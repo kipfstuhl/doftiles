@@ -518,13 +518,19 @@ file is open nothing is done.
 	      (call-process "pgrep" nil standard-output nil
 			    "-af"
 			    (shell-quote-wildcard-pattern
-			     (concat "zathura.*" file ".*"))))))
+			     (concat "zathura.*" file ".*")))))
+	(page-str (if (stringp page)
+		      page
+		    (number-to-string page)))
+	(page-num (if (stringp page)
+		      (string-to-number page)
+		    page)))
     (if (seq-empty-p pgrep-out)
 	(if page
 	    (start-process "reader" nil "zathura"
 			   "--fork"
 			   "-P"
-			   (number-to-string page)
+			   page-str
 			   file)
 	  (start-process "reader" nil "zathura"
 			 "--fork"
@@ -535,7 +541,7 @@ file is open nothing is done.
 	 (concat "org.pwmt.zathura.PID-" (car (split-string pgrep-out)))
 	 "/org/pwmt/zathura"
 	 ;; in the D-Bus interface page numbers start at 0
-	 "org.pwmt.zathura" "GotoPage" nil (1- page))))))
+	 "org.pwmt.zathura" "GotoPage" nil (1- page-num))))))
 
 
 
