@@ -422,6 +422,7 @@ _arguments "${_arguments_options[@]}" \
 ;;
 (docs)
 _arguments "${_arguments_options[@]}" \
+'--toolchain=[Toolchain name, such as '\''stable'\'', '\''nightly'\'', or '\''1.8.0'\''. For more information see `rustup help toolchain`]' \
 '--path[Only print the path to the documentation]' \
 '--book[The Rust Programming Language book]' \
 '--std[Standard library API documentation]' \
@@ -434,6 +435,7 @@ _arguments "${_arguments_options[@]}" \
 ;;
 (doc)
 _arguments "${_arguments_options[@]}" \
+'--toolchain=[Toolchain name, such as '\''stable'\'', '\''nightly'\'', or '\''1.8.0'\''. For more information see `rustup help toolchain`]' \
 '--path[Only print the path to the documentation]' \
 '--book[The Rust Programming Language book]' \
 '--std[Standard library API documentation]' \
