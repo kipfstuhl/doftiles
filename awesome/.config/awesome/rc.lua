@@ -451,7 +451,7 @@ globalkeys = gears.table.join(
               {description = "run prompt", group = "launcher"}),
 
     -- get more like KDE
-    awful.key({ altkey },            " ",     function () awful.screen.focused().mypromptbox:run() end,
+    awful.key({ altkey },        "space",     function () awful.screen.focused().mypromptbox:run() end,
        {description = "run prompt", group = "launcher"}),
     
     awful.key({ modkey }, "x",
@@ -477,7 +477,7 @@ globalkeys = gears.table.join(
        {description = "change keyboard layout", group = "awesome"}),
 
     -- toggle the dropdown container
-    awful.key({ modkey }, "z", function () quake:toggle() end,
+    awful.key({ modkey }, "e", function () quake:toggle() end,
        {description = "togle dropdown container", group = "awesome"}),
     awful.key({ modkey }, "o", function () quake:toggle() end,
        {description = "togle dropdown container", group = "awesome"}),
