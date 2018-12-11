@@ -29,15 +29,15 @@
   (when (display-graphic-p frame)
     (progn
       (tool-bar-mode -1)
-      (menu-bar-mode -1)
       (scroll-bar-mode -1))))
 (add-hook 'after-make-frame-functions 'new-frame-setup)
 
 ;; these things should always be set, they are not specific to grapics.
+(menu-bar-mode -1)
 (blink-cursor-mode -1)
 (column-number-mode)
-(setq inhibit-startup-message t)
 (display-time-mode t)
+(setq inhibit-startup-message t)
 
 ;; remove the box around the mode line
 ;; this has to be after loading the theme
@@ -59,6 +59,8 @@
 ;; Start emacs server for being able to use emacsclient
 ;; do not start it when already running, this is useful if you edit the
 ;; Emacs configuration and use eval-buffer for testing the effects.
+;; Note: it is not so easy to check whether the server is running or
+;; not, it just seems so. You may be surprised by the behaviour!
 (require 'server)
 (unless (server-running-p)
   (server-start))
@@ -69,20 +71,20 @@
 (global-set-key (kbd "C-c c") 'comment-or-uncomment-region)
 (global-set-key (kbd "C-c u") 'uncomment-region)
 
-(global-set-key (kbd "C-c C-f") 'fzf)
-(global-set-key (kbd "C-c f") 'fzf-directory)
+(global-set-key (kbd "C-c C-f") 'fzf)	      ;fuzzy finder
+(global-set-key (kbd "C-c f") 'fzf-directory) ;
 
 ;; avoid long confirmations
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Setup package archives
-(require 'package) ;; You might already have this line
+(require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
 (when (< emacs-major-version 24)
   ;; For important compatibility libraries like cl-lib
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
-(package-initialize) ;; You might already have this line
+(package-initialize)
 
 ;; improved package menu
 (require 'paradox)
@@ -92,7 +94,6 @@
 
 ;; Set the font to Fira Code
 ;; this is not as easy as it sounds
-;; set font: Fira Code
 
 ;; (add-to-list 'default-frame-alist ; works, but size is difficult
 ;; 	     '(font . "Fira Code"))
@@ -105,11 +106,12 @@
 ;; enable for daemon and emacsclient
 (add-hook 'after-make-frame-functions
 	  (lambda (frame)
-	    (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")))
+	    (set-fontset-font t '(#Xe100 . #Xe16f) (font-spec :font "Fira Code Symbol"
+							      :height 105))))
 ;; enable without server/client
-(set-fontset-font t '(#Xe100 . #Xe16f)
-		  (font-spec :font "Fira Code Symbol"
-			     :height 105))
+;; (set-fontset-font t '(#Xe100 . #Xe16f)
+;; 		  (font-spec :font "Fira Code Symbol"
+;; 			     :height 105))
 
 (defconst fira-code-font-lock-keywords-alist
   (mapcar (lambda (regex-char-pair)
@@ -269,8 +271,6 @@
 			   'company-complete-common-or-cycle
 			   company-active-map)
 (define-key company-active-map (kbd "ESC") 'company-abort)
-;; maybe this comes in unhandy, test it for a while
-;;(define-key company-active-map (kbd "SPC") 'company-complete-selection) ;not very handy
 
 ;; make company available in c and c++ mode
 (require 'cc-mode)
@@ -312,7 +312,6 @@
 		(cargo-process--start "Run" cargo-process--command-run-release))
 	      (define-key cargo-minor-mode-map (kbd "C-c C-c C-SPC")
 		'cargo-process-run-release))))
-
 
 (setq rust-format-on-save t)
 
@@ -363,8 +362,6 @@
 ;; (add-hook 'python-mode-hook 'jedi:setup)      ; no direct setup with company
 ;; (setq jedi:setup-keys t)                      ; optional
 ;; (setq jedi:complete-on-dot t)                 ; optional
-;; (defun my-python-mode-company-hook ()
-;;   (add-to-list 'company-backends 'company-jedi))
 (add-hook 'python-mode-hook
 	  (lambda ()
 	    (add-to-list 'company-backends 'company-jedi))) ; use as backend for company
@@ -380,6 +377,7 @@
 ;; make julia-mode and julia-shell-mode (e.g. run-julia) work together
 (require 'julia-mode)
 (require 'julia-repl)
+;; use julia-repl instead of julia-shell, it still gets updates
 ;;(require 'julia-shell)
 ;;(defun my-julia-mode-hooks ()
 ;;  (require 'julia-shell-mode))
@@ -502,6 +500,7 @@
 (pdf-tools-install)
 
 ;; add support for opening files with zathura
+;; this is used in custom set variables
 (defun open-file (file &optional page)
   "opens the file FILE  or jumps to the page PAGE if already opened
 
@@ -658,7 +657,7 @@ file is open nothing is done.
       (open-file file)))))
  '(package-selected-packages
    (quote
-    (interleave pdf-tools slime slime-company company company-auctex company-c-headers company-jedi company-racer fd-dired fzf auctex lua-mode magithub nyan-mode paradox multiple-cursors ac-c-headers ac-math toml-mode ac-octave auto-complete-c-headers ssh slime-volleyball slime-theme slime-ritz slime-docker slime-annot python3-info python-info python-docstring org matlab-mode markdown-mode magit jedi-direx google-maps german-holidays ess-view ess-smart-underscore ess-smart-equals ess-R-object-popup ess-R-data-view ein-mumamo cython-mode cuda-mode cargo calfw c-eldoc auctex-lua auctex-latexmk aes ac-slime)))
+    (rust-playground interleave pdf-tools slime slime-company company company-auctex company-c-headers company-jedi company-racer fd-dired fzf auctex lua-mode magithub nyan-mode paradox multiple-cursors ac-c-headers ac-math toml-mode ac-octave auto-complete-c-headers ssh slime-volleyball slime-theme slime-ritz slime-docker slime-annot python3-info python-info python-docstring org matlab-mode markdown-mode magit jedi-direx google-maps german-holidays ess-view ess-smart-underscore ess-smart-equals ess-R-object-popup ess-R-data-view ein-mumamo cython-mode cuda-mode cargo calfw c-eldoc auctex-lua auctex-latexmk aes ac-slime)))
  '(paradox-github-token t)
  '(prettify-symbols-unprettify-at-point (quote right-edge))
  '(reftex-plug-into-AUCTeX nil)
