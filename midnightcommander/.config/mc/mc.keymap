@@ -1,0 +1,9 @@
+[main]
+Copy = alt-w; f5
+Move = ctrl-w; f6
+Quit = ctrl-c; f10
+
+[panel]
+# these effectively avoid access to the command history
+CdParent = ctrl-pgup; ctrl-up; ctrl-left; alt-p
+CdChild = ctrl-pgdn; ctrl-down; ctrl-right; alt-n
