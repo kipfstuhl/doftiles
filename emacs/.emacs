@@ -476,6 +476,11 @@
 ;; Use Fortran mode for pfUnit (.pf) files
 (add-to-list 'auto-mode-alist '("\\.pf\\'" . fortran-mode))
 
+
+;; Dired
+;; let dired guess a default directory, e.g. for copy
+(setq dired-dwim-target t)
+
 ;; Org Mode
 (require 'org)
 (global-set-key (kbd "C-c l") 'org-store-link)
