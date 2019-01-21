@@ -393,14 +393,15 @@ globalkeys = gears.table.join(
 
     -- also use standard keybindig
     -- Mod1 is Alt key
-    awful.key({altkey,           }, "Tab",
-       function ()
-	  awful.client.focus.history.previous()
-	  if client.focus then
-	     client.focus:raise()
-	  end
-       end,
-       {description = "go back", group = "client"}),
+    -- incompatible with midnight-commander!
+    -- awful.key({altkey,           }, "Tab",
+    --    function ()
+    -- 	  awful.client.focus.history.previous()
+    -- 	  if client.focus then
+    -- 	     client.focus:raise()
+    -- 	  end
+    --    end,
+    --    {description = "go back", group = "client"}),
     
     
 
