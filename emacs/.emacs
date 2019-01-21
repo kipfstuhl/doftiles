@@ -328,6 +328,12 @@
 (global-set-key (kbd "M-s-p") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c s-n") 'mc/mark-all-like-this)
 
+;; hideshow-org mode, codefolding on TAB
+;; enable with hs-org/minor-mode
+(require 'hideshow-org)
+(add-hook 'prog-mode-hook
+	  #'hs-org/minor-mode)
+
 ;; SLIME
 ;; Set your lisp system and, optionally, some contribs
 (setq inferior-lisp-program "/usr/bin/sbcl")

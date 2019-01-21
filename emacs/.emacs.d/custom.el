@@ -99,7 +99,7 @@
       (open-file file)))))
  '(package-selected-packages
    (quote
-    (rust-playground interleave pdf-tools slime slime-company company company-auctex company-c-headers company-jedi company-racer fd-dired fzf auctex lua-mode magithub nyan-mode paradox multiple-cursors ac-c-headers ac-math toml-mode ac-octave auto-complete-c-headers ssh slime-volleyball slime-theme slime-ritz slime-docker slime-annot python3-info python-info python-docstring org matlab-mode markdown-mode magit jedi-direx google-maps german-holidays ess-view ess-smart-underscore ess-smart-equals ess-R-object-popup ess-R-data-view ein-mumamo cython-mode cuda-mode cargo calfw c-eldoc auctex-lua auctex-latexmk aes ac-slime)))
+    (hideshow-org rust-playground interleave pdf-tools slime slime-company company company-auctex company-c-headers company-jedi company-racer fd-dired fzf auctex lua-mode magithub nyan-mode paradox multiple-cursors ac-c-headers ac-math toml-mode ac-octave auto-complete-c-headers ssh slime-volleyball slime-theme slime-ritz slime-docker slime-annot python3-info python-info python-docstring org matlab-mode markdown-mode magit jedi-direx google-maps german-holidays ess-view ess-smart-underscore ess-smart-equals ess-R-object-popup ess-R-data-view ein-mumamo cython-mode cuda-mode cargo calfw c-eldoc auctex-lua auctex-latexmk aes ac-slime)))
  '(paradox-github-token t)
  '(prettify-symbols-unprettify-at-point (quote right-edge))
  '(reftex-plug-into-AUCTeX nil)
