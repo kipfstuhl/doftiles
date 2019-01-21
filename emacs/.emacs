@@ -486,6 +486,15 @@
 ;; Dired
 ;; let dired guess a default directory, e.g. for copy
 (setq dired-dwim-target t)
+(require 'dired-x)
+(setq dired-guess-shell-alist-user '(("\\.pdf\\'" "zathura")
+				     ("\\.doc\\'" "libreoffice")
+				     ("\\.docx\\'" "libreoffice")
+                                     ("\\.ppt\\'" "libreoffice")
+                                     ("\\.pptx\\'" "libreoffice")
+                                     ("\\.xls\\'" "libreoffice")
+                                     ("\\.xlsx\\'" "libreoffice")))
+
 
 ;; Org Mode
 (require 'org)
