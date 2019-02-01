@@ -58,7 +58,7 @@ xbindkeys
 #setxkbmap -rules xorg -layout "eu,de" -option "grp:alt_shift_toggle"
 
 # activate screen locker
-xset s 300 10
+xset s 300 20
 xss-lock -n /usr/lib/xsecurelock/dimmer -l -- env XSECURELOCK_SAVER=saver_xscreensaver xsecurelock &
 #xss-lock -n /usr/lib/xsecurelock/dimmer -l -- xsecurelock &
 
