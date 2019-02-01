@@ -5,3 +5,6 @@ git/.gitconfig
 
 # Emacs backup files
 *~
+
+# Emacs setup file, generated from the .org
+emacs/.emacs.d/config.el
