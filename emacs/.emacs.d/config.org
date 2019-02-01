@@ -72,6 +72,48 @@
      (setq markdown-command "cmark")
    #+end_src
 
+** Org Mode
+   #+begin_src emacs-lisp
+     (require 'org)
+     (global-set-key (kbd "C-c l") 'org-store-link)
+     (global-set-key (kbd "C-c a") 'org-agenda)
+     ;;(global-set-key (kbd "C-c c") 'org-capture)
+     (global-set-key (kbd "C-c b") 'org-switchb)
+   #+end_src
+
+   Fix some keybindings for Org mode, my Lenovo Notebook does not like
+   shift with other modifiers.
+   #+begin_src emacs-lisp
+     (define-key org-mode-map (kbd "<C-M-return>") 'org-insert-todo-heading)
+     (define-key org-mode-map (kbd "<C-M-left>") 'org-table-delete-column)
+     (define-key org-mode-map (kbd "<C-M-right>") 'org-table-insert-column)
+     (define-key org-mode-map (kbd "<C-M-up>") 'org-table-kill-row)
+     (define-key org-mode-map (kbd "<C-M-down>") 'org-table-insert-row)
+   #+end_src
+   
+   Add better support for interleave mode. This mode is very useful
+   for making annotations and notes for pdf files.
+   #+begin_src emacs-lisp
+     (define-key org-mode-map (kbd "C-c i") 'interleave-mode)
+   #+end_src
+
+** PDF-Tools
+   This is a better replacement for Doc-View Mode.
+   #+begin_src emacs-lisp
+     (pdf-tools-install)
+   #+end_src
+
+** Multiple Cursors
+   Having more than one cursor at the same time can be very handy for
+   editing similar places of the document at once.
+   #+begin_src emacs-lisp
+     (require 'multiple-cursors)
+     (global-set-key (kbd "C-s-s C-s-s") 'mc/edit-lines)
+     (global-set-key (kbd "M-s-n") 'mc/mark-next-like-this)
+     (global-set-key (kbd "M-s-p") 'mc/mark-previous-like-this)
+     (global-set-key (kbd "C-c s-n") 'mc/mark-all-like-this)
+   #+end_src
+
 ** Miscellaneous
    Avoid long confirmations
    #+begin_src emacs-lisp
@@ -257,7 +299,17 @@
   #+end_src
   
 * Auto Completion
-  Use company
+** Helm
+   Helm enables easy completion and selection of items, e.g. when
+   coosing files or commands/functions.
+   #+begin_src emacs-lisp
+     (require 'helm)
+     (global-set-key (kbd "M-x") #'helm-M-x)
+     (global-set-key (kbd "C-x C-f") #'helm-find-files)
+     (helm-mode 1)
+   #+end_src
+
+** Use company
   #+begin_src emacs-lisp
     (require 'company)
     (add-hook 'after-init-hook 'global-company-mode)
@@ -358,4 +410,21 @@
      (setq jedi:environment-root "jedi")  ; or any other name you like
      (setq py-python-command "/usr/bin/python3")
      (define-key python-mode-map (kbd "TAB") 'company-indent-or-complete-common)
+   #+end_src
+
+** Code folding
+   Emacs comes with a minor mode for code folding,
+   hide-show-mode. Hideshow-org mode uses this mode for code folding
+   by just hitting the TAB key.
+   #+begin_src emacs-lisp
+     (require 'hideshow-org)
+     (add-hook 'prog-mode-hook
+	       #'hs-org/minor-mode)
+   #+end_src
+
+** Fortran
+   Use Fortran mode also for pfUnit (.pf) files, this is a unit test
+   framework.
+   #+begin_src emacs-lisp
+     (add-to-list 'auto-mode-alist '("\\.pf\\'" . fortran-mode))
    #+end_src

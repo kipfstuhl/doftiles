@@ -30,18 +30,6 @@
 ;; keybinding for Magit
 (global-set-key (kbd "C-x g") 'magit-status)
 
-;; multiple-cursors
-(require 'multiple-cursors)
-(global-set-key (kbd "C-s-s C-s-s") 'mc/edit-lines)
-(global-set-key (kbd "M-s-n") 'mc/mark-next-like-this)
-(global-set-key (kbd "M-s-p") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c s-n") 'mc/mark-all-like-this)
-
-;; hideshow-org mode, codefolding on TAB
-;; enable with hs-org/minor-mode
-(require 'hideshow-org)
-(add-hook 'prog-mode-hook
-	  #'hs-org/minor-mode)
 
 ;; Julia
 ;; make julia-mode and julia-shell-mode (e.g. run-julia) work together
@@ -142,11 +130,6 @@
 ;; 	(print doc-output)))))
 
 
-;; FORTRAN
-;; Use Fortran mode for pfUnit (.pf) files
-(add-to-list 'auto-mode-alist '("\\.pf\\'" . fortran-mode))
-
-
 ;; Dired
 ;; let dired guess a default directory, e.g. for copy
 (setq dired-dwim-target t)
@@ -159,29 +142,6 @@
                                      ("\\.xls\\'" "libreoffice")
                                      ("\\.xlsx\\'" "libreoffice")))
 
-
-;; Org Mode
-(require 'org)
-(global-set-key (kbd "C-c l") 'org-store-link)
-(global-set-key (kbd "C-c a") 'org-agenda)
-;;(global-set-key (kbd "C-c c") 'org-capture)
-(global-set-key (kbd "C-c b") 'org-switchb)
-
-;; fix key bindings
-;; the Lenovo doesn't like shift with other modifiers
-(define-key org-mode-map (kbd "<C-M-return>") 'org-insert-todo-heading)
-(define-key org-mode-map (kbd "<C-M-left>") 'org-table-delete-column)
-(define-key org-mode-map (kbd "<C-M-right>") 'org-table-insert-column)
-(define-key org-mode-map (kbd "<C-M-up>") 'org-table-kill-row)
-(define-key org-mode-map (kbd "<C-M-down>") 'org-table-insert-row)
-
-;; add better support for interleave-mode
-(define-key org-mode-map (kbd "C-c i") 'interleave-mode)
-
-;; activate pdf-tools this is a replacement for docview, it has more
-;; features for pdf files
-;; (pdf-loader-install) ; bad performance when opening a pdf file
-(pdf-tools-install)
 
 ;; add support for opening files with zathura
 ;; this is used in custom set variables
