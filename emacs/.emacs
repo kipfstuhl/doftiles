@@ -204,3 +204,4 @@ file is open nothing is done.
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 (org-babel-load-file (locate-user-emacs-file "config.org"))
+

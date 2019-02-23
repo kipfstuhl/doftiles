@@ -342,8 +342,20 @@
      (add-hook 'rust-mode-hook 'racer-mode)
      (add-hook 'racer-mode-hook #'eldoc-mode)
      (add-hook 'racer-mode-hook #'company-mode) ;make sure it is started
-     (setq rust-format-on-save t)
    #+end_src
+   
+   Make it work better. Run rustfmt when saving a file, this is very
+   useful, as all files are saved before every cargo run. Cargo mode
+   uses the variable compilation-ask-about-save, like every good mode
+   that deals with compilation like stuff. In addition racer
+   completion inserts some predefined code with function completion,
+   this is mostly parantheses and arguments. It comes very unhandy, so
+   don't do this; the help is displayed anyway when the cursor is
+   inside the arguments for a function.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (setq rust-format-on-save t)
+     (setq racer-complete-insert-argument-placeholders nil)
+   #+END_SRC
 
    Now define some keybindings. After the other hooks, they should not
    be overwritten by something else.
@@ -355,8 +367,10 @@
 		     'racer-find-definition-other-window)
 		   (define-key racer-mode-map (kbd "C-x 4 .")
 		     'racer-find-definition)
+		   (define-key racer-mode-map (kbd "C-c C-d")
+		     'racer-describe)
 		   ;; this may also be useful for other modes
-		   (setq compilation-auto-jump-to-first-error t))))
+		   ;;(setq compilation-auto-jump-to-first-error t))))
    #+end_src
 
    Improve cargo mode with a command for running the release binary
