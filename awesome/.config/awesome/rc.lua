@@ -627,7 +627,8 @@ awful.rules.rules = {
           "Wpa_gui",
           "pinentry",
           "veromix",
-          "xtightvncviewer"},
+          "xtightvncviewer",
+	  "Tor Browser"},
 
         name = {
           "Event Tester",  -- xev.
