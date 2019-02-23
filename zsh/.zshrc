@@ -66,6 +66,9 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # tackle typos
 alias cd..="cd .."
 
+# use kitty kittens, i.e. extensions
+alias icat="kitty +kitten icat"
+
 # setup for emacsclient
 export ALTERNATE_EDITOR=""
 export EDITOR=emacsclient
