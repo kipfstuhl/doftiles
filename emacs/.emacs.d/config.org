@@ -25,6 +25,14 @@
     (add-hook 'after-make-frame-functions 'new-frame-setup)
   #+end_src
   
+  Allow Emacs to resize pixelwise, not in full multiples of character
+  width or height. This comes very handy, when your window manager
+  leaves a small stripe of unused space next to Emacs frames
+  (wondow manager windows).
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    (setq frame-resize-pixelwise t)
+  #+END_SRC
+  
   Some unnecessary visual parts should always be removed.  Also some
   useful information is added to the mode line.
   #+begin_src emacs-lisp
