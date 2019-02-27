@@ -449,6 +449,8 @@
    Use Fortran mode also for pfUnit (.pf) files, this is a unit test
    framework.
    #+begin_src emacs-lisp
+     (require 'fortran)
+     (require 'f90)
      (add-to-list 'auto-mode-alist '("\\.pf\\'" . fortran-mode))
    #+end_src
 
