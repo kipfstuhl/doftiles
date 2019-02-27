@@ -4,3 +4,6 @@
 [submodule "awesome/.config/awesome/lain"]
 	path = awesome/.config/awesome/lain
 	url = https://github.com/lcpz/lain.git
+[submodule "emacs/.emacs.d/disaster"]
+	path = emacs/.emacs.d/disaster
+	url = https://github.com/kipfstuhl/disaster.git
