@@ -459,11 +459,16 @@
 *** Disassembling
     Use disaster for disassembling the code generated from the source
     of this buffer, i.e. when editing main.c generate main.o and then
-    disassemble it with `objdump`.
+    disassemble it with `objdump`. This is a patched version also
+    working with Fortran, thus the fortran-mode-map also has to be
+    extended.
     #+BEGIN_SRC emacs-lisp :tangle yes
+      (add-to-list 'load-path "~/.emacs.d/disaster")
       (require 'disaster)
       (define-key c-mode-map (kbd "C-c d") 'disaster)
       (define-key c++-mode-map (kbd "C-c d") 'disaster)
+      (define-key fortran-mode-map (kbd "C-c d") 'disaster)
+      (define-key f90-mode-map (kbd "C-c d") 'disaster)
       (setq disaster-objdump "objdump -d -M intel -Sl --no-show-raw-insn")
       (setq disaster-cxxflags "-march=native -O2 -g")
       (setq disaster-cflags "-march=native -O2 -g")
