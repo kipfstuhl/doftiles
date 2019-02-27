@@ -377,7 +377,7 @@
 		   (define-key racer-mode-map (kbd "C-x 4 .")
 		     'racer-find-definition)
 		   (define-key racer-mode-map (kbd "C-c C-d")
-		     'racer-describe)
+		     'racer-describe))))
 		   ;; this may also be useful for other modes
 		   ;;(setq compilation-auto-jump-to-first-error t))))
    #+end_src
@@ -451,3 +451,20 @@
    #+begin_src emacs-lisp
      (add-to-list 'auto-mode-alist '("\\.pf\\'" . fortran-mode))
    #+end_src
+
+** C/C++
+   These languages use the c-mode of Emacs, like many other,
+   e.g. java, so I can handle them in one.
+   
+*** Disassembling
+    Use disaster for disassembling the code generated from the source
+    of this buffer, i.e. when editing main.c generate main.o and then
+    disassemble it with `objdump`.
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (require 'disaster)
+      (define-key c-mode-map (kbd "C-c d") 'disaster)
+      (define-key c++-mode-map (kbd "C-c d") 'disaster)
+      (setq disaster-objdump "objdump -d -M intel -Sl --no-show-raw-insn")
+      (setq disaster-cxxflags "-march=native -O2 -g")
+      (setq disaster-cflags "-march=native -O2 -g")
+    #+END_SRC

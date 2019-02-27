@@ -80,6 +80,7 @@ Without ugly boxes but with Magit.")
    `(isearch ((,class (:foreground ,alum-1 :background ,orange-3))))
    `(lazy-highlight ((,class (:background ,choc-3))))
    `(trailing-whitespace ((,class (:background ,red-3))))
+   `(shadow ((,class (:foreground ,alum-4))))
    ;; Mode line faces
    `(mode-line ((,class
 		 (:background ,alum-4 :foreground ,alum-7))))
