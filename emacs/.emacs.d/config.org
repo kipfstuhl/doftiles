@@ -341,6 +341,16 @@
     (define-key c++-mode-map (kbd "TAB") 'company-indent-or-complete-common)
   #+end_src
 
+  Fix the templating made by company-clang. This is the easiest
+  solution writing a company backend that just wraps the clang backend
+  and uses these results, but does discard the call to post-complete,
+  which results in template expansion.
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    (add-to-list 'load-path "~/.emacs.d")
+    (require 'company-my-clang)
+    (add-to-list 'company-backends 'company-my-clang)
+  #+END_SRC
+
 * Programming Modes
 ** Rust
    Add some useful modes, like cargo, racer and eldoc, tho the rust
@@ -475,3 +485,4 @@
       (setq disaster-cxxflags "-march=native -O2 -g")
       (setq disaster-cflags "-march=native -O2 -g")
     #+END_SRC
+
