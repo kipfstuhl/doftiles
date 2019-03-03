@@ -528,10 +528,12 @@
   switching to all inboxes from all contexts. With ~mu4e-contexts~ the
   quoting with backtick `, single quote ', and comma , is important.
 
-  Short:
-  - ' :: prevents evaluation
-  - ` :: prevents most evaluation
-  - , :: gets evaluated in ` quoted blocks
+  A short overview:
+  - '  :: prevents all evaluation
+  - `  :: prevents most evaluation
+  - ,  :: gets evaluated in ` quoted blocks
+  - ,@ :: the elements of this list get spliced into the expression
+
   #+BEGIN_SRC emacs-lisp :tangle yes
     (setq global-maildir-shortcuts
 	  '(("/DLRG-J-B/INBOX"   . ?d)
