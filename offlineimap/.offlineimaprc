@@ -45,7 +45,8 @@ tls_level = tls_secure
 remoteport = 993
 remotepasseval = get_password("T-Online")
 remoteusereval = get_username("T-Online")
-idlefolders = ['Posteingang']
+idlefolders = ['INBOX']
+createfolders = False
 # Normally, Offlineimap will expunge deleted messages from the server.  You can
 # disable that if you wish.  This means that Offlineimap will mark them deleted
 # on the server, but not actually delete them.  You must use some other IMAP
@@ -83,6 +84,7 @@ remotepasseval = get_password("DLRG-Jugend-Bayern")
 remoteusereval = get_username("DLRG-Jugend-Bayern")
 idlefolders = ['INBOX']
 usecompression = yes
+createfolders = False
 # Normally, Offlineimap will expunge deleted messages from the server.  You can
 # disable that if you wish.  This means that Offlineimap will mark them deleted
 # on the server, but not actually delete them.  You must use some other IMAP
