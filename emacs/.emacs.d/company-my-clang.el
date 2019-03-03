@@ -1,4 +1,5 @@
 (require 'cl)
+(require 'company-clang)
 ;; (require 'comany-clang)
 
 (defun company-my-clang (command &optional arg &rest ignored)
