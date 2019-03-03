@@ -486,3 +486,107 @@
       (setq disaster-cflags "-march=native -O2 -g")
     #+END_SRC
 
+* E-Mail
+  Use mu4e for mails. ~mu~ is just a mail-indexer for fast searches,
+  mails have to be retrieved by another program. Here it is
+  ~offlineimap~.
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    (require 'mu4e)
+
+    (setq mail-user-agent 'mu4e-user-agent)
+
+    (setq mu4e-maildir "~/Mail")
+  #+END_SRC
+
+  Set the information that is shown in header view mode, that is
+  basically a list of the messages. There are six flags, so this field
+  needs at most six chars.
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    (add-to-list 'mu4e-header-info-custom
+		 '(:recipnum . ( :name "Number of recipients"  ;; long name, as seen in the message-view
+				 :shortname "E#"           ;; short name, as seen in the headers view
+				 :help "Number of recipients for this message" ;; tooltip
+				 :function (lambda (msg)
+					     (format "%2d"
+						     (+ (length (mu4e-message-field msg :to))
+							(length (mu4e-message-field msg :cc))))))))
+
+    (setq mu4e-headers-fields
+	  '( (:human-date      .  12)
+	     (:flags           .   6)
+	     (:from-or-to      .  30)
+	     (:recipnum        .   2)
+	     (:thread-subject  . nil)))
+
+    (add-to-list 'mu4e-view-actions
+		 '(ViewInBrowser . mu4e-action-view-in-browser) t)
+  #+END_SRC
+
+  Use mu4e built in support of contexts, in other mail clients this
+  would probably be called accounts or inboxes. Note the
+  ~global-maildir-shortcuts~ variable, these are set for easy
+  switching to all inboxes from all contexts. With ~mu4e-contexts~ the
+  quoting with backtick `, single quote ', and comma , is important.
+
+  Short: ' prevents evaluation
+         ` prevents most evaluation
+	 , gets evaluated in ` quoted blocks
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    (setq global-maildir-shortcuts
+	  '(("/DLRG-J-B/INBOX"   . ?d)
+	    ("/T-Online/INBOX"   . ?t)))
+
+    (setq mu4e-contexts
+	  `( ,(make-mu4e-context
+	       :name "T-Online"
+	       :enter-func (lambda () (mu4e-message "Kontext T-Online"))
+	       :leave-func (lambda () (mu4e-message "Verlasse T-Online"))
+	       :match-func (lambda (msg)
+			     (when msg
+			       (or
+				(string-match-p "^/T-Online" (mu4e-message-field msg :maildir))
+				(mu4e-message-contact-field-matches msg
+			       '(:to :cc :from) "jonas.kipfstuhl@t-online.de"))))
+	       :vars `( (user-mail-address      . "jonas.kipfstuhl@t-online.de")
+			(user-full-name         . "Jonas Kipfstuhl")
+			(mu4e-sent-folder       . "/T-Online/INBOX.Sent")
+			(mu4e-drafts-folder     . "/T-Online/INBOX.Drafts")
+			(mu4e-trash-folder      . "/T-Online/INBOX.Trash")
+			(mu4e-get-mail-command  . "offlineimap -a T-Online")
+			(mu4e-maildir-shortcuts . ,(append
+						    global-maildir-shortcuts
+						    '(("/T-Online/INBOX.Sent"   . ?s)
+						      ("/T-Online/INBOX.Drafts" . ?e)
+						      ("/T-Online/INBOX.Trash"  . ?m))))))
+	  ,(make-mu4e-context
+	    :name "DLRG"
+	    :enter-func (lambda () (mu4e-message "Kontext DLRG"))
+	    :leave-func (lambda () (mu4e-message "Verlasse DLRG"))
+	    :match-func (lambda (msg)
+			  (when msg
+			    (or
+			     (string-match-p "^/DLRG-J-B" (mu4e-message-field msg :maildir))
+			     (mu4e-message-contact-field-matches msg
+			       '(:to :cc :from) "jonas.kipfstuhl@bayern.dlrg-jugend.de"))))
+	    :vars `( (user-mail-address      . "jonas.kipfstuhl@bayern.dlrg-jugend.de")
+		     (user-full-name         . "Jonas Kipfstuhl")
+		     (mu4e-sent-folder       . "/DLRG-J-B/INBOX.Sent")
+		     (mu4e-drafts-folder     . "/DLRG-J-B/INBOX.Drafts")
+		     (mu4e-trash-folder      . "/DLRG-J-B/INBOX.Trash")
+		     (mu4e-get-mail-command  . "offlineimap -a DLRG-Jugend-Bayern")
+		     (mu4e-maildir-shortcuts . ,(append
+						 global-maildir-shortcuts
+						 '(("/DLRG-J-B/INBOX.Sent"   . ?s)
+						   ("/DLRG-J-B/INBOX.Drafts" . ?e)
+						   ("/DLRG-J-B/INBOX.Trash"  . ?m))))))))
+
+    (require 'smtpmail-async)
+    (setq send-mail-function 'async-smtpmail-send-it
+	  message-send-mail-function 'async-smtpmail-send-it)
+
+    (setq message-kill-buffer-on-exit t)
+
+    (setq mu4e-split-view 'vertical
+	  mu4e-headers-visible-columns 100)
+  #+END_SRC
+
