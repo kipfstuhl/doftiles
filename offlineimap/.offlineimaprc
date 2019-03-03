@@ -1,0 +1,97 @@
+# The default configuration file is "~/.offlineimaprc".
+
+[general]
+
+accounts = T-Online, DLRG-Jugend-Bayern
+
+# You can specify one or more user interface. Offlineimap will try the first in
+# the list, and if it fails, the second, and so forth.
+#
+# The pre-defined options are:
+# Blinkenlights -- A fancy (terminal) interface
+# TTYUI         -- a text-based (terminal) interface
+# Basic         -- Noninteractive interface suitable for cron'ing
+# Quiet         -- Noninteractive interface, generates no output
+#                  except for errors.
+# MachineUI     -- Interactive interface suitable for machine
+#                  parsing.
+#
+# You can override this with a command-line option -u.
+#ui = basic
+
+pythonfile = ~/.offlineimap.py
+socktimeout = 30
+#fsync = true
+
+[Account T-Online]
+localrepository = T-Online
+remoterepository = T-Online-Remote
+
+[Repository T-Online]
+type = Maildir
+localfolders = ~/Mail/T-Online
+sync_deletes = yes
+utime_from_header = yes
+filename_use_mail_timestamp = yes
+
+[Repository T-Online-Remote]
+type = IMAP
+ipv6 = False
+remotehost = secureimap.t-online.de
+ssl = yes
+sslcacertfile = OS-DEFAULT
+ssl_version = tls1_2
+tls_level = tls_secure
+remoteport = 993
+remotepasseval = get_password("T-Online")
+remoteusereval = get_username("T-Online")
+idlefolders = ['Posteingang']
+# Normally, Offlineimap will expunge deleted messages from the server.  You can
+# disable that if you wish.  This means that Offlineimap will mark them deleted
+# on the server, but not actually delete them.  You must use some other IMAP
+# client to delete them if you use this setting; otherwise, the messages will
+# just pile up there forever.  Therefore, this setting is definitely NOT
+# recommended for a long term.
+#
+# Default is yes.
+#
+expunge = no
+sync_deletes = no
+retrycount = 10
+
+[Account DLRG-Jugend-Bayern]
+localrepository = DLRG-J-B
+remoterepository = DLRG-J-B-Remote
+
+[Repository DLRG-J-B]
+type = Maildir
+localfolders = ~/Mail/DLRG-J-B
+sync_deletes = yes
+utime_from_header = yes
+filename_use_mail_timestamp = yes
+
+[Repository DLRG-J-B-Remote]
+type = IMAP
+ipv6 = False
+remotehost = mail.dlrg.de
+ssl = yes
+sslcacertfile = OS-DEFAULT
+ssl_version = tls1_2
+tls_level = tls_secure
+remoteport = 993
+remotepasseval = get_password("DLRG-Jugend-Bayern")
+remoteusereval = get_username("DLRG-Jugend-Bayern")
+idlefolders = ['INBOX']
+usecompression = yes
+# Normally, Offlineimap will expunge deleted messages from the server.  You can
+# disable that if you wish.  This means that Offlineimap will mark them deleted
+# on the server, but not actually delete them.  You must use some other IMAP
+# client to delete them if you use this setting; otherwise, the messages will
+# just pile up there forever.  Therefore, this setting is definitely NOT
+# recommended for a long term.
+#
+# Default is yes.
+#
+expunge = no
+sync_deletes = no
+retrycount = 10
