@@ -346,7 +346,7 @@
   and uses these results, but does discard the call to post-complete,
   which results in template expansion.
   #+BEGIN_SRC emacs-lisp :tangle yes
-    (add-to-list 'load-path "~/.emacs.d")
+    (add-to-list 'load-path "~/.emacs.d/lisp")
     (require 'company-my-clang)
     (add-to-list 'company-backends 'company-my-clang)
   #+END_SRC
