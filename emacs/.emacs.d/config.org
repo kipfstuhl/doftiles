@@ -405,12 +405,17 @@
 		     'cargo-process-run-release))))
    #+end_src
    
-** SLIME
+** LISP with SLIME
    Set the lisp system
    #+begin_src emacs-lisp
      (setq inferior-lisp-program "/usr/bin/sbcl")
      (setq slime-contribs '(slime-fancy))
    #+end_src
+
+   Set the indent to two spaces.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (setq lisp-indent-offset 2)
+   #+END_SRC
 
 ** Semantic Mode
    #+begin_src emacs-lisp
