@@ -492,178 +492,207 @@
     #+END_SRC
 
 * E-Mail
-  Use mu4e for mails. ~mu~ is just a mail-indexer for fast searches,
+  I use mu4e for mails. ~mu~ is just a mail-indexer for fast searches,
   mails have to be retrieved by another program. Here ~offlineimap~ is
-  used.
+  used, see its [[file:~/dotfiles/offlineimap/.offlineimaprc][configuration]].
   #+BEGIN_SRC emacs-lisp :tangle yes
     (require 'mu4e)
 
     (setq mail-user-agent 'mu4e-user-agent)
-    (setq mu4e-maildir "~/Mail")
+    (setq mu4e-maildir "~/Mail")		;where mails are stored
     (setq mu4e-update-interval 300)	     	;seconds to wait for updating
-  #+END_SRC
-
-  Set the information that is shown in header view mode, that is
-  basically a list of the messages. There are six flags, so this field
-  needs at most six chars.
-  #+BEGIN_SRC emacs-lisp :tangle yes
-    (add-to-list 'mu4e-header-info-custom
-      '(:recipnum . ( :name "Number of recipients"  ;; long name, as seen in the message-view
-		      :shortname "E#"           ;; short name, as seen in the headers view
-		      :help "Number of recipients for this message" ;; tooltip
-		      :function (lambda (msg)
-				  (format "%2d"
-				    (+ (length (mu4e-message-field msg :to))
-				      (length (mu4e-message-field msg :cc))))))))
-
-    (setq mu4e-headers-fields
-      '( (:human-date      .  12)
-	 (:flags           .   6)
-	 (:from-or-to      .  30)
-	 (:recipnum        .   2)
-	 (:thread-subject  . nil)))
   #+END_SRC
 
   Here some general settings. These are just for convenience and don't
   do much. ~completing-read~ is used as the standard
   ~ido-completing-read~ does not integrate with helm.
   #+BEGIN_SRC emacs-lisp :tangle yes
-    (add-to-list 'mu4e-view-actions
-      '("ViewInBrowser" . mu4e-action-view-in-browser) t)
     (setq mu4e-completing-read-function 'completing-read)
     (setq message-kill-buffer-on-exit t)
     (setq mu4e-split-view 'vertical
       mu4e-headers-visible-columns 100)
-    (setq mu4e-view-show-addresses t)
-
   #+END_SRC
 
-  Fix the mu4e-view-mode. As Outlook generates huge HTMl messages with
-  a lot of not really needed HTML code the HTML/plaintext ratio has to
-  be increased. The default scrolling is not the best.
-  #+BEGIN_SRC emacs-lisp :tangle yes
-    (setq mu4e-view-html-plaintext-ratio-heuristic 10)
-    ;; (setq mu4e-view-scroll-to-next nil)	;not needed anymore
-    (define-key mu4e-view-mode-map (kbd "SPC") #'(lambda ()
-						   (interactive)
-						   (scroll-up 5)))
-    (define-key mu4e-view-mode-map (kbd "S-SPC") #'(lambda ()
-						   (interactive)
-						   (scroll-down 5)))
-  #+END_SRC
+** Listing Mails
+   In mu4e the mail list is called header mode. This is just the list
+   of currently selected mails, e.g. in one maildir or by a search.
 
-  Use mu4e built in support of contexts, in other mail clients this
-  would probably be called accounts or inboxes.
+   Set the information that is shown in header view mode. There are
+   six flags, so this field needs at most six chars.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (add-to-list 'mu4e-header-info-custom
+       '(:recipnum . ( :name "Number of recipients"  ;; long name, as seen in the message-view
+		       :shortname "E#"           ;; short name, as seen in the headers view
+		       :help "Number of recipients for this message" ;; tooltip
+		       :function (lambda (msg)
+				   (format "%2d"
+				     (+ (length (mu4e-message-field msg :to))
+				       (length (mu4e-message-field msg :cc))))))))
 
-  Set the global maildir shortcuts, these shortcuts will be available
-  in every context. Define a helper function for archiving mails in
-  one folder per month.
-  #+BEGIN_SRC emacs-lisp :tangle yes
-    (setq global-maildir-shortcuts
-      '(("/DLRG-J-B/INBOX"   . ?d)
-	 ("/T-Online/INBOX"   . ?t)))
-
-    (defun get-date-directory (msg)
-      "Takes a message plist MSG and returns string yyyy/m
-
-    The message MSG is expected to be in the format of mu4e
-    messages. It extracts the Date and returns a string suitable for
-    sorting mails into folders with respect to the month they were
-    sent."
-      (let* ((date (decode-time (mu4e-message-field msg :date)))
-	      (month (nth 4 date))
-	      (year (nth 5 date)))
-	(concat (int-to-string year) "/" (int-to-string month))))
-  #+END_SRC
-
-  Now comes the most important part of the mu4e configuration, the
-  contexts. Many variables used by mu4e can be set via the context
-  system. These variables will be used in various ways, also
-  internally from the emacs built-in mail support.
-
-  With ~mu4e-contexts~ the quoting with backtick `, single quote ',
-  and comma , is important. To be honest it is always important when
-  programming Lisp, but for now quoting was not necessary in this
-  setup.
-
-  A short overview:
-  - ~'~  :: prevents all evaluation
-  - ~`~  :: prevents most evaluation
-  - ~,~  :: gets evaluated in ` quoted blocks
-  - ~,@~ :: the elements of this list get spliced into the expression
-
-  #+BEGIN_SRC emacs-lisp :tangle yes
-    (setq mu4e-contexts
-      `( ,(make-mu4e-context
-	    :name "T-Online"
-	    :enter-func (lambda () (mu4e-message "Kontext T-Online"))
-	    :leave-func (lambda () (mu4e-message "Verlasse T-Online"))
-	    :match-func (lambda (msg)
-			  (when msg
-			    (or
-			      (string-match-p "^/T-Online" (mu4e-message-field msg :maildir))
-			      (mu4e-message-contact-field-matches msg
-				'(:to :cc :from) "jonas.kipfstuhl@t-online.de"))))
-	    :vars `( (user-mail-address      . "jonas.kipfstuhl@t-online.de")
-		     (user-full-name         . "Jonas Kipfstuhl")
-		     (mu4e-sent-folder       . "/T-Online/INBOX.Sent")
-		     (mu4e-drafts-folder     . "/T-Online/INBOX.Drafts")
-		     (mu4e-trash-folder      . "/T-Online/INBOX.Trash")
-		     (mu4e-get-mail-command  . "offlineimap -a T-Online")
-		     (mu4e-maildir-shortcuts . ,(append
-						  global-maildir-shortcuts
-						  '( ("/T-Online/INBOX"        . ?i)
-						     ("/T-Online/INBOX.Sent"   . ?s)
-						     ("/T-Online/INBOX.Drafts" . ?e)
-						     ("/T-Online/INBOX.Trash"  . ?m))))))
-	 ,(make-mu4e-context
-	    :name "DLRG"
-	    :enter-func (lambda () (mu4e-message "Kontext DLRG"))
-	    :leave-func (lambda () (mu4e-message "Verlasse DLRG"))
-	    :match-func (lambda (msg)
-			  (when msg
-			    (or
-			      (string-match-p "^/DLRG-J-B" (mu4e-message-field msg :maildir))
-			      (mu4e-message-contact-field-matches msg
-				'(:to :cc :from) "jonas.kipfstuhl@bayern.dlrg-jugend.de"))))
-	    :vars `( (user-mail-address      . "jonas.kipfstuhl@bayern.dlrg-jugend.de")
-		     (user-full-name         . "Jonas Kipfstuhl")
-		     (mu4e-sent-folder       . "/DLRG-J-B/INBOX.Sent")
-		     (mu4e-drafts-folder     . "/DLRG-J-B/INBOX.Drafts")
-		     (mu4e-trash-folder      . "/DLRG-J-B/INBOX.Trash")
-		     (mu4e-refile-folder     . (lambda (msg)
-						 (concat "/DLRG-J-B/Archiv/" (get-date-directory msg))))
-		     (mu4e-get-mail-command  . "offlineimap -a DLRG-Jugend-Bayern")
-		     (mu4e-maildir-shortcuts . ,(append
-						  global-maildir-shortcuts
-						  '( ("/DLRG-J-B/INBOX"        . ?i)
-						     ("/DLRG-J-B/INBOX.Sent"   . ?s)
-						     ("/DLRG-J-B/INBOX.Drafts" . ?e)
-						     ("/DLRG-J-B/INBOX.Trash"  . ?m))))))))
-  #+END_SRC
-
-  With the contexts defined the list of own mail addresses can be
-  generated from the mail adresses in all contexts. If further
-  addresses should go in this list, these have to be added manually.
-  #+BEGIN_SRC emacs-lisp :tangle yes
-    (setq mu4e-user-mail-address-list
-      (delq nil
-	(mapcar (lambda (context)
-		  (when (mu4e-context-vars context)
-		    (cdr (assq 'user-mail-address (mu4e-context-vars context)))))
-	  mu4e-contexts)))
+     (setq mu4e-headers-fields		;width of each field in chars
+       '( (:human-date      .  12)
+	  (:flags           .   6)
+	  (:from-or-to      .  30)
+	  (:recipnum        .   2)
+	  (:thread-subject  . nil)))
+   #+END_SRC
 
 
-  #+END_SRC
+** Viewing Mails
+   Fix the mu4e-view-mode. As Outlook generates huge HTMl messages with
+   a lot of not really needed HTML code the HTML/plaintext ratio has to
+   be increased. The default scrolling is not the best, so I try to
+   improve on it.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (setq mu4e-view-html-plaintext-ratio-heuristic 10)
+     ;; (setq mu4e-view-scroll-to-next nil)	;not needed anymore
+     (define-key mu4e-view-mode-map (kbd "SPC") #'(lambda ()
+						    (interactive)
+						    (scroll-up 5)))
+     (define-key mu4e-view-mode-map (kbd "S-SPC") #'(lambda ()
+						    (interactive)
+						    (scroll-down 5)))
+   #+END_SRC
 
-  smtpmail can take a very long time to send the mails, specially when
-  there are large attachments. To prevent this lag use asynchronous
-  functions. There are some issues with this, some users even report
-  silent failures, so maybe you want to send your messages using
-  another solution.
-  #+BEGIN_SRC emacs-lisp :tangle yes
-    (require 'smtpmail-async)
-    (setq send-mail-function 'async-smtpmail-send-it
-      message-send-mail-function 'async-smtpmail-send-it)
-  #+END_SRC
+   URLs can be opened in a browser, saved to the kill
+   ring and even fetched (downloaded), but it is not possible to just
+   display the URL. This is useful in many situations, and important if
+   you don't exactly know whether the link is malicious or not.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (defun my-mu4e-view-display-url (&optional multi)
+       (interactive "P")
+       (mu4e~view-handle-single-url "URL to display"
+	 (lambda (url)
+	   (mu4e-message url))))
+     (define-key mu4e-view-mode-map (kbd "l") 'my-mu4e-view-display-url)
+   #+END_SRC
+  
+   Show all the addresses, not just the display names. Often funny with
+   spam mails.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (setq mu4e-view-show-addresses t)
+   #+END_SRC
+  
+   Add the possibility to display the message in a browser with full
+   standards compliant HTML engine.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (add-to-list 'mu4e-view-actions
+       '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+   #+END_SRC
+
+** Accounts
+   Use mu4e built in support of contexts, in other mail clients this
+   would probably be called accounts or inboxes.
+
+   For my context setup some preliminary work has to be done. Set the
+   global maildir shortcuts, these shortcuts will be available in every
+   context. Define a helper function for archiving mails in one folder
+   per month.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (setq global-maildir-shortcuts
+       '(("/DLRG-J-B/INBOX"   . ?d)
+	  ("/T-Online/INBOX"   . ?t)))
+
+     (defun get-date-directory (msg)
+       "Takes a message plist MSG and returns string yyyy/m
+
+     The message MSG is expected to be in the format of mu4e
+     messages. It extracts the Date and returns a string suitable for
+     sorting mails into folders with respect to the month they were
+     sent."
+       (let* ((date (decode-time (mu4e-message-field msg :date)))
+	       (month (nth 4 date))
+	       (year (nth 5 date)))
+	 (concat (int-to-string year) "/" (int-to-string month))))
+   #+END_SRC
+
+   Now comes the most important part of the mu4e configuration, the
+   contexts. Many variables used by mu4e can be set via the context
+   system. These variables will be used in various ways, also
+   internally from the emacs built-in mail support.
+
+   With ~mu4e-contexts~ the quoting with backtick `, single quote ',
+   and comma , is important. To be honest it is always important when
+   programming Lisp, but for now quoting was not necessary in this
+   setup.
+
+   A short overview:
+   - ~'~  :: prevents all evaluation
+   - ~`~  :: prevents most evaluation
+   - ~,~  :: gets evaluated in ` quoted blocks
+   - ~,@~ :: the elements of this list get spliced into the expression
+
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (setq mu4e-contexts
+       `( ,(make-mu4e-context
+	     :name "T-Online"
+	     :enter-func (lambda () (mu4e-message "Kontext T-Online"))
+	     :leave-func (lambda () (mu4e-message "Verlasse T-Online"))
+	     :match-func (lambda (msg)
+			   (when msg
+			     (or
+			       (string-match-p "^/T-Online" (mu4e-message-field msg :maildir))
+			       (mu4e-message-contact-field-matches msg
+				 '(:to :cc :from) "jonas.kipfstuhl@t-online.de"))))
+	     :vars `( (user-mail-address      . "jonas.kipfstuhl@t-online.de")
+		      (user-full-name         . "Jonas Kipfstuhl")
+		      (mu4e-sent-folder       . "/T-Online/INBOX.Sent")
+		      (mu4e-drafts-folder     . "/T-Online/INBOX.Drafts")
+		      (mu4e-trash-folder      . "/T-Online/INBOX.Trash")
+		      (mu4e-get-mail-command  . "offlineimap -a T-Online")
+		      (mu4e-maildir-shortcuts . ,(append
+						   global-maildir-shortcuts
+						   '( ("/T-Online/INBOX"        . ?i)
+						      ("/T-Online/INBOX.Sent"   . ?s)
+						      ("/T-Online/INBOX.Drafts" . ?e)
+						      ("/T-Online/INBOX.Trash"  . ?m))))))
+	  ,(make-mu4e-context
+	     :name "DLRG"
+	     :enter-func (lambda () (mu4e-message "Kontext DLRG"))
+	     :leave-func (lambda () (mu4e-message "Verlasse DLRG"))
+	     :match-func (lambda (msg)
+			   (when msg
+			     (or
+			       (string-match-p "^/DLRG-J-B" (mu4e-message-field msg :maildir))
+			       (mu4e-message-contact-field-matches msg
+				 '(:to :cc :from) "jonas.kipfstuhl@bayern.dlrg-jugend.de"))))
+	     :vars `( (user-mail-address      . "jonas.kipfstuhl@bayern.dlrg-jugend.de")
+		      (user-full-name         . "Jonas Kipfstuhl")
+		      (mu4e-sent-folder       . "/DLRG-J-B/INBOX.Sent")
+		      (mu4e-drafts-folder     . "/DLRG-J-B/INBOX.Drafts")
+		      (mu4e-trash-folder      . "/DLRG-J-B/INBOX.Trash")
+		      (mu4e-refile-folder     . (lambda (msg)
+						  (concat "/DLRG-J-B/Archiv/" (get-date-directory msg))))
+		      (mu4e-get-mail-command  . "offlineimap -a DLRG-Jugend-Bayern")
+		      (mu4e-maildir-shortcuts . ,(append
+						   global-maildir-shortcuts
+						   '( ("/DLRG-J-B/INBOX"        . ?i)
+						      ("/DLRG-J-B/INBOX.Sent"   . ?s)
+						      ("/DLRG-J-B/INBOX.Drafts" . ?e)
+						      ("/DLRG-J-B/INBOX.Trash"  . ?m))))))))
+   #+END_SRC
+
+   With the contexts defined the list of own mail addresses can be
+   generated from the mail adresses in all contexts. If further
+   addresses should go in this list, these have to be added
+   manually. This list is used for filtering purposes.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (setq mu4e-user-mail-address-list
+       (delq nil
+	 (mapcar (lambda (context)
+		   (when (mu4e-context-vars context)
+		     (cdr (assq 'user-mail-address (mu4e-context-vars context)))))
+	   mu4e-contexts)))
+   #+END_SRC
+
+   smtpmail can take a very long time to send the mails, specially when
+   there are large attachments. To prevent this lag use asynchronous
+   functions. There are some issues with this, some users even report
+   silent failures, so maybe you want to send your messages using
+   another solution.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (require 'smtpmail-async)
+     (setq send-mail-function 'async-smtpmail-send-it
+       message-send-mail-function 'async-smtpmail-send-it)
+   #+END_SRC
 
