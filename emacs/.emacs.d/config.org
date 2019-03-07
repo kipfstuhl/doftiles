@@ -1,7 +1,7 @@
 #+title: Emacs configuration file
 #+property: header-args:emacs-lisp :tangle yes
 
-* Visual appearence
+* Visual Appearance
   Adjust the visual things at the beginning, this prevents ugly
   changes during the startup if other parts need more time to execute.
   This leads to an impression of a fast loading init file.
@@ -14,7 +14,7 @@
   Remove the tool bar and the scroll bar, but only in graphical mode.
   In terminal mode this would result in errors or warnings.  In order
   to make this distinction, carry out the customizations when a new
-  frame is made and it is graphical.  This also works in servermode if
+  frame is made and it is graphical.  This also works in server-mode if
   it is called as ~emacsclient~, or ~emacsclient -c~.
   #+begin_src emacs-lisp
     (defun new-frame-setup (frame)
@@ -25,10 +25,10 @@
     (add-hook 'after-make-frame-functions 'new-frame-setup)
   #+end_src
   
-  Allow Emacs to resize pixelwise, not in full multiples of character
+  Allow Emacs to resize pixel-wise, not in full multiples of character
   width or height. This comes very handy, when your window manager
   leaves a small stripe of unused space next to Emacs frames
-  (wondow manager windows).
+  (window manager windows).
   #+BEGIN_SRC emacs-lisp :tangle yes
     (setq frame-resize-pixelwise t)
   #+END_SRC
@@ -46,14 +46,14 @@
   #+begin_src emacs-lisp
     (setq inhibit-startup-screen t)
   #+end_src
-
+  
 * General Settings  
 ** Emacs Server
-  Start emacs server for being able to use emacsclient do not start it
+  Start Emacs server for being able to use emacsclient do not start it
   when already running, this is particularly useful if you edit the
   Emacs configuration and use eval-buffer for testing the effects.
   Note: it is not so easy to check whether the server is running or
-  not, it just seems so. You may be surprised by the behaviour!
+  not, it just seems so. You may be surprised by the behavior!
   #+begin_src emacs-lisp
     (require 'server)
     (unless (server-running-p)
@@ -100,7 +100,7 @@
    #+end_src
    
    Add better support for interleave mode. This mode is very useful
-   for making annotations and notes for pdf files.
+   for making annotations and notes for PDF files.
    #+begin_src emacs-lisp
      (define-key org-mode-map (kbd "C-c i") 'interleave-mode)
    #+end_src
@@ -122,6 +122,37 @@
      (global-set-key (kbd "C-c s-n") 'mc/mark-all-like-this)
    #+end_src
 
+** Spell Checking
+   For spell-checking ispell is used.
+   
+   ispell does not work very well with org mode out of the box. So I
+   define some additional regexeps to skip.
+   Ignore org structure blocks:
+   #+begin_src emacs-lisp
+     (let ( (begin-regexp "^[ \t]*#\\+begin_\\(src\\|html\\|latex\\|example\\|quote\\)")
+	    (end-regexp "^[ \t]*#\\+end_\\(src\\|html\\|latex\\|example\\|quote\\)")
+	    (begin-cap-regexp "^[ \t]*#\\+BEGIN_\\(SRC\\|HTML\\|LATEX\\|EXAMPLE\\|QUOTE\\)")
+	    (end-cap-regexp "^[ \t]*#\\+END_\\(SRC\\|HTML\\|LATEX\\|EXAMPLE\\|QUOTE\\)"))
+       (add-to-list 'ispell-skip-region-alist `(,begin-regexp . ,end-regexp))
+       (add-to-list 'ispell-skip-region-alist `(,begin-cap-regexp . ,end-cap-regexp)))
+   #+end_src
+
+   Properties block in org do not need to be spell-checked
+   #+begin_src emacs-lisp
+     (add-to-list 'ispell-skip-region-alist '("\:PROPERTIES\:$" . "\:END\:$"))
+     (add-to-list 'ispell-skip-region-alist '("^#\\+property\:.*$"))
+   #+end_src
+
+   Ignore title
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (add-to-list 'ispell-skip-region-alist '("^#\\+title\:.*$"))
+   #+END_SRC
+
+   Ignore typewriter aka code markup
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (add-to-list 'ispell-skip-region-alist '("~.*" . ".*~"))
+   #+END_SRC
+
 ** Miscellaneous
    Avoid long confirmations
    #+begin_src emacs-lisp
@@ -141,12 +172,12 @@
    
 * Font
   Use Fira Code font.  This font has ligatures built-in that are
-  desigend for code development.  This is a very excellent font for
+  designed for code development.  This is a very excellent font for
   coding, and as a general mono spaced font.  It builds on Fira Mono.
 
   Using this font is not as easy as it sounds.  Emacs does not offer
-  full suport for the ligatures, but with font lock there is a
-  workaraound.
+  full support for the ligatures, but with font lock there is a
+  workaround.
   
   Use the X Logical Font Description for setting the font.  This is
   not very easy, but here it does the job (with many default values).
@@ -157,7 +188,7 @@
   #+end_src
 
   Make a big list for the ligatures.  The ligatures are emulated with
-  another font, Fira Code Symbol, and the font lock mode of emacs is
+  another font, Fira Code Symbol, and the font lock mode of Emacs is
   used for substitutions.
   #+begin_src emacs-lisp
   (add-hook 'after-make-frame-functions
@@ -309,7 +340,7 @@
 * Auto Completion
 ** Helm
    Helm enables easy completion and selection of items, e.g. when
-   coosing files or commands/functions.
+   choosing files or commands/functions.
    #+begin_src emacs-lisp
      (require 'helm)
      (global-set-key (kbd "M-x") #'helm-M-x)
@@ -342,7 +373,7 @@
   #+end_src
 
   Fix the templating made by company-clang. This is the easiest
-  solution writing a company backend that just wraps the clang backend
+  solution writing a company back-end that just wraps the clang back-end
   and uses these results, but does discard the call to post-complete,
   which results in template expansion.
   #+BEGIN_SRC emacs-lisp :tangle yes
@@ -368,7 +399,7 @@
    uses the variable compilation-ask-about-save, like every good mode
    that deals with compilation like stuff. In addition racer
    completion inserts some predefined code with function completion,
-   this is mostly parantheses and arguments. It comes very unhandy, so
+   this is mostly parentheses and arguments. It comes very unhandy, so
    don't do this; the help is displayed anyway when the cursor is
    inside the arguments for a function.
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -440,7 +471,7 @@
          python-shell-interpreter-args "--simple-prompt -i")
    #+end_src
 
-   Jedi as backend for company
+   Jedi as back-end for company
    #+begin_src emacs-lisp
      (add-hook 'python-mode-hook
 	       (lambda ()
@@ -476,7 +507,7 @@
 *** Disassembling
     Use disaster for disassembling the code generated from the source
     of this buffer, i.e. when editing main.c generate main.o and then
-    disassemble it with `objdump`. This is a patched version also
+    disassemble it with ~objdump~. This is a patched version also
     working with Fortran, thus the fortran-mode-map also has to be
     extended.
     #+BEGIN_SRC emacs-lisp :tangle yes
@@ -539,8 +570,8 @@
 
 
 ** Viewing Mails
-   Fix the mu4e-view-mode. As Outlook generates huge HTMl messages with
-   a lot of not really needed HTML code the HTML/plaintext ratio has to
+   Fix the mu4e-view-mode. As Outlook generates huge HTML messages with
+   a lot of not really needed HTML code the HTML/plain-text ratio has to
    be increased. The default scrolling is not the best, so I try to
    improve on it.
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -609,7 +640,7 @@
    Now comes the most important part of the mu4e configuration, the
    contexts. Many variables used by mu4e can be set via the context
    system. These variables will be used in various ways, also
-   internally from the emacs built-in mail support.
+   internally from the Emacs built-in mail support.
 
    With ~mu4e-contexts~ the quoting with backtick `, single quote ',
    and comma , is important. To be honest it is always important when
@@ -673,7 +704,7 @@
    #+END_SRC
 
    With the contexts defined the list of own mail addresses can be
-   generated from the mail adresses in all contexts. If further
+   generated from the mail addresses in all contexts. If further
    addresses should go in this list, these have to be added
    manually. This list is used for filtering purposes.
    #+BEGIN_SRC emacs-lisp :tangle yes
