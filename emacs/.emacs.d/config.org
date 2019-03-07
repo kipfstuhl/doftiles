@@ -493,14 +493,14 @@
 
 * E-Mail
   Use mu4e for mails. ~mu~ is just a mail-indexer for fast searches,
-  mails have to be retrieved by another program. Here it is
-  ~offlineimap~.
+  mails have to be retrieved by another program. Here ~offlineimap~ is
+  used.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (require 'mu4e)
 
     (setq mail-user-agent 'mu4e-user-agent)
-
     (setq mu4e-maildir "~/Mail")
+    (setq mu4e-update-interval 300)	     	;seconds to wait for updating
   #+END_SRC
 
   Set the information that is shown in header view mode, that is
@@ -529,13 +529,27 @@
   ~ido-completing-read~ does not integrate with helm.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (add-to-list 'mu4e-view-actions
-      '(ViewInBrowser . mu4e-action-view-in-browser) t)
-
+      '("ViewInBrowser" . mu4e-action-view-in-browser) t)
     (setq mu4e-completing-read-function 'completing-read)
     (setq message-kill-buffer-on-exit t)
-
     (setq mu4e-split-view 'vertical
       mu4e-headers-visible-columns 100)
+    (setq mu4e-view-show-addresses t)
+
+  #+END_SRC
+
+  Fix the mu4e-view-mode. As Outlook generates huge HTMl messages with
+  a lot of not really needed HTML code the HTML/plaintext ratio has to
+  be increased. The default scrolling is not the best.
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    (setq mu4e-view-html-plaintext-ratio-heuristic 10)
+    ;; (setq mu4e-view-scroll-to-next nil)	;not needed anymore
+    (define-key mu4e-view-mode-map (kbd "SPC") #'(lambda ()
+						   (interactive)
+						   (scroll-up 5)))
+    (define-key mu4e-view-mode-map (kbd "S-SPC") #'(lambda ()
+						   (interactive)
+						   (scroll-down 5)))
   #+END_SRC
 
   Use mu4e built in support of contexts, in other mail clients this
@@ -578,7 +592,7 @@
   - ~,~  :: gets evaluated in ` quoted blocks
   - ~,@~ :: the elements of this list get spliced into the expression
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+  #+BEGIN_SRC emacs-lisp :tangle yes
     (setq mu4e-contexts
       `( ,(make-mu4e-context
 	    :name "T-Online"
@@ -598,7 +612,8 @@
 		     (mu4e-get-mail-command  . "offlineimap -a T-Online")
 		     (mu4e-maildir-shortcuts . ,(append
 						  global-maildir-shortcuts
-						  '(("/T-Online/INBOX.Sent"   . ?s)
+						  '( ("/T-Online/INBOX"        . ?i)
+						     ("/T-Online/INBOX.Sent"   . ?s)
 						     ("/T-Online/INBOX.Drafts" . ?e)
 						     ("/T-Online/INBOX.Trash"  . ?m))))))
 	 ,(make-mu4e-context
@@ -621,10 +636,10 @@
 		     (mu4e-get-mail-command  . "offlineimap -a DLRG-Jugend-Bayern")
 		     (mu4e-maildir-shortcuts . ,(append
 						  global-maildir-shortcuts
-						  '(("/DLRG-J-B/INBOX.Sent"   . ?s)
+						  '( ("/DLRG-J-B/INBOX"        . ?i)
+						     ("/DLRG-J-B/INBOX.Sent"   . ?s)
 						     ("/DLRG-J-B/INBOX.Drafts" . ?e)
 						     ("/DLRG-J-B/INBOX.Trash"  . ?m))))))))
-
   #+END_SRC
 
   With the contexts defined the list of own mail addresses can be
