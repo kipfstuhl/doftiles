@@ -609,14 +609,14 @@
    display the URL. This is useful in many situations, and important if
    you don't exactly know whether the link is malicious or not.
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (defun my-mu4e-view-display-url (&optional multi)
-       (interactive "P")
+     (defun my-mu4e-view-display-url ()
+       (interactive)
        (mu4e~view-handle-single-url "URL to display"
 	 (lambda (url)
 	   (mu4e-message url))))
      (define-key mu4e-view-mode-map (kbd "l") 'my-mu4e-view-display-url)
    #+END_SRC
-  
+
    Show all the addresses, not just the display names. Often funny with
    spam mails.
    #+BEGIN_SRC emacs-lisp :tangle yes
