@@ -62,123 +62,174 @@ Without ugly boxes but with Magit.")
    )
   
   (custom-theme-set-faces
-   'tango-dark-new
-   ;; Ensure sufficient contrast on low-color terminals.
-   `(default ((((class color) (min-colors 4096))
-	       (:foreground ,alum-3 :background ,alum-6))
-	      (((class color) (min-colors 256))
-	       (:foreground ,alum-1 :background "#222"))
-	      (,class
-	       (:foreground ,alum-1 :background "black"))))
-   `(cursor ((,class (:background ,butter-3))))
-   ;; Highlighting faces
-   ;; `(fringe ((,class (:background ,alum-7))))
-   `(fringe ((,class (:background ,alum-6))))
-   `(highlight ((,class (:foreground ,alum-6 :background ,butter-2))))
-   `(region ((,class (:background ,alum-5))))
-   `(secondary-selection ((,class (:background ,blue-3))))
-   `(isearch ((,class (:foreground ,alum-1 :background ,orange-3))))
-   `(lazy-highlight ((,class (:background ,choc-3))))
-   `(trailing-whitespace ((,class (:background ,red-3))))
-   `(shadow ((,class (:foreground ,alum-4))))
-   ;; Mode line faces
-   `(mode-line ((,class
-		 (:background ,alum-4 :foreground ,alum-7))))
-   `(mode-line-inactive ((,class
-			  (:background ,alum-5 :foreground ,alum-3))))
-   `(compilation-mode-line-fail ((,class (:foreground ,red-3))))
-   `(compilation-mode-line-run  ((,class (:foreground ,orange-3))))
-   `(compilation-mode-line-exit ((,class (:foreground ,cham-3))))
-   ;; Escape and prompt faces
-   `(minibuffer-prompt ((,class (:foreground ,cham-2))))
-   `(escape-glyph ((,class (:foreground ,butter-3))))
-   `(error ((,class (:foreground ,red-0))))
-   `(warning ((,class (:foreground ,orange-1))))
-   `(success ((,class (:foreground ,cham-1))))
-   ;; Font lock faces
-   `(font-lock-builtin-face ((,class (:foreground ,plum-1))))
-   `(font-lock-comment-face ((,class (:foreground ,cham-3))))
-   `(font-lock-constant-face ((,class (:foreground ,plum-0))))
-   `(font-lock-function-name-face ((,class (:foreground ,butter-3))))
-   `(font-lock-keyword-face ((,class (:foreground ,cham-2))))
-   `(font-lock-string-face ((,class (:foreground ,choc-2))))
-   `(font-lock-type-face ((,class (:foreground ,blue-1))))
-   `(font-lock-variable-name-face ((,class (:foreground ,orange-2))))
-   ;; Button and link faces
-   `(link ((,class (:underline t :foreground ,blue-1))))
-   `(link-visited ((,class (:underline t :foreground ,blue-2))))
-   ;; Gnus faces
-   `(gnus-group-news-1 ((,class (:foreground ,plum-1))))
-   `(gnus-group-news-1-low ((,class (:foreground ,plum-2))))
-   `(gnus-group-news-2 ((,class (:foreground ,blue-1))))
-   `(gnus-group-news-2-low ((,class (:foreground ,blue-2))))
-   `(gnus-group-news-3 ((,class (:foreground ,cham-1))))
-   `(gnus-group-news-3-low ((,class (:foreground ,cham-2))))
-   `(gnus-group-news-4 ((,class (:foreground ,plum-0))))
-   `(gnus-group-news-4-low ((,class (:foreground ,choc-2))))
-   `(gnus-group-news-5 ((,class (:foreground ,orange-1))))
-   `(gnus-group-news-5-low ((,class (:foreground ,orange-2))))
-   `(gnus-group-news-low ((,class (:foreground ,butter-2))))
-   `(gnus-group-mail-1 ((,class (:foreground ,plum-1))))
-   `(gnus-group-mail-1-low ((,class (:foreground ,plum-2))))
-   `(gnus-group-mail-2 ((,class (:foreground ,blue-1))))
-   `(gnus-group-mail-2-low ((,class (:foreground ,blue-2))))
-   `(gnus-group-mail-3 ((,class (:foreground ,cham-1))))
-   `(gnus-group-mail-3-low ((,class (:foreground ,cham-2))))
-   `(gnus-group-mail-low ((,class (:foreground ,butter-2))))
-   `(gnus-header-content ((,class (:weight normal :foreground ,butter-3))))
-   `(gnus-header-from ((,class (:foreground ,butter-2))))
-   `(gnus-header-subject ((,class (:foreground ,cham-1))))
-   `(gnus-header-name ((,class (:foreground ,blue-1))))
-   `(gnus-header-newsgroups ((,class (:foreground ,choc-2))))
-   ;; Message faces
-   `(message-header-name ((,class (:foreground ,blue-1))))
-   `(message-header-cc ((,class (:foreground ,butter-3))))
-   `(message-header-other ((,class (:foreground ,choc-2))))
-   `(message-header-subject ((,class (:foreground ,cham-1))))
-   `(message-header-to ((,class (:foreground ,butter-2))))
-   `(message-cited-text ((,class (:foreground ,cham-1))))
-   `(message-separator ((,class (:foreground ,plum-1))))
-   ;; SMerge faces
-   `(smerge-refined-change ((,class (:background ,blue-3))))
-   ;; Ediff faces
-   `(ediff-current-diff-A ((,class (:background ,alum-5))))
-   `(ediff-fine-diff-A ((,class (:background ,blue-3))))
-   `(ediff-even-diff-A ((,class (:background ,alum-5.5))))
-   `(ediff-odd-diff-A ((,class (:background ,alum-5.5))))
-   `(ediff-current-diff-B ((,class (:background ,alum-5))))
-   `(ediff-fine-diff-B ((,class (:background ,choc-3))))
-   `(ediff-even-diff-B ((,class (:background ,alum-5.5))))
-   `(ediff-odd-diff-B ((,class (:background ,alum-5.5))))
-   ;; Flyspell faces
-   `(flyspell-duplicate ((,class (:underline ,orange-1))))
-   `(flyspell-incorrect ((,class (:underline ,red-1))))
-   ;; Semantic faces
-   `(semantic-decoration-on-includes ((,class (:underline ,alum-4))))
-   `(semantic-decoration-on-private-members-face
-     ((,class (:background ,plum-3))))
-   `(semantic-decoration-on-protected-members-face
-     ((,class (:background ,choc-3))))
-   `(semantic-decoration-on-unknown-includes
-     ((,class (:background ,red-3))))
-   `(semantic-decoration-on-unparsed-includes
-     ((,class (:background ,alum-5.5))))
-   `(semantic-tag-boundary-face ((,class (:overline ,blue-1))))
-   `(semantic-unmatched-syntax-face ((,class (:underline ,red-1))))
-   `(semantic-highlight-func-current-tag-face
-     ((,class (:background ,alum-5.5))))
-   ;; Magit faces
-   `(magit-section-highlight ((,class (:background ,alum-5.5))))
-   ;; term colors
-   `(term-color-black ((,class (:foreground ,alum-7))))
-   `(term-color-red ((,class (:foreground ,red-0))))
-   `(term-color-green ((,class (:foreground ,cham-2))))
-   `(term-color-yellow ((,class (:foreground ,butter-2))))
-   `(term-color-blue ((,class (:foreground ,blue-0))))
-   `(term-color-magenta ((,class (:foreground ,plum-1))))
-   `(term-color-cyan ((,class (:foreground ,blue-1))))
-   `(term-color-white ((,class (:foreground ,alum-3))))
-   )
+    'tango-dark-new
+    ;; Ensure sufficient contrast on low-color terminals.
+    `(default ((((class color) (min-colors 4096))
+		 (:foreground ,alum-3 :background ,alum-6))
+		(((class color) (min-colors 256))
+		  (:foreground ,alum-1 :background "#222"))
+		(,class
+		  (:foreground ,alum-1 :background "black"))))
+    `(cursor ((,class (:background ,butter-3))))
+    ;; Highlighting faces
+    ;; `(fringe ((,class (:background ,alum-7))))
+    `(fringe ((,class (:background ,alum-6))))
+    `(highlight ((,class (:foreground ,alum-6 :background ,butter-3))))
+    `(region ((,class (:background ,alum-5))))
+    `(secondary-selection ((,class (:background ,blue-3))))
+    `(isearch ((,class (:foreground ,alum-1 :background ,orange-3))))
+    `(lazy-highlight ((,class (:background ,choc-3))))
+    `(trailing-whitespace ((,class (:background ,red-3))))
+    `(shadow ((,class (:foreground ,alum-4))))
+    ;; Mode line faces
+    `(mode-line ((,class
+		   (:background ,alum-4 :foreground ,alum-7))))
+    `(mode-line-inactive ((,class
+			    (:background ,alum-5 :foreground ,alum-3))))
+    `(compilation-mode-line-fail ((,class (:foreground ,red-3))))
+    `(compilation-mode-line-run  ((,class (:foreground ,orange-3))))
+    `(compilation-mode-line-exit ((,class (:foreground ,cham-3))))
+    ;; Escape and prompt faces
+    `(minibuffer-prompt ((,class (:foreground ,cham-2))))
+    `(escape-glyph ((,class (:foreground ,butter-3))))
+    `(error ((,class (:foreground ,red-0))))
+    `(warning ((,class (:foreground ,orange-1))))
+    `(success ((,class (:foreground ,cham-1))))
+    ;; Font lock faces
+    `(font-lock-builtin-face ((,class (:foreground ,plum-1))))
+    `(font-lock-comment-face ((,class (:foreground ,cham-3))))
+    `(font-lock-constant-face ((,class (:foreground ,plum-0))))
+    `(font-lock-function-name-face ((,class (:foreground ,butter-3))))
+    `(font-lock-keyword-face ((,class (:foreground ,cham-2))))
+    `(font-lock-string-face ((,class (:foreground ,choc-2))))
+    `(font-lock-type-face ((,class (:foreground ,blue-1))))
+    `(font-lock-variable-name-face ((,class (:foreground ,orange-2))))
+    ;; mu4e faces
+    `(mu4e-title-face                ((,class (:weight bold))))
+    `(mu4e-unread-face               ((,class (:foreground ,butter-3
+						:weight bold))))
+    `(mu4e-moved-face                ((,class (:inherit shadow))))
+    `(mu4e-trashed-face             ((,class (:inherit shadow
+						:strike-through t))))
+    `(mu4e-draft-face                ((,class (:inherit font-lock-string-face))))
+    `(mu4e-flagged-face              ((,class (:foreground ,red-3 :weight bold))))
+    `(mu4e-replied-face              ((,class (:inherit shadow))))
+    `(mu4e-forward-face              ((,class (:inherit shadow))))
+    `(mu4e-header-face               ((,class (:inherit default))))
+    `(mu4e-header-title-face         ((,class (:inherit default))))
+    `(mu4e-header-highlight-face     ((,class (:background ,alum-5))))
+    `(mu4e-header-marks-face         ((,class (:inherit shadow))))
+    `(mu4e-header-key-face           ((,class (:inherit font-lock-builtin-face))))
+    `(mu4e-header-value-face         ((,class (:inherit default))))
+    `(mu4e-special-header-value-face ((,class (:inherit default))))
+    `(mu4e-contact-face              ((,class (:inherit default :weight bold))))
+    `(mu4e-highlight-face            ((,class (:inherit default :bold t))))
+    `(mu4e-context-face              ((,class (:foreground ,butter-3 :bold t))))
+    `(mu4e-modeline-face             ((,class (:inherit mode-line))))
+    `(mu4e-compose-separator-face    ((,class (:inherit shadow))))
+    `(mu4e-cited-1-face              ((,class (:inherit font-lock-comment-face))))
+    `(mu4e-cited-2-face              ((,class (:inherit font-lock-comment-face))))
+    `(mu4e-cited-3-face              ((,class (:inherit font-lock-comment-face))))
+    `(mu4e-cited-4-face              ((,class (:inherit font-lock-comment-face))))
+    `(mu4e-cited-5-face              ((,class (:inherit font-lock-comment-face))))
+    `(mu4e-cited-6-face              ((,class (:inherit font-lock-comment-face))))
+    `(mu4e-cited-7-face              ((,class (:inherit font-lock-comment-face))))
+    `(mu4e-region-code               ((,class (:inherit mu4e-header-highlight-face))))
+    `(mu4e-attach-number-face        ((,class (:inherit font-lock-string-face :bold nil))))
+    ;; Helm
+    `(helm-source-header             ((,class (:inherit default :weight bold
+						:height 1.3))))
+    `(helm-selection                 ((,class (:inherit highlight))))
+    `(helm-match                     ((,class (:inherit lazy-highlight))))
+    `(helm-action                    ((,class ())))
+    `(helm-candidate-number          ((,class (:inherit mode-line))))
+    `(helm-header-line-left-margin   ((,class (:inherit highlight))))
+    `(helm-swoop-target-word-face    ((,class (:inherit lazy-highlight))))
+    `(helm-swoop-target-line-face    ((,class (:inherit highlight))))
+    `(helm-swoop-target-line-block-face
+       ((,class (:inherit highlight))))
+    ;; Button and link faces
+    `(link ((,class (:underline t :foreground ,blue-1))))
+    `(link-visited ((,class (:underline t :foreground ,blue-2))))
+    ;; Gnus faces
+    `(gnus-group-news-1 ((,class (:foreground ,plum-1))))
+    `(gnus-group-news-1-low ((,class (:foreground ,plum-2))))
+    `(gnus-group-news-2 ((,class (:foreground ,blue-1))))
+    `(gnus-group-news-2-low ((,class (:foreground ,blue-2))))
+    `(gnus-group-news-3 ((,class (:foreground ,cham-1))))
+    `(gnus-group-news-3-low ((,class (:foreground ,cham-2))))
+    `(gnus-group-news-4 ((,class (:foreground ,plum-0))))
+    `(gnus-group-news-4-low ((,class (:foreground ,choc-2))))
+    `(gnus-group-news-5 ((,class (:foreground ,orange-1))))
+    `(gnus-group-news-5-low ((,class (:foreground ,orange-2))))
+    `(gnus-group-news-low ((,class (:foreground ,butter-2))))
+    `(gnus-group-mail-1 ((,class (:foreground ,plum-1))))
+    `(gnus-group-mail-1-low ((,class (:foreground ,plum-2))))
+    `(gnus-group-mail-2 ((,class (:foreground ,blue-1))))
+    `(gnus-group-mail-2-low ((,class (:foreground ,blue-2))))
+    `(gnus-group-mail-3 ((,class (:foreground ,cham-1))))
+    `(gnus-group-mail-3-low ((,class (:foreground ,cham-2))))
+    `(gnus-group-mail-low ((,class (:foreground ,butter-2))))
+    `(gnus-header-content ((,class (:weight normal :foreground ,butter-3))))
+    `(gnus-header-from ((,class (:foreground ,butter-2))))
+    `(gnus-header-subject ((,class (:foreground ,cham-1))))
+    `(gnus-header-name ((,class (:foreground ,blue-1))))
+    `(gnus-header-newsgroups ((,class (:foreground ,choc-2))))
+    ;; Message faces
+    `(message-header-name ((,class (:foreground ,blue-1))))
+    `(message-header-cc ((,class (:foreground ,butter-3))))
+    `(message-header-other ((,class (:foreground ,choc-2))))
+    `(message-header-subject ((,class (:foreground ,cham-1))))
+    `(message-header-to ((,class (:foreground ,butter-2))))
+    `(message-cited-text ((,class (:foreground ,cham-1))))
+    `(message-separator ((,class (:foreground ,plum-1))))
+    ;; SMerge faces
+    `(smerge-refined-change ((,class (:background ,blue-3))))
+    ;; Ediff faces
+    `(ediff-current-diff-A ((,class (:background ,alum-5))))
+    `(ediff-fine-diff-A ((,class (:background ,blue-3))))
+    `(ediff-even-diff-A ((,class (:background ,alum-5.5))))
+    `(ediff-odd-diff-A ((,class (:background ,alum-5.5))))
+    `(ediff-current-diff-B ((,class (:background ,alum-5))))
+    `(ediff-fine-diff-B ((,class (:background ,choc-3))))
+    `(ediff-even-diff-B ((,class (:background ,alum-5.5))))
+    `(ediff-odd-diff-B ((,class (:background ,alum-5.5))))
+    ;; Flyspell faces
+    `(flyspell-duplicate ((,class (:underline ,orange-1))))
+    `(flyspell-incorrect ((,class (:underline ,red-1))))
+    ;; Semantic faces
+    `(semantic-decoration-on-includes ((,class (:underline ,alum-4))))
+    `(semantic-decoration-on-private-members-face
+       ((,class (:background ,plum-3))))
+    `(semantic-decoration-on-protected-members-face
+       ((,class (:background ,choc-3))))
+    `(semantic-decoration-on-unknown-includes
+       ((,class (:background ,red-3))))
+    `(semantic-decoration-on-unparsed-includes
+       ((,class (:background ,alum-5.5))))
+    `(semantic-tag-boundary-face ((,class (:overline ,blue-1))))
+    `(semantic-unmatched-syntax-face ((,class (:underline ,red-1))))
+    `(semantic-highlight-func-current-tag-face
+       ((,class (:background ,alum-5.5))))
+    ;; Magit faces
+    `(magit-section-highlight ((,class (:background ,alum-5.5))))
+    ;; Company
+    `(company-tooltip ((,class (:inherit highlight))))
+    `(company-tooltip-selection ((,class (:inherit lazy-highlight))))
+    `(company-template-field ((,class (:inherit highlight))))
+    `(company-scrollbar-bg ((,class (:background ,butter-2))))
+    `(company-scrollbar-fg ((,class (:background ,red-3))))
+    
+    ;; term colors
+    `(term-color-black ((,class (:foreground ,alum-7))))
+    `(term-color-red ((,class (:foreground ,red-0))))
+    `(term-color-green ((,class (:foreground ,cham-2))))
+    `(term-color-yellow ((,class (:foreground ,butter-2))))
+    `(term-color-blue ((,class (:foreground ,blue-0))))
+    `(term-color-magenta ((,class (:foreground ,plum-1))))
+    `(term-color-cyan ((,class (:foreground ,blue-1))))
+    `(term-color-white ((,class (:foreground ,alum-3))))
+    )
   
   ;; set the variables at beginning for better appearance
   ;; (custom-theme-set-variables
@@ -193,7 +244,7 @@ Without ugly boxes but with Magit.")
   ;; '(fringe-mode (quote (nil . 0)))
   ;; '(inhibit-startup-message t)))
   )
-  
+
 (provide-theme 'tango-dark-new)
 
 ;; Local Variables:
