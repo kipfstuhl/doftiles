@@ -653,7 +653,7 @@
        (let* ((date (decode-time (mu4e-message-field msg :date)))
 	       (month (nth 4 date))
 	       (year (nth 5 date)))
-	 (concat (int-to-string year) "/" (int-to-string month))))
+	 (concat (int-to-string year) "/" (format "%02d" month))))
    #+END_SRC
 
    Now comes the most important part of the mu4e configuration, the
