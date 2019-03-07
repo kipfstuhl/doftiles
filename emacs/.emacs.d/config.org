@@ -684,18 +684,29 @@
 			       (string-match-p "^/T-Online" (mu4e-message-field msg :maildir))
 			       (mu4e-message-contact-field-matches msg
 				 '(:to :cc :from) "jonas.kipfstuhl@t-online.de"))))
-	     :vars `( (user-mail-address      . "jonas.kipfstuhl@t-online.de")
-		      (user-full-name         . "Jonas Kipfstuhl")
-		      (mu4e-sent-folder       . "/T-Online/INBOX.Sent")
-		      (mu4e-drafts-folder     . "/T-Online/INBOX.Drafts")
-		      (mu4e-trash-folder      . "/T-Online/INBOX.Trash")
-		      (mu4e-get-mail-command  . "offlineimap -a T-Online")
-		      (mu4e-maildir-shortcuts . ,(append
-						   global-maildir-shortcuts
-						   '( ("/T-Online/INBOX"        . ?i)
-						      ("/T-Online/INBOX.Sent"   . ?s)
-						      ("/T-Online/INBOX.Drafts" . ?e)
-						      ("/T-Online/INBOX.Trash"  . ?m))))))
+	     :vars `( (user-mail-address           . "jonas.kipfstuhl@t-online.de")
+		      (user-full-name              . "Jonas Kipfstuhl")
+		      (mu4e-sent-folder            . "/T-Online/INBOX.Sent")
+		      (mu4e-drafts-folder          . "/T-Online/INBOX.Drafts")
+		      (mu4e-trash-folder           . "/T-Online/INBOX.Trash")
+		      (mu4e-get-mail-command       . "offlineimap -a T-Online")
+		      (mu4e-query-rewrite-function . (lambda (expr)
+						       ;; try to understand some of the mu find
+						       ;; syntax, at this point nothing is known
+						       (cond
+							 ((string-match-p "\\(^\\|[[:blank:]]\\)maildir:" expr)
+							   expr)
+							 ;; be a bit efficient and don't use regexps
+							 ((string-equal (substring expr 0 2) "g:")
+							   (string-trim-left (substring expr 2 nil)))
+							 (t
+							   (concat  "maildir:/T-Online/ " expr)))))
+		      (mu4e-maildir-shortcuts      . ,(append
+							global-maildir-shortcuts
+							'( ("/T-Online/INBOX"        . ?i)
+							   ("/T-Online/INBOX.Sent"   . ?s)
+							   ("/T-Online/INBOX.Drafts" . ?e)
+							   ("/T-Online/INBOX.Trash"  . ?m))))))
 	  ,(make-mu4e-context
 	     :name "DLRG"
 	     :enter-func (lambda () (mu4e-message "Kontext DLRG"))
@@ -706,20 +717,31 @@
 			       (string-match-p "^/DLRG-J-B" (mu4e-message-field msg :maildir))
 			       (mu4e-message-contact-field-matches msg
 				 '(:to :cc :from) "jonas.kipfstuhl@bayern.dlrg-jugend.de"))))
-	     :vars `( (user-mail-address      . "jonas.kipfstuhl@bayern.dlrg-jugend.de")
-		      (user-full-name         . "Jonas Kipfstuhl")
-		      (mu4e-sent-folder       . "/DLRG-J-B/INBOX.Sent")
-		      (mu4e-drafts-folder     . "/DLRG-J-B/INBOX.Drafts")
-		      (mu4e-trash-folder      . "/DLRG-J-B/INBOX.Trash")
-		      (mu4e-refile-folder     . (lambda (msg)
-						  (concat "/DLRG-J-B/Archiv/" (get-date-directory msg))))
-		      (mu4e-get-mail-command  . "offlineimap -a DLRG-Jugend-Bayern")
-		      (mu4e-maildir-shortcuts . ,(append
-						   global-maildir-shortcuts
-						   '( ("/DLRG-J-B/INBOX"        . ?i)
-						      ("/DLRG-J-B/INBOX.Sent"   . ?s)
-						      ("/DLRG-J-B/INBOX.Drafts" . ?e)
-						      ("/DLRG-J-B/INBOX.Trash"  . ?m))))))))
+	     :vars `( (user-mail-address           . "jonas.kipfstuhl@bayern.dlrg-jugend.de")
+		      (user-full-name              . "Jonas Kipfstuhl")
+		      (mu4e-sent-folder            . "/DLRG-J-B/INBOX.Sent")
+		      (mu4e-drafts-folder          . "/DLRG-J-B/INBOX.Drafts")
+		      (mu4e-trash-folder           . "/DLRG-J-B/INBOX.Trash")
+		      (mu4e-refile-folder          . (lambda (msg)
+						       (concat "/DLRG-J-B/Archiv/" (get-date-directory msg))))
+		      (mu4e-get-mail-command       . "offlineimap -a DLRG-Jugend-Bayern")
+		      (mu4e-query-rewrite-function . (lambda (expr)
+						       ;; try to understand some of the mu find
+						       ;; syntax, at this point nothing is known
+						       (cond
+							 ((string-match-p "\\(^\\|[[:blank:]]\\)maildir:" expr)
+							   expr)
+							 ;; be a bit efficient and don't use regexps
+							 ((string-equal (substring expr 0 2) "g:")
+							   (string-trim-left (substring expr 2 nil)))
+							 (t
+							   (concat "maildir:/DLRG-J-B/ " expr)))))
+		      (mu4e-maildir-shortcuts      . ,(append
+							global-maildir-shortcuts
+							'( ("/DLRG-J-B/INBOX"        . ?i)
+							   ("/DLRG-J-B/INBOX.Sent"   . ?s)
+							   ("/DLRG-J-B/INBOX.Drafts" . ?e)
+							   ("/DLRG-J-B/INBOX.Trash"  . ?m))))))))
    #+END_SRC
 
    With the contexts defined the list of own mail addresses can be
