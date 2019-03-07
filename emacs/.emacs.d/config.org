@@ -105,6 +105,26 @@
      (define-key org-mode-map (kbd "C-c i") 'interleave-mode)
    #+end_src
 
+   Make the code blocks appear nicer. This does not work directly when
+   emacs is started in server mode, so this goes in
+   ~org-mode-hook~. Obviously this changes not much for the user, if
+   org mode is not turned on the variables for displaying org mode
+   elements are not the most useful ones.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (require 'color)
+     (require 'faces)
+     (require 'org)
+
+     (defun org-faces-setup ()
+       ;; only change it when the display is graphic
+       (when (display-graphic-p nil)
+	 (set-face-attribute 'org-block nil :background
+	   (color-lighten-name
+	     (face-attribute 'default :background) 2))))
+     (add-hook 'org-mode-hook 'org-faces-setup)
+     (setq org-src-fontify-natively t)
+   #+END_SRC
+
 ** PDF-Tools
    This is a better replacement for Doc-View Mode.
    #+begin_src emacs-lisp
@@ -567,7 +587,6 @@
 	  (:recipnum        .   2)
 	  (:thread-subject  . nil)))
    #+END_SRC
-
 
 ** Viewing Mails
    Fix the mu4e-view-mode. As Outlook generates huge HTML messages with
