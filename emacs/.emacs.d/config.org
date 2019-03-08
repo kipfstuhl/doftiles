@@ -560,6 +560,7 @@
   #+BEGIN_SRC emacs-lisp :tangle yes
     (setq mu4e-completing-read-function 'completing-read)
     (setq message-kill-buffer-on-exit t)
+    (setq message-send-mail-function 'smtpmail-send-it)
     (setq mu4e-split-view 'vertical
       mu4e-headers-visible-columns 100)
   #+END_SRC
@@ -585,7 +586,7 @@
 	  (:flags           .   6)
 	  (:from-or-to      .  30)
 	  (:recipnum        .   2)
-	  (:thread-subject  . nil)))
+	  (:subject         . nil)))
    #+END_SRC
 
 ** Viewing Mails
@@ -646,15 +647,44 @@
      (defun get-date-directory (msg)
        "Takes a message plist MSG and returns string yyyy/m
 
-     The message MSG is expected to be in the format of mu4e
-     messages. It extracts the Date and returns a string suitable for
-     sorting mails into folders with respect to the month they were
-     sent."
+The message MSG is expected to be in the format of mu4e
+messages. It extracts the Date and returns a string suitable for
+sorting mails into folders with respect to the month they were
+sent."
        (let* ((date (decode-time (mu4e-message-field msg :date)))
 	       (month (nth 4 date))
 	       (year (nth 5 date)))
 	 (concat (int-to-string year) "/" (format "%02d" month))))
    #+END_SRC
+
+   For sending mail use smtpmail.  These variables here are always the
+   same, so there is no point in setting them for each account.  The
+   SMTP standard suggests to use something like an IP address, so it
+   try to get one that may be used for sending the mail (it is not as
+   easy as it seems at a firs glance).
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (setq smtpmail-stream-type 'ssl)
+
+     (defun get-connected-network-interface ()
+       "Returns a alist with one connected network interface.
+
+If only the loopback device is registered this is returned.  The
+return value is an alist like `network-interface-list' return
+values.  The first value, that is not the loopback device is
+returned; this may not be the interface used for networking."
+       (let ((int-list (network-interface-list)))
+	 (if (= 1 (seq-length int-list))
+	   (car int-list)
+	   (car (assq-delete-all '"lo" int-list)))))
+
+
+     (setq smtpmail-local-domain
+       (concat "["
+	 (format-network-address
+	   (seq-take (cdr (get-connected-network-interface)) 4))
+	 "]"))
+   #+END_SRC
+
 
    Now comes the most important part of the mu4e configuration, the
    contexts. Many variables used by mu4e can be set via the context
@@ -706,7 +736,11 @@
 							'( ("/T-Online/INBOX"        . ?i)
 							   ("/T-Online/INBOX.Sent"   . ?s)
 							   ("/T-Online/INBOX.Drafts" . ?e)
-							   ("/T-Online/INBOX.Trash"  . ?m))))))
+							   ("/T-Online/INBOX.Trash"  . ?m))))
+		      (smtpmail-smtp-server        . "securesmtp.t-online.de")
+		      (smtpmail-smtp-service       . 465)
+		      (smtpmail-smtp-user          . "jonas.kipfstuhl@t-online.de")
+		      (smtpmail-mail-address       . "jonas.kipfstuhl@t-online.de")))
 	  ,(make-mu4e-context
 	     :name "DLRG"
 	     :enter-func (lambda () (mu4e-message "Kontext DLRG"))
@@ -741,7 +775,13 @@
 							'( ("/DLRG-J-B/INBOX"        . ?i)
 							   ("/DLRG-J-B/INBOX.Sent"   . ?s)
 							   ("/DLRG-J-B/INBOX.Drafts" . ?e)
-							   ("/DLRG-J-B/INBOX.Trash"  . ?m))))))))
+							   ("/DLRG-J-B/INBOX.Trash"  . ?m))))
+		      (smtpmail-smtp-server        . "mail.dlrg.de")
+		      (smtpmail-smtp-service       . 465)
+		      (smtpmail-smtp-user          . "j-ljs.bayern-jonas.kipfstuhl")
+		      (smtpmail-mail-address       . "jonas.kipfstuhl@bayern.dlrg-jugend.de")
+		      ;; (smtpmail-local-domain       . "bayern.dlrg-jugend.de")
+		      ))))
    #+END_SRC
 
    With the contexts defined the list of own mail addresses can be
@@ -757,14 +797,14 @@
 	   mu4e-contexts)))
    #+END_SRC
 
-   smtpmail can take a very long time to send the mails, specially when
-   there are large attachments. To prevent this lag use asynchronous
-   functions. There are some issues with this, some users even report
-   silent failures, so maybe you want to send your messages using
-   another solution.
+   smtpmail can take a very long time to send the mails, specially
+   when there are large attachments. To prevent this lag use
+   asynchronous functions. There are some issues with this, some users
+   even report silent failures, so maybe you want to send your
+   messages using another solution.
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (require 'smtpmail-async)
-     (setq send-mail-function 'async-smtpmail-send-it
-       message-send-mail-function 'async-smtpmail-send-it)
+     ;; (require 'smtpmail-async)
+     ;; (setq send-mail-function 'async-smtpmail-send-it
+     ;;   message-send-mail-function 'async-smtpmail-send-it)
    #+END_SRC
 
