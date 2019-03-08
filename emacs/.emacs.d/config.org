@@ -702,6 +702,17 @@ returned; this may not be the interface used for networking."
    - ~,~  :: gets evaluated in ` quoted blocks
    - ~,@~ :: the elements of this list get spliced into the expression
 
+   As ~mu4e-context-switch~ sets the variables ~mapc~ ing ~set~ over
+   the list, it seems a good idea to use a context-local maildir
+   prefix. This could then get ~concat~ ed with the individual maildir
+   pathes. Unfortunately the context data is stored in a Lisp struct,
+   this does not allow for functions. This means the value must be
+   fully expanded to something constant when the variable
+   ~mu4e-contexts~ is defined. The use of a macro or evaluating
+   functions at the time the construction macro is expanded does not
+   work either. This approach would use the same value for all
+   contexts.
+
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq mu4e-contexts
        `( ,(make-mu4e-context
