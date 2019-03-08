@@ -721,10 +721,11 @@ returned; this may not be the interface used for networking."
 	     :leave-func (lambda () (mu4e-message "Verlasse T-Online"))
 	     :match-func (lambda (msg)
 			   (when msg
-			     (or
-			       (string-match-p "^/T-Online" (mu4e-message-field msg :maildir))
-			       (mu4e-message-contact-field-matches msg
-				 '(:to :cc :from) "jonas.kipfstuhl@t-online.de"))))
+			     (string-match-p "^/T-Online" (mu4e-message-field msg :maildir))))
+			     ;; (or
+			     ;;   (string-match-p "^/T-Online" (mu4e-message-field msg :maildir))
+			     ;;   (mu4e-message-contact-field-matches msg
+			     ;;     '(:to :cc :from) "jonas.kipfstuhl@t-online.de"))))
 	     :vars `( (user-mail-address           . "jonas.kipfstuhl@t-online.de")
 		      (user-full-name              . "Jonas Kipfstuhl")
 		      (mu4e-sent-folder            . "/T-Online/INBOX.Sent")
@@ -758,10 +759,11 @@ returned; this may not be the interface used for networking."
 	     :leave-func (lambda () (mu4e-message "Verlasse DLRG"))
 	     :match-func (lambda (msg)
 			   (when msg
-			     (or
-			       (string-match-p "^/DLRG-J-B" (mu4e-message-field msg :maildir))
-			       (mu4e-message-contact-field-matches msg
-				 '(:to :cc :from) "jonas.kipfstuhl@bayern.dlrg-jugend.de"))))
+			     (string-match-p "^/DLRG-J-B" (mu4e-message-field msg :maildir))))
+			     ;; (or
+			     ;;   (string-match-p "^/DLRG-J-B" (mu4e-message-field msg :maildir))
+			     ;;   (mu4e-message-contact-field-matches msg
+			     ;;     '(:to :cc :from) "jonas.kipfstuhl@bayern.dlrg-jugend.de"))))
 	     :vars `( (user-mail-address           . "jonas.kipfstuhl@bayern.dlrg-jugend.de")
 		      (user-full-name              . "Jonas Kipfstuhl")
 		      (mu4e-sent-folder            . "/DLRG-J-B/INBOX.Sent")
