@@ -8,3 +8,5 @@ git/.gitconfig
 
 # Emacs setup file, generated from the .org
 emacs/.emacs.d/config.el
+# HTML version of the setup file, auto generated
+emacs/.emacs.d/config.html
