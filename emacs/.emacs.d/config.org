@@ -81,35 +81,36 @@
    #+end_src
 
 ** Org Mode
-   #+begin_src emacs-lisp
-     (require 'org)
-     (global-set-key (kbd "C-c l") 'org-store-link)
-     (global-set-key (kbd "C-c a") 'org-agenda)
-     ;;(global-set-key (kbd "C-c c") 'org-capture)
-     (global-set-key (kbd "C-c b") 'org-switchb)
-   #+end_src
+*** General Org Settings
+    #+begin_src emacs-lisp
+      (require 'org)
+      (global-set-key (kbd "C-c l") 'org-store-link)
+      (global-set-key (kbd "C-c a") 'org-agenda)
+      ;;(global-set-key (kbd "C-c c") 'org-capture)
+      (global-set-key (kbd "C-c b") 'org-switchb)
+    #+end_src
 
-   Fix some keybindings for Org mode, my Lenovo Notebook does not like
-   shift with other modifiers.
-   #+begin_src emacs-lisp
-     (define-key org-mode-map (kbd "<C-M-return>") 'org-insert-todo-heading)
-     (define-key org-mode-map (kbd "<C-M-left>") 'org-table-delete-column)
-     (define-key org-mode-map (kbd "<C-M-right>") 'org-table-insert-column)
-     (define-key org-mode-map (kbd "<C-M-up>") 'org-table-kill-row)
-     (define-key org-mode-map (kbd "<C-M-down>") 'org-table-insert-row)
-   #+end_src
+    Fix some keybindings for Org mode, my Lenovo Notebook does not like
+    shift with other modifiers.
+    #+begin_src emacs-lisp
+      (define-key org-mode-map (kbd "<C-M-return>") 'org-insert-todo-heading)
+      (define-key org-mode-map (kbd "<C-M-left>") 'org-table-delete-column)
+      (define-key org-mode-map (kbd "<C-M-right>") 'org-table-insert-column)
+      (define-key org-mode-map (kbd "<C-M-up>") 'org-table-kill-row)
+      (define-key org-mode-map (kbd "<C-M-down>") 'org-table-insert-row)
+    #+end_src
    
-   Add better support for interleave mode. This mode is very useful
-   for making annotations and notes for PDF files.
-   #+begin_src emacs-lisp
-     (define-key org-mode-map (kbd "C-c i") 'interleave-mode)
-   #+end_src
+    Add better support for interleave mode. This mode is very useful
+    for making annotations and notes for PDF files.
+    #+begin_src emacs-lisp
+      (define-key org-mode-map (kbd "C-c i") 'interleave-mode)
+    #+end_src
 
-   Enable auto fill mode, this wraps lines when they are too long
-   automatically.
-   #+BEGIN_SRC emacs-lisp :tangle yes
-     (add-hook 'org-mode-hook 'auto-fill-mode)
-   #+END_SRC
+    Enable auto fill mode, this wraps lines when they are too long
+    automatically.
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (add-hook 'org-mode-hook 'auto-fill-mode)
+    #+END_SRC
 
 *** Handling Links
     
