@@ -125,6 +125,70 @@
      (setq org-src-fontify-natively t)
    #+END_SRC
 
+
+*** Handling Links
+    
+    Make file links behave in a sensible way. This allows for page
+    numbers in links to PDF files. These will get passed to a function
+    that uses an external PDF reader to open the files at this page.
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (setq org-file-apps
+	`( ("\\.pdf::\\([0-9]\\)\\'" .
+	     ,(lambda (file path)
+		(let ((page
+			(substring path
+			  (+ (string-match "::\\([0-9]+\\)\\'" path)
+			    2))))
+		  (open-file file page))))
+	   ("\\.pdf\\'" . ,(lambda (file path)
+			     (open-file file)))
+	   ("\\.docx?\\'" . "soffice %s")
+	   ("\\.xlsx?\\'" . "soffice %s")
+	   ("odt" . "soffice %s")
+	   ("ods" . "soffice %s")))
+    #+END_SRC
+
+    Here is the helper function that does the work for openning files
+    at a specified page in zathura.
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (defun open-file (file &optional page)
+	"opens the file FILE  or jumps to the page PAGE if already opened
+
+      FILE gives the filename or path
+      PAGE is the page number, starting at page 1 (D-Bus interface is 0 based)
+
+      This function opens the file at the specified page or jumps to
+      this page. If no page number is given the file is opened without
+      anything, this should integrate in the desktop environment, or if
+      file is open nothing is done.
+      "
+	(let ((pgrep-out (with-output-to-string
+			   (call-process "pgrep" nil standard-output nil
+			     "-af"
+			     (shell-quote-wildcard-pattern
+			       (concat "zathura.*" file ".*")))))
+	       (page-num (if (stringp page)
+			   (string-to-number page)
+			   page)))
+	  (if (seq-empty-p pgrep-out)
+	    (if page
+	      (start-process "reader" nil "zathura"
+		"--fork"
+		"-P"
+		(number-to-string page-num)
+		file)
+	      (start-process "reader" nil "zathura"
+		"--fork"
+		file))
+	    (when page
+	      (dbus-call-method-asynchronously
+		:session
+		(concat "org.pwmt.zathura.PID-" (car (split-string pgrep-out)))
+		"/org/pwmt/zathura"
+		;; in the D-Bus interface page numbers start at 0
+		"org.pwmt.zathura" "GotoPage" nil (1- page-num))))))
+    #+END_SRC
+
 ** PDF-Tools
    This is a better replacement for Doc-View Mode.
    #+begin_src emacs-lisp
