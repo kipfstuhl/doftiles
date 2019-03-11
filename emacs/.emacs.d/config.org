@@ -105,26 +105,11 @@
      (define-key org-mode-map (kbd "C-c i") 'interleave-mode)
    #+end_src
 
-   Make the code blocks appear nicer. This does not work directly when
-   emacs is started in server mode, so this goes in
-   ~org-mode-hook~. Obviously this changes not much for the user, if
-   org mode is not turned on the variables for displaying org mode
-   elements are not the most useful ones.
+   Enable auto fill mode, this wraps lines when they are too long
+   automatically.
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (require 'color)
-     (require 'faces)
-     (require 'org)
-
-     (defun org-faces-setup ()
-       ;; only change it when the display is graphic
-       (when (display-graphic-p nil)
-	 (set-face-attribute 'org-block nil :background
-	   (color-lighten-name
-	     (face-attribute 'default :background) 2))))
-     (add-hook 'org-mode-hook 'org-faces-setup)
-     (setq org-src-fontify-natively t)
+     (add-hook 'org-mode-hook 'auto-fill-mode)
    #+END_SRC
-
 
 *** Handling Links
     
@@ -187,6 +172,35 @@
 		"/org/pwmt/zathura"
 		;; in the D-Bus interface page numbers start at 0
 		"org.pwmt.zathura" "GotoPage" nil (1- page-num))))))
+    #+END_SRC
+
+*** Code in Org Mode
+    Make the code blocks appear nicer. This does not work directly when
+    emacs is started in server mode, so this goes in
+    ~org-mode-hook~. Obviously this changes not much for the user, if
+    org mode is not turned on the variables for displaying org mode
+    elements are not the most useful ones.
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (require 'color)
+      (require 'faces)
+      (require 'org)
+
+      (defun org-faces-setup ()
+	;; only change it when the display is graphic
+	(when (display-graphic-p nil)
+	  (set-face-attribute 'org-block nil :background
+	    (color-lighten-name
+	      (face-attribute 'default :background) 2))))
+      (add-hook 'org-mode-hook 'org-faces-setup)
+      (setq org-src-fontify-natively t)
+    #+END_SRC
+
+    Enalbe yasnippet minor mode in Org. This allows for *fast* creation
+    of code blocks. For better code block indentig set the tab to
+    behave good.
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (add-hook 'org-mode-hook 'yas-minor-mode)
+      (setq org-src-tab-acts-natively t)
     #+END_SRC
 
 ** PDF-Tools
@@ -619,14 +633,18 @@
   #+END_SRC
 
   Here some general settings. These are just for convenience and don't
-  do much. ~completing-read~ is used as the standard
+  do much. ~completing-read~ is used, as the standard
   ~ido-completing-read~ does not integrate with helm.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (setq mu4e-completing-read-function 'completing-read)
     (setq message-kill-buffer-on-exit t)
     (setq message-send-mail-function 'smtpmail-send-it)
+  #+END_SRC
+
+  #+BEGIN_SRC emacs-lisp :tangle yes
     (setq mu4e-split-view 'vertical
       mu4e-headers-visible-columns 100)
+    (setq mu4e-headers-include-related nil)
   #+END_SRC
 
 ** Listing Mails
@@ -766,17 +784,6 @@ returned; this may not be the interface used for networking."
    - ~,~  :: gets evaluated in ` quoted blocks
    - ~,@~ :: the elements of this list get spliced into the expression
 
-   As ~mu4e-context-switch~ sets the variables ~mapc~ ing ~set~ over
-   the list, it seems a good idea to use a context-local maildir
-   prefix. This could then get ~concat~ ed with the individual maildir
-   pathes. Unfortunately the context data is stored in a Lisp struct,
-   this does not allow for functions. This means the value must be
-   fully expanded to something constant when the variable
-   ~mu4e-contexts~ is defined. The use of a macro or evaluating
-   functions at the time the construction macro is expanded does not
-   work either. This approach would use the same value for all
-   contexts.
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq mu4e-contexts
        `( ,(make-mu4e-context
@@ -860,6 +867,17 @@ returned; this may not be the interface used for networking."
 		      ;; (smtpmail-local-domain       . "bayern.dlrg-jugend.de")
 		      ))))
    #+END_SRC
+
+   As ~mu4e-context-switch~ sets the variables ~mapc~ ing ~set~ over
+   the list, it seems a good idea to use a context-local maildir
+   prefix. This could then get ~concat~ ed with the individual maildir
+   pathes. Unfortunately the context data is stored in a Lisp struct,
+   this does not allow for functions. This means the value must be
+   fully expanded to something constant when the variable
+   ~mu4e-contexts~ is defined. The use of a macro or evaluating
+   functions at the time the construction macro is expanded does not
+   work either. This approach would use the same value for all
+   contexts.
 
    With the contexts defined the list of own mail addresses can be
    generated from the mail addresses in all contexts. If further
