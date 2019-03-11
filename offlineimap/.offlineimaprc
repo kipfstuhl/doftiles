@@ -56,7 +56,7 @@ createfolders = False
 #
 # Default is yes.
 #
-expunge = no
+expunge = yes
 sync_deletes = no
 retrycount = 10
 
@@ -94,6 +94,6 @@ createfolders = False
 #
 # Default is yes.
 #
-expunge = no
+expunge = yes
 sync_deletes = no
 retrycount = 10
