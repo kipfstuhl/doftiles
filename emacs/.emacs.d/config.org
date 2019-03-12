@@ -119,15 +119,16 @@
     that uses an external PDF reader to open the files at this page.
     #+BEGIN_SRC emacs-lisp :tangle yes
       (setq org-file-apps
-	`( ("\\.pdf::\\([0-9]\\)\\'" .
+	`( ("\\.pdf::\\([0-9]+\\)\\'" .
 	     ,(lambda (file path)
 		(let ((page
 			(substring path
 			  (+ (string-match "::\\([0-9]+\\)\\'" path)
 			    2))))
 		  (open-file file page))))
-	   ("\\.pdf\\'" . ,(lambda (file path)
-			     (open-file file)))
+	   ("\\.pdf\\'" .
+	     ,(lambda (file path)
+		(open-file file)))
 	   ("\\.docx?\\'" . "soffice %s")
 	   ("\\.xlsx?\\'" . "soffice %s")
 	   ("odt" . "soffice %s")
