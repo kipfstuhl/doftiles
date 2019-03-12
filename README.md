@@ -60,7 +60,7 @@ xdg-mime default zathura.desktop application/pdf
 Here is a short list of programs that are currently configured in this
 repository.
 
-  * **Emacs** best text editor
+  * **Emacs** best text editor, see its [configuration](emacs/.emacs.d/config.org)
   * **kitty** Terminal emulator: works as expected and supports Fira
       Code font (xterm and urxvt don't always work as expected,
       likewise st)
