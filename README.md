@@ -87,7 +87,7 @@ repository.
   * **TeXLive** TeX distribution, mainly for LuaTeX, a new and
       strongly improved TeX enginge
   * **Programming Tools**
-	  * **gcc** good compiler suite, `gcc`: C, `g++`: `C++`, gfortran:
+	  * **gcc** good compiler suite, `gcc`: C, `g++`: C++, `gfortran`:
 		  Fortran
 	  * **Rust** good programming lanuage for low level code, prevents
         some mistakes
