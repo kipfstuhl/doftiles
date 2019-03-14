@@ -536,16 +536,31 @@
 		     'cargo-process-run-release))))
    #+end_src
    
-** LISP with SLIME
+** LISP with Sly
+   Sly includes more features than slime, which is focused on
+   providing a very stable product. In my opinion the additional
+   features of Sly are a must have if you ever tried it, e.g. the
+   fuzzy match autocompletion.
+   
    Set the lisp system
    #+begin_src emacs-lisp
      (setq inferior-lisp-program "/usr/bin/sbcl")
-     (setq slime-contribs '(slime-fancy))
+     ;; (setq slime-contribs '(slime-fancy))
    #+end_src
 
    Set the indent to two spaces.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq lisp-indent-offset 2)
+   #+END_SRC
+
+   Use a local version of the Common Lisp HyperSpec and display it in
+   emacs.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (setq common-lisp-hyperspec-root
+       "file:/home/jonas/prog/HyperSpec/")
+     (setq browse-url-browser-function
+       '( (".*home/jonas/prog/HyperSpec/.*" . eww-browse-url)
+	  (".*" . browse-url-default-browser)))
    #+END_SRC
 
 ** Semantic Mode

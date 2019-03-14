@@ -219,7 +219,15 @@ Without ugly boxes but with Magit.")
     `(company-template-field ((,class (:inherit highlight))))
     `(company-scrollbar-bg ((,class (:background ,butter-2))))
     `(company-scrollbar-fg ((,class (:background ,red-3))))
-    
+    ;; Sly
+    `(sly-mrepl-output-face ((,class (:inherit default))))
+    `(sly-mode-line ((,class (:foreground ,plum-3 :weight bold))))
+    `(sly-part-button-face ((,class (:foreground ,plum-1))))
+    `(sly-stickers-empty-face ((,class (:background ,plum-2))))
+    `(sly-stickers-armed-face ((,class (:background ,blue-2))))
+    `(sly-stickers-recordings-face ((,class (:background ,cham-3))))
+    `(sly-mrepl-prompt-face ((,class (:foreground ,choc-2))))
+    `(sly-mrepl-note-face ((,class (:foreground ,cham-3))))
     ;; term colors
     `(term-color-black ((,class (:foreground ,alum-7))))
     `(term-color-red ((,class (:foreground ,red-0))))
