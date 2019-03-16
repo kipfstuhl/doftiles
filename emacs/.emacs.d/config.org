@@ -295,6 +295,11 @@
    #+begin_src emacs-lisp
      (setq compilation-ask-about-save nil)
    #+end_src
+
+   Use spaces instead of tabs.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (setq-default indent-tabs-mode nil)
+   #+END_SRC
    
 * Font
   Use Fira Code font.  This font has ligatures built-in that are
@@ -574,19 +579,14 @@
      ;; (setq slime-contribs '(slime-fancy))
    #+end_src
 
-   Set the indent to two spaces.
-   #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq lisp-indent-offset 2)
-   #+END_SRC
-
    Use a local version of the Common Lisp HyperSpec and display it in
    emacs.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq common-lisp-hyperspec-root
-       "file:/home/jonas/prog/HyperSpec/")
+           "file:/home/jonas/prog/HyperSpec/")
      (setq browse-url-browser-function
-       '( (".*home/jonas/prog/HyperSpec/.*" . eww-browse-url)
-	  (".*" . browse-url-default-browser)))
+           '((".*home/jonas/prog/HyperSpec/.*" . eww-browse-url)
+             (".*" . browse-url-default-browser)))
    #+END_SRC
 
 ** Semantic Mode
