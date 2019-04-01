@@ -220,6 +220,11 @@
      (pdf-tools-install)
    #+end_src
 
+   Refine resizing PDF documents. Default value is 1.25
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (setq pdf-view-resize-factor 1.20)
+   #+END_SRC
+
 ** Multiple Cursors
    Having more than one cursor at the same time can be very handy for
    editing similar places of the document at once.
