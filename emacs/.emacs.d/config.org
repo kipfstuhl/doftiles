@@ -205,6 +205,15 @@
       (setq org-src-tab-acts-natively t)
     #+END_SRC
 
+    Load lisp for org-babel by default, use SLY (see [[*LISP with Sly][later]])
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (org-babel-do-load-languages
+       'org-babel-load-languages
+       '((emacs-lisp . t)
+         (lisp . t)))
+      (setq org-babel-lisp-eval-fn 'sly-eval)
+    #+END_SRC
+
 ** PDF-Tools
    This is a better replacement for Doc-View Mode.
    #+begin_src emacs-lisp
