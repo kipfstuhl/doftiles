@@ -21,9 +21,15 @@ HISTFILE=~/.zsh_history
 setopt HIST_IGNORE_SPACE
 
 # prompt
-autoload -Uz promptinit
-promptinit
-prompt redhat
+# autoload -Uz promptinit
+# promptinit
+# prompt redhat
+# almost redhat, but space at the front
+# this improves to find it again.
+PS1=' [%n@%m %1~]%(#.#.$) '
+PS2="> "
+
+prompt_opts=( cr percent )
 
 # PATH variable
 typeset -U path
