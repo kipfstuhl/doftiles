@@ -238,6 +238,10 @@ Without ugly boxes but with Magit.")
     `(term-color-cyan ((,class (:foreground ,blue-1))))
     `(term-color-white ((,class (:foreground ,alum-3))))
     )
+  ;; PDF View / PDF Tools
+  ;; this is only a variable, but it is something that belongs to a theme
+  (setf pdf-view-midnight-colors `(,alum-3 . ,alum-6))
+
   
   ;; set the variables at beginning for better appearance
   ;; (custom-theme-set-variables
