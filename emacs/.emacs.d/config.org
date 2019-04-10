@@ -780,20 +780,20 @@
    per month.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq global-maildir-shortcuts
-       '(("/DLRG-J-B/INBOX"   . ?d)
-	  ("/T-Online/INBOX"   . ?t)))
+           '(("/DLRG-J-B/INBOX"   . ?d)
+             ("/T-Online/INBOX"   . ?t)))
 
      (defun get-date-directory (msg)
-       "Takes a message plist MSG and returns string yyyy/m
+       "Takes a message plist MSG and returns string yyyy/mm
 
 The message MSG is expected to be in the format of mu4e
 messages. It extracts the Date and returns a string suitable for
 sorting mails into folders with respect to the month they were
 sent."
        (let* ((date (decode-time (mu4e-message-field msg :date)))
-	       (month (nth 4 date))
-	       (year (nth 5 date)))
-	 (concat (int-to-string year) "/" (format "%02d" month))))
+              (month (nth 4 date))
+              (year (nth 5 date)))
+         (concat (int-to-string year) "/" (format "%02d" month))))
    #+END_SRC
 
    For sending mail use smtpmail.  These variables here are always the
