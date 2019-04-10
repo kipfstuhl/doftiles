@@ -843,90 +843,101 @@ returned; this may not be the interface used for networking."
 
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq mu4e-contexts
-       `( ,(make-mu4e-context
-             :name "T-Online"
-             :enter-func (lambda () (mu4e-message "Kontext T-Online"))
-             :leave-func (lambda () (mu4e-message "Verlasse T-Online"))
-             :match-func (lambda (msg)
-                           (when msg
-                             (string-match-p "^/T-Online" (mu4e-message-field msg :maildir))))
-                             ;; (or
-                             ;;   (string-match-p "^/T-Online" (mu4e-message-field msg :maildir))
-                             ;;   (mu4e-message-contact-field-matches msg
-                             ;;     '(:to :cc :from) "jonas.kipfstuhl@t-online.de"))))
-             :vars `( (user-mail-address           . "jonas.kipfstuhl@t-online.de")
-                      (user-full-name              . "Jonas Kipfstuhl")
-                      (mu4e-sent-folder            . "/T-Online/INBOX.Sent")
-                      (mu4e-drafts-folder          . "/T-Online/INBOX.Drafts")
-                      (mu4e-trash-folder           . "/T-Online/INBOX.Trash")
-                      (mu4e-get-mail-command       . "offlineimap -a T-Online")
-                      (mu4e-query-rewrite-function . (lambda (expr)
-                                                       ;; try to understand some of the mu find
-                                                       ;; syntax, at this point nothing is known
-                                                       (cond
+           `(,(make-mu4e-context
+               :name "T-Online"
+               :enter-func (lambda () (mu4e-message "Kontext T-Online"))
+               :leave-func (lambda () (mu4e-message "Verlasse T-Online"))
+               :match-func (lambda (msg)
+                             (when msg
+                               (string-match-p "^/T-Online" (mu4e-message-field msg :maildir))))
+                               ;; (or
+                               ;;   (string-match-p "^/T-Online" (mu4e-message-field msg :maildir))
+                               ;;   (mu4e-message-contact-field-matches msg
+                               ;;     '(:to :cc :from) "jonas.kipfstuhl@t-online.de"))))
+               :vars `((user-mail-address           . "jonas.kipfstuhl@t-online.de")
+                       (user-full-name              . "Jonas Kipfstuhl")
+                       (mu4e-sent-folder            . "/T-Online/INBOX.Sent")
+                       (mu4e-drafts-folder          . "/T-Online/INBOX.Drafts")
+                       (mu4e-trash-folder           . "/T-Online/INBOX.Trash")
+                       (mu4e-get-mail-command       . "offlineimap -a T-Online")
+                       (mu4e-query-rewrite-function . (lambda (expr)
+                                                        ;; see explanation in other mu4e-context!
+                                                   
+                                                        ;; try to understand some of the mu find
+                                                        ;; syntax, at this point nothing is known
+                                                        (cond
                                                          ((string-match-p "\\(^\\|[[:blank:]]\\)maildir:" expr)
-                                                           expr)
+                                                          expr)
                                                          ;; be a bit efficient and don't use regexps
                                                          ;; g (global) is defined as short for flags, so use
                                                          ;; a for all
                                                          ((string-equal (substring expr 0 2) "a:")
-                                                           (string-trim-left (substring expr 2 nil)))
+                                                          (string-trim-left (substring expr 2 nil)))
                                                          (t
-                                                           (concat  "maildir:/T-Online/ " expr)))))
-                      (mu4e-maildir-shortcuts      . ,(append
+                                                          (concat  "maildir:/T-Online/ " expr)))))
+                       (mu4e-maildir-shortcuts      . ,(append
                                                         global-maildir-shortcuts
-                                                        '( ("/T-Online/INBOX"        . ?i)
-                                                           ("/T-Online/INBOX.Sent"   . ?s)
-                                                           ("/T-Online/INBOX.Drafts" . ?e)
-                                                           ("/T-Online/INBOX.Trash"  . ?m))))
-                      (smtpmail-smtp-server        . "securesmtp.t-online.de")
-                      (smtpmail-smtp-service       . 465)
-                      (smtpmail-smtp-user          . "jonas.kipfstuhl@t-online.de")
-                      (smtpmail-mail-address       . "jonas.kipfstuhl@t-online.de")))
-          ,(make-mu4e-context
-             :name "DLRG"
-             :enter-func (lambda () (mu4e-message "Kontext DLRG"))
-             :leave-func (lambda () (mu4e-message "Verlasse DLRG"))
-             :match-func (lambda (msg)
-                           (when msg
-                             (string-match-p "^/DLRG-J-B" (mu4e-message-field msg :maildir))))
-                             ;; (or
-                             ;;   (string-match-p "^/DLRG-J-B" (mu4e-message-field msg :maildir))
-                             ;;   (mu4e-message-contact-field-matches msg
-                             ;;     '(:to :cc :from) "jonas.kipfstuhl@bayern.dlrg-jugend.de"))))
-             :vars `( (user-mail-address           . "jonas.kipfstuhl@bayern.dlrg-jugend.de")
-                      (user-full-name              . "Jonas Kipfstuhl")
-                      (mu4e-sent-folder            . "/DLRG-J-B/INBOX.Sent")
-                      (mu4e-drafts-folder          . "/DLRG-J-B/INBOX.Drafts")
-                      (mu4e-trash-folder           . "/DLRG-J-B/INBOX.Trash")
-                      (mu4e-refile-folder          . (lambda (msg)
-                                                       (concat "/DLRG-J-B/Archiv/" (get-date-directory msg))))
-                      (mu4e-get-mail-command       . "offlineimap -a DLRG-Jugend-Bayern")
-                      (mu4e-query-rewrite-function . (lambda (expr)
-                                                       ;; try to understand some of the mu find
-                                                       ;; syntax, at this point nothing is known
-                                                       (cond
+                                                        '(("/T-Online/INBOX"        . ?i)
+                                                          ("/T-Online/INBOX.Sent"   . ?s)
+                                                          ("/T-Online/INBOX.Drafts" . ?e)
+                                                          ("/T-Online/INBOX.Trash"  . ?m))))
+                       (smtpmail-smtp-server        . "securesmtp.t-online.de")
+                       (smtpmail-smtp-service       . 465)
+                       (smtpmail-smtp-user          . "jonas.kipfstuhl@t-online.de")
+                       (smtpmail-mail-address       . "jonas.kipfstuhl@t-online.de")))
+             ,(make-mu4e-context
+               :name "DLRG"
+               :enter-func (lambda () (mu4e-message "Kontext DLRG"))
+               :leave-func (lambda () (mu4e-message "Verlasse DLRG"))
+               :match-func (lambda (msg)
+                             (when msg
+                               (string-match-p "^/DLRG-J-B" (mu4e-message-field msg :maildir))))
+                               ;; (or
+                               ;;   (string-match-p "^/DLRG-J-B" (mu4e-message-field msg :maildir))
+                               ;;   (mu4e-message-contact-field-matches msg
+                               ;;     '(:to :cc :from) "jonas.kipfstuhl@bayern.dlrg-jugend.de"))))
+               :vars `((user-mail-address           . "jonas.kipfstuhl@bayern.dlrg-jugend.de")
+                       (user-full-name              . "Jonas Kipfstuhl")
+                       (mu4e-sent-folder            . "/DLRG-J-B/INBOX.Sent")
+                       (mu4e-drafts-folder          . "/DLRG-J-B/INBOX.Drafts")
+                       (mu4e-trash-folder           . "/DLRG-J-B/INBOX.Trash")
+                       (mu4e-refile-folder          . (lambda (msg)
+                                                        (concat "/DLRG-J-B/Archiv/" (get-date-directory msg))))
+                       (mu4e-get-mail-command       . "offlineimap -a DLRG-Jugend-Bayern")
+                       (mu4e-query-rewrite-function . (lambda (expr)
+                                                        ;; Assume that searches should be local to the
+                                                        ;; mails in the current context. This coincides
+                                                        ;; with a maildir, in this case. If the search
+                                                        ;; starts for an explicit maildir, then do not
+                                                        ;; change the query, as this query is more
+                                                        ;; specific. Otherwise it would not allow to
+                                                        ;; search for a specific maildir, even knowing
+                                                        ;; what is done.
+                                                   
+                                                        ;; try to understand some of the mu find
+                                                        ;; syntax, at this point nothing is known
+                                                        (cond
                                                          ((string-match-p "\\(^\\|[[:blank:]]\\)maildir:" expr)
-                                                           expr)
+                                                          expr)
                                                          ;; be a bit efficient and don't use regexps
                                                          ;; g (global) is defined as short for flags, so use
                                                          ;; a for all
                                                          ((string-equal (substring expr 0 2) "a:")
-                                                           (string-trim-left (substring expr 2 nil)))
+                                                          (string-trim-left (substring expr 2 nil)))
                                                          (t
-                                                           (concat "maildir:/DLRG-J-B/ " expr)))))
-                      (mu4e-maildir-shortcuts      . ,(append
+                                                          (concat "maildir:/DLRG-J-B/ " expr)))))
+                       (mu4e-maildir-shortcuts      . ,(append
                                                         global-maildir-shortcuts
-                                                        '( ("/DLRG-J-B/INBOX"        . ?i)
-                                                           ("/DLRG-J-B/INBOX.Sent"   . ?s)
-                                                           ("/DLRG-J-B/INBOX.Drafts" . ?e)
-                                                           ("/DLRG-J-B/INBOX.Trash"  . ?m))))
-                      (smtpmail-smtp-server        . "mail.dlrg.de")
-                      (smtpmail-smtp-service       . 465)
-                      (smtpmail-smtp-user          . "j-ljs.bayern-jonas.kipfstuhl")
-                      (smtpmail-mail-address       . "jonas.kipfstuhl@bayern.dlrg-jugend.de")
-                      ;; (smtpmail-local-domain       . "bayern.dlrg-jugend.de")
-                      ))))
+                                                        '(("/DLRG-J-B/INBOX"        . ?i)
+                                                          ("/DLRG-J-B/INBOX.Sent"   . ?s)
+                                                          ("/DLRG-J-B/INBOX.Drafts" . ?e)
+                                                          ("/DLRG-J-B/INBOX.Trash"  . ?m))))
+                       (smtpmail-smtp-server        . "mail.dlrg.de")
+                       (smtpmail-smtp-service       . 465)
+                       (smtpmail-smtp-user          . "j-ljs.bayern-jonas.kipfstuhl")
+                       (smtpmail-mail-address       . "jonas.kipfstuhl@bayern.dlrg-jugend.de")
+                       ;; (smtpmail-local-domain       . "bayern.dlrg-jugend.de")
+                       ))))
    #+END_SRC
 
    As ~mu4e-context-switch~ sets the variables ~mapc~ ing ~set~ over
