@@ -201,7 +201,9 @@
     of code blocks. For better code block indentig set the tab to
     behave good.
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (add-hook 'org-mode-hook 'yas-minor-mode)
+      (require 'yasnippet)
+      (yas-reload-all)                        ;for loading own snippets
+      (add-hook 'org-mode-hook #'yas-minor-mode)
       (setq org-src-tab-acts-natively t)
     #+END_SRC
 
