@@ -529,6 +529,20 @@
     (add-to-list 'company-backends 'company-my-clang)
   #+END_SRC
 
+* Bibliography
+** helm-bibtex
+   very nice mode for organizing BibTeX references.
+
+   Add some keybindings for navigating in the search results
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (define-key biblio-selection-mode-map (kbd "p") #'biblio--selection-previous)
+     (define-key biblio-selection-mode-map (kbd "n") #'biblio--selection-next)
+     (define-key biblio-selection-mode-map (kbd "d")
+       #'(lambda ()
+           (interactive)
+           (biblio-download--action (biblio--selection-metadata-at-point))))
+   #+END_SRC
+
 * Programming Modes
 ** Rust
    Add some useful modes, like cargo, racer and eldoc, tho the rust
