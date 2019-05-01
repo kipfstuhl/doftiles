@@ -15,42 +15,9 @@
 (paradox-enable)
 
 
-;; remove auto-complete
-;; (require 'auto-complete)
-;; (global-auto-complete-mode t)
-;; ;; fix autocomplete
-;; (define-key ac-completing-map [return] nil)
-;; (define-key ac-completing-map "\r" nil)
-
-
-;; Make Magit and GitHub work together like a charm
-;; (require 'magithub)
-
-;; keybinding for Magit
-(global-set-key (kbd "C-x g") 'magit-status)
-
 
 ;; Julia
 ;; make julia-mode and julia-shell-mode (e.g. run-julia) work together
-(require 'julia-mode)
-(require 'julia-repl)
-;; use julia-repl instead of julia-shell, it still gets updates
-;;(require 'julia-shell)
-;;(defun my-julia-mode-hooks ()
-;;  (require 'julia-shell-mode))
-;;(add-hook 'julia-mode-hook 'my-julia-mode-hooks)
-
-(define-key julia-repl-mode-map (kbd "C-c C-k") 'julia-repl-send-buffer)
-(define-key julia-repl-mode-map (kbd "C-c d") 'julia-repl-doc)
-
-(define-key julia-repl-mode-map (kbd "C-c M-n") 'julia-repl-reset)
-;; reset the workspace, i.e. complete restart of julia
-(defun julia-repl-reset ()
-  "reset the julia repl"
-  (interactive)
-  (let (julia-inferior-buffer (julia-repl-inferior-buffer))
-    (julia-repl--send-string
-     "atexit( () -> run(`$(append!(Base.julia_cmd().exec, [\"-q\"]))`) ); exit()")))
 
 
 
@@ -128,31 +95,6 @@
 ;;       (with-output-to-temp-buffer "*Completions*"
 ;; 	(print doc-output)))))
 
-
-;; Dired
-;; let dired guess a default directory, e.g. for copy
-(setq dired-dwim-target t)
-(require 'dired-x)
-(setq dired-guess-shell-alist-user '(("\\.pdf\\'" "zathura")
-				     ("\\.doc\\'" "libreoffice")
-				     ("\\.docx\\'" "libreoffice")
-                                     ("\\.ppt\\'" "libreoffice")
-                                     ("\\.pptx\\'" "libreoffice")
-                                     ("\\.xls\\'" "libreoffice")
-                                     ("\\.xlsx\\'" "libreoffice")))
-
-
-;; add support for opening files with zathura
-;; this is used in custom set variables
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Some maybe useful instructions
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq make-backup-files nil) ; stop creating those backup~ files
-;; (setq auto-save-default nil) ; stop creating those #autosave# files
-;; (transient-mark-mode 1) ; highlight text selection
-;; (delete-selection-mode 1) ; delete seleted text when typing
 
 
 ;;auctex LuaLaTeX

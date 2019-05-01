@@ -295,6 +295,36 @@
      (setq-default shr-use-fonts t)          ; toggle with `F`
    #+END_SRC
 
+** Magit
+   Magit is a very good git client. It is just superior to everything
+   else I tested so far.
+
+   Make git always available.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (global-set-key (kbd "C-x g") 'magit-status)
+   #+END_SRC
+
+   Make Magit and GitHub work together like a charm
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (require 'magithub)
+   #+END_SRC
+
+** Dired
+   Dired is quite useful as a file manager, even if it lacks some
+   features. By default it makes some strange choices for the programs
+   to open files with.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (setq dired-dwim-target t)              ;guess default directory
+     (require 'dired-x)
+     (setq dired-guess-shell-alist-user '(("\\.pdf\\'" "zathura")
+                                          ("\\.doc\\'" "libreoffice")
+                                          ("\\.docx\\'" "libreoffice")
+                                          ("\\.ppt\\'" "libreoffice")
+                                          ("\\.pptx\\'" "libreoffice")
+                                          ("\\.xls\\'" "libreoffice")
+                                          ("\\.xlsx\\'" "libreoffice")))
+   #+END_SRC
+
 ** Miscellaneous
    Avoid long confirmations
    #+begin_src emacs-lisp
@@ -535,6 +565,7 @@
 
    Add some keybindings for navigating in the search results
    #+BEGIN_SRC emacs-lisp :tangle yes
+     (require 'helm-bibtex)
      (define-key biblio-selection-mode-map (kbd "p") #'biblio--selection-previous)
      (define-key biblio-selection-mode-map (kbd "n") #'biblio--selection-next)
      (define-key biblio-selection-mode-map (kbd "d")
@@ -693,6 +724,33 @@
       (setq disaster-cflags "-march=native -O2 -g")
     #+END_SRC
 
+** Julia
+   For scientific computing, is a bit like Matlab.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (require 'julia-mode)
+     (require 'julia-repl)
+   #+END_SRC
+
+   Behave like other repl modes
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (define-key julia-repl-mode-map (kbd "C-c C-k") 'julia-repl-send-buffer)
+     (define-key julia-repl-mode-map (kbd "C-c d") 'julia-repl-doc)
+   #+END_SRC
+   
+   Support for resetting the Julia workspace, i.e. a complete restart
+   of Julia. For development this is very handy, as old versions of
+   helper functions are removed.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (define-key julia-repl-mode-map (kbd "C-c M-n") 'julia-repl-reset)
+
+     (defun julia-repl-reset ()
+       "reset the julia repl"
+       (interactive)
+       (let (julia-inferior-buffer (julia-repl-inferior-buffer))
+         (julia-repl--send-string
+          "atexit( () -> run(`$(append!(Base.julia_cmd().exec, [\"-q\"]))`) ); exit()")))
+   #+END_SRC
+   
 * E-Mail
   I use mu4e for mails. ~mu~ is just a mail-indexer for fast searches,
   mails have to be retrieved by another program. Here ~offlineimap~ is
