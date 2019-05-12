@@ -844,6 +844,30 @@
        '("ViewInBrowser" . mu4e-action-view-in-browser) t)
    #+END_SRC
 
+** Marking
+   Managing mails in mu4e works via marks, this is similar to dired or
+   many other list based solutions. Unfortunately all marks are
+   deleted if the first action on each message is executed (it makes
+   sense to do it like this), so it is not possible to mark a bunch of
+   messages as read and then refile it, i.e. making an archive. So a
+   new mark is needed.
+
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (plist-put (cdr (assoc 'refile mu4e-marks)) :action
+                (lambda (docid msg target)
+                  (mu4e~proc-move docid
+                                  (mu4e~mark-check-target target)
+                                  "+S-N-u")))
+   #+END_SRC
+   Here the definition of the refile action is changed. ~mu4e-marks~
+   is an alist that maps mark symbols to the properties. So I get the
+   ~'refile~ association in the list, for further processing only the
+   ~cdr~ is of interest, as this is a plist. Working with plists is
+   very nice if you got used to it. For making the desired changes
+   only the ~:action~ of refile has to be adjusted via ~plist-put~,
+   the function is largely the same as the original, only the flags
+   are different (mark the message as seen and read).
+
 ** Accounts
    Use mu4e built in support of contexts, in other mail clients this
    would probably be called accounts or inboxes.
@@ -1014,7 +1038,7 @@ returned; this may not be the interface used for networking."
                        ))))
    #+END_SRC
 
-   As ~mu4e-context-switch~ sets the variables ~mapc~ ing ~set~ over
+   As ~mu4e-context-switch~ sets the variables ~mapc~-ing ~set~ over
    the list, it seems a good idea to use a context-local maildir
    prefix. This could then get ~concat~ ed with the individual maildir
    pathes. Unfortunately the context data is stored in a Lisp struct,
