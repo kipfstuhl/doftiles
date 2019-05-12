@@ -8,3 +8,5 @@
  XF86AudioLowerVolume
 "amixer sset Master toggle"
  XF86AudioMute
+"rfkill-toggle wlan"
+ XF86WLAN
