@@ -83,5 +83,7 @@ export EDITOR=emacsclient
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
 
+export FZF_DEFAULT_COMMAND="fd --type=f --no-ignore-vcs --hidden --exclude=.git/"
+
 # autocompletion like fish
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
