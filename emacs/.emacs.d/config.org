@@ -765,20 +765,27 @@
 
   Here some general settings. These are just for convenience and don't
   do much. ~completing-read~ is used, as the standard
-  ~ido-completing-read~ does not integrate with helm.
+  ~ido-completing-read~ does not integrate with helm. The index
+  messages are annoying if there is something written in the
+  minibuffer you want to read, e.g. a ~comleting-read~ prompt.
   #+BEGIN_SRC emacs-lisp :tangle yes
-    (setq mu4e-completing-read-function 'completing-read)
-    (setq message-kill-buffer-on-exit t)
-    (setq message-send-mail-function 'smtpmail-send-it)
+    (setq mu4e-completing-read-function 'completing-read
+          message-kill-buffer-on-exit t
+          message-send-mail-function 'smtpmail-send-it
+          mu4e-hide-index-messages t)
   #+END_SRC
 
+  Splitting the window for viewing headers and the mails is somewhat
+  unhandy here. It cannot decide whether to split vertically or
+  horizontally depending on the actual window or frame dimensions.
   #+BEGIN_SRC emacs-lisp :tangle yes
-    (setq mu4e-split-view 'vertical
-      mu4e-headers-visible-columns 100)
+    (setq mu4e-split-view 'horizontal
+          mu4e-headers-visible-columns 100
+          mu4e-headers-visible-lines 15)
     (setq mu4e-headers-include-related nil)
   #+END_SRC
 
-** Listing Mails
+** Listing Masils
    In mu4e the mail list is called header mode. This is just the list
    of currently selected mails, e.g. in one maildir or by a search.
 
@@ -844,6 +851,14 @@
        '("ViewInBrowser" . mu4e-action-view-in-browser) t)
    #+END_SRC
 
+   Register the file types that can be displayed by imagemagick. This
+   is better than opening the files in some generic document viewer
+   like xpdf.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (when (fboundp 'imagemagick-register-types)
+       (imagemagick-register-types))
+   #+END_SRC
+
 ** Marking
    Managing mails in mu4e works via marks, this is similar to dired or
    many other list based solutions. Unfortunately all marks are
@@ -868,6 +883,81 @@
    the function is largely the same as the original, only the flags
    are different (mark the message as seen and read).
 
+** Spam
+   I use bogofilter with one database for all accounts for
+   spamfiltering.
+
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (defcustom mu4e-junk-folder "/junk"
+       "Your folder for junk/spam messages, relative to `mu4e-maildir'.
+     For instance, \"/Junk\"."
+       :type '(string :tag "Folder name")
+       ;; '(choice
+       ;;   '(string :tag "Folder name")
+       ;;   (function :tag "Function return folder name"))
+       :group 'mu4e-folders)
+
+     (defgroup mu4e-spam nil
+       "Spam related settings"
+       :group 'mu4e)
+
+     (defcustom mu4e-register-as-spam-cmd "/usr/bin/bogofilter -Ns < %s"
+       "Command for invoking spam processor to register message as spam,
+     for example for bogofilter, use \"/usr/bin/bogofilter -Ns < %s\" "
+       :type '(string :tag "command")
+       :group 'mu4e-spam)
+
+     (defcustom mu4e-register-as-ham-cmd "/usr/bin/bogofilter -Sn < %s"
+       "Command for invoking spam processor to register message as ham.
+     For example for bogofile, use \"/usr/bin/bogofilter -Sn < %s\""
+       :type '(string :tag "command")
+       :group 'mu4e-spam)
+
+     (defun mu4e-register-msg-as-spam (msg)
+       "Mark message as spam and move it for junk folder"
+       (interactive)
+       (let* ((path (shell-quote-argument (mu4e-message-field msg :path)))
+              (command (format mu4e-register-as-spam-cmd path))) ;; re-register msg as spam 
+         (shell-command command))
+       (mu4e-mark-at-point 'move mu4e-junk-folder))
+
+     (defun mu4e-register-msg-as-ham (msg)
+       "Mark message as ham."
+       (interactive)
+       (let* ((path (shell-quote-argument(mu4e-message-field msg :path)))
+              (command (format mu4e-register-as-ham-cmd path))) ;; re-register msg as ham
+         (shell-command command))
+       (mu4e-mark-at-point 'something nil))
+
+     (defun mu4e-view-register-msg-as-spam (msg)
+       "Mark message as spam and move it to junk folder (view mode)."
+       (interactive)
+       (let* ((path (shell-quote-argument (mu4e-message-field msg :path)))
+              (command (format mu4e-register-as-spam-cmd path)))
+         (shell-command command))
+       (mu4e-view-mark-for-move))
+
+     (defun mu4e-view-register-msg-as-ham (msg)
+       "Mark message as ham (view mode)."
+       (interactive)
+       (let* ((path (shell-quote-argument(mu4e-message-field msg :path)))
+              (command (format mu4e-register-as-ham-cmd path)))
+         (shell-command command))
+       (mu4e-view-mark-for-something))
+   #+END_SRC
+
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (add-to-list 'mu4e-headers-actions
+                  '("jMark as spam" . mu4e-register-msg-as-spam) t)
+     (add-to-list 'mu4e-headers-actions
+                  '("hMark as ham"  . mu4e-register-msg-as-ham) t)
+
+     (add-to-list 'mu4e-view-actions
+                  '("jMark as spam." . mu4e-view-register-msg-as-spam) t)
+     (add-to-list 'mu4e-view-actions
+                  '("hMark as ham."  . mu4e-view-register-msg-as-ham) t)
+   #+END_SRC
+   
 ** Accounts
    Use mu4e built in support of contexts, in other mail clients this
    would probably be called accounts or inboxes.
@@ -957,10 +1047,11 @@ returned; this may not be the interface used for networking."
                        (mu4e-sent-folder            . "/T-Online/INBOX.Sent")
                        (mu4e-drafts-folder          . "/T-Online/INBOX.Drafts")
                        (mu4e-trash-folder           . "/T-Online/INBOX.Trash")
+                       (mu4e-junk-folder            . "/T-Online/INBOX.Junk")
                        (mu4e-get-mail-command       . "offlineimap -a T-Online")
                        (mu4e-query-rewrite-function . (lambda (expr)
                                                         ;; see explanation in other mu4e-context!
-                                                   
+
                                                         ;; try to understand some of the mu find
                                                         ;; syntax, at this point nothing is known
                                                         (cond
@@ -999,6 +1090,7 @@ returned; this may not be the interface used for networking."
                        (mu4e-sent-folder            . "/DLRG-J-B/INBOX.Sent")
                        (mu4e-drafts-folder          . "/DLRG-J-B/INBOX.Drafts")
                        (mu4e-trash-folder           . "/DLRG-J-B/INBOX.Trash")
+                       (mu4e-junk-folder            . "/DLRG-J-B/INBOX.Junk")
                        (mu4e-refile-folder          . (lambda (msg)
                                                         (concat "/DLRG-J-B/Archiv/" (get-date-directory msg))))
                        (mu4e-get-mail-command       . "offlineimap -a DLRG-Jugend-Bayern")
@@ -1011,7 +1103,7 @@ returned; this may not be the interface used for networking."
                                                         ;; specific. Otherwise it would not allow to
                                                         ;; search for a specific maildir, even knowing
                                                         ;; what is done.
-                                                   
+
                                                         ;; try to understand some of the mu find
                                                         ;; syntax, at this point nothing is known
                                                         (cond
