@@ -72,6 +72,12 @@
     (global-set-key (kbd "C-c C-f") 'fzf)	      ;fuzzy finder
     (global-set-key (kbd "C-c f") 'fzf-directory) ;
   #+end_src
+
+  My notebook has a problem with Shift and Meta keys at the same time,
+  it will only accpet the key first pressed. This makes some commands
+  unreachable. For example ~forward-paragraph~ is bound to ~C-}~,
+  which involves both shift and meta. This may explain some unusual
+  keybindings.
   
 ** Markdown
    Do not use pandoc, it has huge dependencies. Cmark is small, fast
@@ -582,9 +588,9 @@
     (define-key c++-mode-map (kbd "TAB") 'company-indent-or-complete-common)
   #+end_src
 
-  Fix the templating made by company-clang. This is the easiest
-  solution writing a company back-end that just wraps the clang back-end
-  and uses these results, but does discard the call to post-complete,
+  Fix the templating made by company-clang. It is the easiest solution
+  to write a company back-end that just wraps the clang back-end and
+  uses these results, but does discard the call to post-complete,
   which results in template expansion.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (add-to-list 'load-path "~/.emacs.d/lisp")

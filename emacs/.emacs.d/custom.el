@@ -77,16 +77,13 @@
  '(exec-path
    (quote
     ("/home/jonas/bin" "/home/jonas/.local/bin" "/home/jonas/.cargo/bin" "/usr/local/sbin" "/usr/local/bin" "/usr/bin" "/usr/lib/jvm/default/bin" "/usr/bin/site_perl" "/usr/bin/vendor_perl" "/usr/bin/core_perl" "/usr/lib/emacs/26.1/x86_64-pc-linux-gnu" "/home/jonas/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin")))
- '(font-latex-fontify-script nil)
  '(interleave-disable-narrowing t)
  '(org-agenda-files (quote ("~/example.org")))
  '(package-selected-packages
    (quote
     (helm-bibtex sly htmlize github-review yasnippet-snippets yasnippet helm go-mode hideshow-org rust-playground interleave pdf-tools company company-auctex company-c-headers company-jedi company-racer fd-dired fzf auctex lua-mode magithub nyan-mode paradox multiple-cursors ac-c-headers ac-math toml-mode ac-octave auto-complete-c-headers ssh slime-volleyball slime-theme slime-ritz slime-docker slime-annot python3-info python-info python-docstring org matlab-mode markdown-mode magit jedi-direx google-maps german-holidays ess-view ess-smart-underscore ess-smart-equals ess-R-object-popup ess-R-data-view ein-mumamo cython-mode cuda-mode cargo calfw c-eldoc auctex-lua auctex-latexmk aes ac-slime)))
  '(paradox-github-token t)
- '(prettify-symbols-unprettify-at-point (quote right-edge))
- '(reftex-plug-into-AUCTeX nil)
- '(scroll-bar-mode nil))
+ '(prettify-symbols-unprettify-at-point (quote right-edge)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
