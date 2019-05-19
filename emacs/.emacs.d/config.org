@@ -325,6 +325,39 @@
                                           ("\\.xlsx\\'" "libreoffice")))
    #+END_SRC
 
+** AUCTeX
+   For writing TeX and LaTeX documents.
+
+   Code folding, mainly environments, also works with macros. Most
+   useful: fold dwim (Do What I Mean) ~C-c C-o C-o~, fold
+   buffer ~C-c C-o C-b~, fold region ~C-c C-o C-r~, fold environment
+   ~C-c C-o C-e~, fold comment ~C-c C-o C-c~.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     ;; (add-hook 'LaTeX-mode-hook (lambda ()
+     ;;                              (TeX-fold-mode 1)
+     ;;                              (define-key outline-minor-mode-map (kbd "C-h")
+     ;;                                'outline-hide-entry)
+     ;;                              (define-key outline-minor-mode-map (kbd "C-c")
+     ;;                                'outline-toggle-children)
+     ;;                              (setq outline-minor-mode-prefix (kbd "C-c o"))
+     ;;                              (local-set-key outline-minor-mode-prefix
+     ;;                                             (lookup-key outline-minor-mode-map (kbd "C-c @")))
+     ;;                                                           (outline-minor-mode)))
+   #+END_SRC
+   Note: it is important to change the ~outline-minor-mode-prefix~
+   before loading outline mode. This includes anything that is built
+   on top of outline mode, e.g. Org mode. Otherwise the keymap has to
+   be modified.
+
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (setq font-latex-fontify-sectioning 'color)
+     (setq font-latex-fontify-script nil)
+   #+END_SRC
+
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (setq reftex-plug-into-AUCTeX nil)
+   #+END_SRC
+
 ** Miscellaneous
    Avoid long confirmations
    #+begin_src emacs-lisp
@@ -1164,4 +1197,16 @@ returned; this may not be the interface used for networking."
      ;; (setq send-mail-function 'async-smtpmail-send-it
      ;;   message-send-mail-function 'async-smtpmail-send-it)
    #+END_SRC
+
+* Some other ideas:
+  - company-bibtex   :: use bibtex files as backend
+  - company-reftex   :: backend based on RefTeX, this is the standard
+       in emacs. Maybe a better solution than bibtex only. Seems very
+       powerful, but AucTeX centered.
+  - company-math     :: completion for math typesetting, mainly LaTeX
+       and Org mode
+  - writegood mode   :: highlights text based on weasel-words, passive
+       voice and duplicate words.
+  - artbollocks-mode :: similar to writegood mode
+           
 
