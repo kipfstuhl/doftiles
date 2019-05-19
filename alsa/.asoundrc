@@ -1,3 +1,6 @@
+# pulseaudio nicht! damit erledigt, außerdem nötig
+# pactl set-default-sink .....
+
 pcm.!default {
     type hw
     card PCH
