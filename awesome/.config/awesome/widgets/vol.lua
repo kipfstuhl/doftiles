@@ -9,10 +9,19 @@ local wibox = require("wibox")
 -- local INC_VOLUME_CMD = 'amixer -D pulse sset Master 5%+'
 -- local DEC_VOLUME_CMD = 'amixer -D pulse sset Master 5%-'
 -- local TOG_VOLUME_CMD = 'amixer -D pulse sset Master toggle'
-local GET_VOLUME_CMD = 'amixer sget Master'
-local INC_VOLUME_CMD = 'amixer sset Master 5%+'
-local DEC_VOLUME_CMD = 'amixer sset Master 5%-'
-local TOG_VOLUME_CMD = 'amixer sset Master toggle'
+-- local GET_VOLUME_CMD = 'amixer sget Master'
+-- local INC_VOLUME_CMD = 'amixer sset Master 5%+'
+-- local DEC_VOLUME_CMD = 'amixer sset Master 5%-'
+-- local TOG_VOLUME_CMD = 'amixer sset Master toggle'
+
+-- using pulseaudio and directly access alsa at the same time does not
+-- work well, the pulseaudio output is very low. pactl does not allow
+-- for directly returning the volume, so for this task also amixer is
+-- used. This is not a really satisfactory solution, but it works.
+local GET_VOLUME_CMD = 'amixer -D pulse get Master'
+local INC_VOLUME_CMD = 'pactl set-sink-volume @DEFAULT_SINK@ +5%'
+local DEC_VOLUME_CMD = 'pactl set-sink-volume @DEFAULT_SINK@ -5%'
+local TOG_VOLUME_CMD = 'pactl set-sink-mute @DEFAULT_SINK@ toggle'
 
 local image = wibox.widget {
    id = "img",
