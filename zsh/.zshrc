@@ -25,7 +25,7 @@ setopt HIST_IGNORE_SPACE
 # promptinit
 # prompt redhat
 # almost redhat, but space at the front
-# this improves to find it again.
+# this makes it easier to find it again.
 PS1=' [%n@%m %1~]%(#.#.$) '
 PS2="> "
 
@@ -72,6 +72,8 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # tackle typos
 alias cd..="cd .."
 
+# completion for kitty
+kitty + complete setup zsh | source /dev/stdin
 # use kitty kittens, i.e. extensions
 alias icat="kitty +kitten icat"
 
