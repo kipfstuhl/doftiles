@@ -381,9 +381,10 @@
      (setq compilation-ask-about-save nil)
    #+end_src
 
-   Use spaces instead of tabs.
+   Use spaces instead of tabs and increase the fill column.
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq-default indent-tabs-mode nil)
+     (setq-default indent-tabs-mode nil
+                   fill-column 80)
    #+END_SRC
    
 * Font
