@@ -237,6 +237,9 @@ Without ugly boxes but with Magit.")
     `(term-color-magenta ((,class (:foreground ,plum-1))))
     `(term-color-cyan ((,class (:foreground ,blue-1))))
     `(term-color-white ((,class (:foreground ,alum-3))))
+    ;; pulse faces, used also by semantic for jumps
+    ;; `(pulse-highlight-face ((,class (:inherit highlight))))
+    `(pulse-highlight-start-face ((,class (:inherit next-error))))
     )
   ;; PDF View / PDF Tools
   ;; this is only a variable, but it is something that belongs to a theme
