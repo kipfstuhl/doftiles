@@ -89,3 +89,8 @@ export FZF_DEFAULT_COMMAND="fd --type=f --no-ignore-vcs --hidden --exclude=.git/
 
 # autocompletion like fish
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# gpg-agent setup
+# this is what the man page says to do.
+GPG_TTY=$(tty)
+export GPG_TTY
