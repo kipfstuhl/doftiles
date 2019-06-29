@@ -364,6 +364,13 @@
      (setq reftex-plug-into-AUCTeX nil)
    #+END_SRC
 
+** Ledger-mode
+   Mode for managing money with help of ledger.
+   
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (add-to-list 'auto-mode-alist '("\\.ledger$" . ledger-mode))
+   #+END_SRC
+
 ** Miscellaneous
    Avoid long confirmations
    #+begin_src emacs-lisp
