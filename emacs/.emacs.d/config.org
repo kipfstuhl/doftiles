@@ -59,6 +59,21 @@
     (unless (server-running-p)
       (server-start))
   #+end_src
+
+  For talking to gpg-agent, this is not so easy to get right.
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    (defun kludge-gpg-agent ()
+      (if (display-graphic-p)
+	  (setenv "DISPLAY" (terminal-name))
+	(setenv "GPG_TTY" (terminal-name))
+	(setenv "DISPLAY")))
+
+    (add-hook 'window-configuration-change-hook 'kludge-gpg-agent)
+  #+END_SRC
+  Enter password in Minibuffer instead of gpg-agents pinentry program.
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    (setq epa-pinentry-mode 'loopback)
+  #+END_SRC
   
 ** Non-Specific Keybindings
 
@@ -1308,10 +1323,7 @@ returned; this may not be the interface used for networking."
                       e.g. company.
   - artbollocks-mode :: similar to writegood mode
   - built-in things  :: these may change a lot directly
-    - visual-fill-column-mode :: use this for smaller and centered
-         text areas; not exactly built-in
-    - line-spacing :: set this variable in text
-                      buffers.
-
-
-
+    - line-spacing   :: set this variable in text
+                        buffers.
+  - visual-fill-column-mode :: use this for smaller and centered
+       text areas
