@@ -13,9 +13,9 @@
   
   Remove the tool bar and the scroll bar, but only in graphical mode.
   In terminal mode this would result in errors or warnings.  In order
-  to make this distinction, carry out the customizations when a new
-  frame is made and it is graphical.  This also works in server-mode if
-  it is called as ~emacsclient~, or ~emacsclient -c~.
+  to make this distinction, carry out the customizations when making a
+  new, graphical frame.  This also works in server-mode if it is
+  called as ~emacsclient~, or ~emacsclient -c~.
   #+begin_src emacs-lisp
     (defun new-frame-setup (frame)
       (when (display-graphic-p frame)
@@ -26,15 +26,15 @@
   #+end_src
   
   Allow Emacs to resize pixel-wise, not in full multiples of character
-  width or height. This comes very handy, when your window manager
+  width or height. This comes handy, when your window manager
   leaves a small stripe of unused space next to Emacs frames
   (window manager windows).
   #+BEGIN_SRC emacs-lisp :tangle yes
     (setq frame-resize-pixelwise t)
   #+END_SRC
   
-  Some unnecessary visual parts should always be removed.  Also some
-  useful information is added to the mode line.
+  Some unnecessary visual parts should always be removed.  Also add
+  some useful information to the mode line.
   #+begin_src emacs-lisp
     (menu-bar-mode -1)
     (blink-cursor-mode -1)
@@ -106,8 +106,8 @@
       (define-key org-mode-map (kbd "<C-M-down>") 'org-table-insert-row)
     #+end_src
    
-    Add better support for interleave mode. This mode is very useful
-    for making annotations and notes for PDF files.
+    Add better support for interleave mode. This mode is useful for
+    making annotations and notes for PDF files.
     #+begin_src emacs-lisp
       (define-key org-mode-map (kbd "C-c i") 'interleave-mode)
     #+end_src
@@ -145,46 +145,46 @@
     at a specified page in zathura.
     #+BEGIN_SRC emacs-lisp :tangle yes
       (defun open-file (file &optional page)
-	"opens the file FILE  or jumps to the page PAGE if already opened
+        "opens the file FILE  or jumps to the page PAGE if already opened
 
       FILE gives the filename or path
       PAGE is the page number, starting at page 1 (D-Bus interface is 0 based)
 
       This function opens the file at the specified page or jumps to
-      this page. If no page number is given the file is opened without
-      anything, this should integrate in the desktop environment, or if
-      file is open nothing is done.
-      "
-	(let ((pgrep-out (with-output-to-string
-			   (call-process "pgrep" nil standard-output nil
-			     "-af"
-			     (shell-quote-wildcard-pattern
-			       (concat "zathura.*" file ".*")))))
-	       (page-num (if (stringp page)
-			   (string-to-number page)
-			   page)))
-	  (if (seq-empty-p pgrep-out)
-	    (if page
-	      (start-process "reader" nil "zathura"
-		"--fork"
-		"-P"
-		(number-to-string page-num)
-		file)
-	      (start-process "reader" nil "zathura"
-		"--fork"
-		file))
-	    (when page
-	      (dbus-call-method-asynchronously
-		:session
-		(concat "org.pwmt.zathura.PID-" (car (split-string pgrep-out)))
-		"/org/pwmt/zathura"
-		;; in the D-Bus interface page numbers start at 0
-		"org.pwmt.zathura" "GotoPage" nil (1- page-num))))))
+      this page. If called without a number the file is opened without
+      further options, or if the file is already open nothing is
+      done. This should integrate in the desktop environment vie
+      D-Bus."
+        (let ((pgrep-out (with-output-to-string
+                           (call-process "pgrep" nil standard-output nil
+                             "-af"
+                             (shell-quote-wildcard-pattern
+                               (concat "zathura.*" file ".*")))))
+               (page-num (if (stringp page)
+                           (string-to-number page)
+                           page)))
+          (if (seq-empty-p pgrep-out)
+            (if page
+              (start-process "reader" nil "zathura"
+                "--fork"
+                "-P"
+                (number-to-string page-num)
+                file)
+              (start-process "reader" nil "zathura"
+                "--fork"
+                file))
+            (when page
+              (dbus-call-method-asynchronously
+                :session
+                (concat "org.pwmt.zathura.PID-" (car (split-string pgrep-out)))
+                "/org/pwmt/zathura"
+                ;; in the D-Bus interface page numbers start at 0
+                "org.pwmt.zathura" "GotoPage" nil (1- page-num))))))
     #+END_SRC
 
 *** Code in Org Mode
-    Make the code blocks appear nicer. This does not work directly when
-    emacs is started in server mode, so this goes in
+    Make the code blocks appear nicer. This does not work directly
+    when emacs starts in server mode, so this goes in
     ~org-mode-hook~. Obviously this changes not much for the user, if
     org mode is not turned on the variables for displaying org mode
     elements are not the most useful ones.
@@ -234,7 +234,7 @@
    #+END_SRC
 
 ** Multiple Cursors
-   Having more than one cursor at the same time can be very handy for
+   Having more than one cursor at the same time can be handy for
    editing similar places of the document at once.
    #+begin_src emacs-lisp
      (require 'multiple-cursors)
@@ -316,9 +316,9 @@
    #+END_SRC
 
 ** Dired
-   Dired is quite useful as a file manager, even if it lacks some
-   features. By default it makes some strange choices for the programs
-   to open files with.
+   Dired is useful as a file manager, even if it lacks some features
+   compared to other file managing software. By default it makes some
+   strange choices for the programs to open files with.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq dired-dwim-target t)              ;guess default directory
      (require 'dired-x)
@@ -351,9 +351,9 @@
      ;;                                                           (outline-minor-mode)))
    #+END_SRC
    Note: it is important to change the ~outline-minor-mode-prefix~
-   before loading outline mode. This includes anything that is built
-   on top of outline mode, e.g. Org mode. Otherwise the keymap has to
-   be modified.
+   before loading outline mode. This includes anything that builds on
+   top of outline mode, e.g. Org mode. Otherwise the keymap has to be
+   modified.
 
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq font-latex-fontify-sectioning 'color)
@@ -388,7 +388,7 @@
    
 * Font
   Use Fira Code font.  This font has ligatures built-in that are
-  designed for code development.  This is a very excellent font for
+  designed for code development.  This is an excellent font for
   coding, and as a general mono spaced font.  It builds on Fira Mono.
 
   Using this font is not as easy as it sounds.  Emacs does not offer
@@ -403,9 +403,11 @@
                  '(font . "-*-Fira Code-*-*-*-*-*-105-*-*-*-*-*-*"))
   #+end_src
 
-  Make a big list for the ligatures.  The ligatures are emulated with
-  another font, Fira Code Symbol, and the font lock mode of Emacs is
-  used for substitutions.
+  Make a big list for the ligatures.  Emacs does not support the
+  ligatures of Fira Code by default, so use another font that has only
+  the glyphs for the ligatures and switch to it by the use of font
+  lock mode.  The font is Fira Code Symbol, for switching the fonts
+  font lock mode is used.
   #+begin_src emacs-lisp
   (add-hook 'after-make-frame-functions
 	(lambda (frame)
@@ -539,8 +541,8 @@
   #+end_src
 
   Now enable the ligatures.  Do this only for graphical display, as in
-  my terminal emulator Fira Code is used as standard font.  Doubling
-  the ligatures gives a very poor result.
+  my terminal emulator I use Fira Code as standard font.  Doubling the
+  ligatures gives a poor result.
   #+begin_src emacs-lisp
   (defun add-fira-code-symbol-keywords ()
     (when (display-graphic-p)
@@ -600,7 +602,7 @@
 
 * Bibliography
 ** helm-bibtex
-   very nice mode for organizing BibTeX references.
+   Nice mode for organizing BibTeX references.
 
    Add some keybindings for navigating in the search results
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -625,21 +627,22 @@
      (add-hook 'racer-mode-hook #'company-mode) ;make sure it is started
    #+end_src
    
-   Make it work better. Run rustfmt when saving a file, this is very
-   useful, as all files are saved before every cargo run. Cargo mode
-   uses the variable compilation-ask-about-save, like every good mode
-   that deals with compilation like stuff. In addition racer
-   completion inserts some predefined code with function completion,
-   this is mostly parentheses and arguments. It comes very unhandy, so
-   don't do this; the help is displayed anyway when the cursor is
-   inside the arguments for a function.
+   Make it work better.  Run rustfmt when saving a file, this does a
+   good job and gets invoked before every cargo run, as all files need
+   to be saved before compilation.  Cargo mode uses the variable
+   compilation-ask-about-save, like every good mode that deals with
+   compilation like stuff.  In addition racer completion inserts some
+   predefined code with function completion, this is mostly
+   parentheses and arguments.  It comes unhandy, so don't do this; the
+   great Eldoc mode displays the help anyway when the cursor is inside
+   the arguments for a function.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq rust-format-on-save t)
      (setq racer-complete-insert-argument-placeholders nil)
    #+END_SRC
 
-   Now define some keybindings. After the other hooks, they should not
-   be overwritten by something else.
+   Now define some keybindings.  After the other hooks, they should
+   not be overwritten by something else.
    #+begin_src emacs-lisp
      (add-hook 'racer-mode-hook
 	       (lambda () 
@@ -668,10 +671,10 @@
    #+end_src
    
 ** LISP with Sly
-   Sly includes more features than slime, which is focused on
-   providing a very stable product. In my opinion the additional
-   features of Sly are a must have if you ever tried it, e.g. the
-   fuzzy match autocompletion.
+   Sly includes more features than slime, which focusses on providing
+   a very stable product.  In my opinion the additional features of
+   Sly are a must have if you ever tried it, e.g. the fuzzy match
+   autocompletion.
    
    Set the lisp system
    #+begin_src emacs-lisp
@@ -777,8 +780,8 @@
    #+END_SRC
    
    Support for resetting the Julia workspace, i.e. a complete restart
-   of Julia. For development this is very handy, as old versions of
-   helper functions are removed.
+   of Julia. For development this is useful, as old versions of helper
+   functions are removed.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (define-key julia-repl-mode-map (kbd "C-c M-n") 'julia-repl-reset)
 
@@ -792,8 +795,8 @@
    
 * E-Mail
   I use mu4e for mails. ~mu~ is just a mail-indexer for fast searches,
-  mails have to be retrieved by another program. Here ~offlineimap~ is
-  used, see its [[file:~/dotfiles/offlineimap/.offlineimaprc][configuration]].
+  mails have to be retrieved by another program. I use ~offlineimap~,
+  see its [[file:~/dotfiles/offlineimap/.offlineimaprc][configuration]].
   #+BEGIN_SRC emacs-lisp :tangle yes
     (require 'mu4e)
 
@@ -803,7 +806,7 @@
   #+END_SRC
 
   Here some general settings. These are just for convenience and don't
-  do much. ~completing-read~ is used, as the standard
+  do much. Use ~completing-read~, as the standard
   ~ido-completing-read~ does not integrate with helm. The index
   messages are annoying if there is something written in the
   minibuffer you want to read, e.g. a ~comleting-read~ prompt.
@@ -826,10 +829,12 @@
 
 ** Listing Masils
    In mu4e the mail list is called header mode. This is just the list
-   of currently selected mails, e.g. in one maildir or by a search.
+   of currently selected mails, e.g. in one maildir or by a
+   search. Strictly speaking everything is a search in the mu and mu4e
+   system. So nothing is really selected, it is more a search result.
 
-   Set the information that is shown in header view mode. There are
-   six flags, so this field needs at most six chars.
+   Set the information shown in header view mode. There are only six
+   flags, so this field needs at most six chars.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (add-to-list 'mu4e-header-info-custom
                   '(:recipnum . (:name "Number of recipients"   ; long name, as seen in the message-view
@@ -849,10 +854,10 @@
    #+END_SRC
 
 ** Viewing Mails
-   Fix the mu4e-view-mode. As Outlook generates huge HTML messages with
-   a lot of not really needed HTML code the HTML/plain-text ratio has to
-   be increased. The default scrolling is not the best, so I try to
-   improve on it.
+   Fix the mu4e-view-mode.  As Outlook generates huge HTML messages
+   with a lot of not really needed HTML code the HTML/plain-text ratio
+   need to be larger.  The default scrolling is not the best, so I try
+   to improve on it.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq mu4e-view-html-plaintext-ratio-heuristic 10)
      ;; (setq mu4e-view-scroll-to-next nil)	;not needed anymore
@@ -864,10 +869,12 @@
 						    (scroll-down 5)))
    #+END_SRC
 
-   URLs can be opened in a browser, saved to the kill
-   ring and even fetched (downloaded), but it is not possible to just
-   display the URL. This is useful in many situations, and important if
-   you don't exactly know whether the link is malicious or not.
+   URLs can be opened in a browser, saved to the kill ring and even be
+   fetched (downloaded), but it is not possible to just display the
+   URL. This is useful in many situations, and important if you don't
+   exactly know whether the link is malicious or not.  Sometimes this
+   is also fun for spam mails or it reveals a connection between
+   different spam campaigns.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (defun my-mu4e-view-display-url ()
        (interactive)
@@ -890,9 +897,9 @@
        '("ViewInBrowser" . mu4e-action-view-in-browser) t)
    #+END_SRC
 
-   Register the file types that can be displayed by imagemagick. This
-   is better than opening the files in some generic document viewer
-   like xpdf.
+   Register the file types that imagemagick can display.  This is
+   better than opening the files in some generic document viewer like
+   xpdf.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (when (fboundp 'imagemagick-register-types)
        (imagemagick-register-types))
@@ -913,14 +920,14 @@
                                   (mu4e~mark-check-target target)
                                   "+S-N-u")))
    #+END_SRC
-   Here the definition of the refile action is changed. ~mu4e-marks~
-   is an alist that maps mark symbols to the properties. So I get the
-   ~'refile~ association in the list, for further processing only the
-   ~cdr~ is of interest, as this is a plist. Working with plists is
-   very nice if you got used to it. For making the desired changes
-   only the ~:action~ of refile has to be adjusted via ~plist-put~,
-   the function is largely the same as the original, only the flags
-   are different (mark the message as seen and read).
+   This code block changes the definition of the refile action.
+   ~mu4e-marks~ is an alist that maps mark symbols to the properties.
+   So I get the ~'refile~ association in the list, for further
+   processing only the ~cdr~ is of interest, as this rest is a plist.
+   Working with plists is very nice if you got used to it.  Adjusting
+   only the ~:action~ of refile via ~plist-put~ suffices to make the
+   desired changes.  The function is largely the same as the original,
+   only the flags are different (mark the message as seen and read).
 
 ** Spam
    I use bogofilter with one database for all accounts for
@@ -1001,10 +1008,10 @@
    Use mu4e built in support of contexts, in other mail clients this
    would probably be called accounts or inboxes.
 
-   For my context setup some preliminary work has to be done. Set the
-   global maildir shortcuts, these shortcuts will be available in every
-   context. Define a helper function for archiving mails in one folder
-   per month.
+   For my context setup I have to do some preliminary work.  Set the
+   global maildir shortcuts, these shortcuts will be available in
+   every context.  Define a helper function for archiving mails in one
+   folder per month.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq global-maildir-shortcuts
            '(("/DLRG-J-B/INBOX"   . ?d)
@@ -1023,11 +1030,13 @@ sent."
          (concat (int-to-string year) "/" (format "%02d" month))))
    #+END_SRC
 
-   For sending mail use smtpmail.  These variables here are always the
-   same, so there is no point in setting them for each account.  The
-   SMTP standard suggests to use something like an IP address, so it
-   try to get one that may be used for sending the mail (it is not as
-   easy as it seems at a firs glance).
+   For sending mail use smtpmail.  The variable here is always the
+   same, so there is no point in setting it for each account.  The
+   SMTP standard suggests to use something like an IP address for the
+   local domain, so I try to get one that is prably used for sending
+   the mail (it is not as easy as it seems at a first glance, at this
+   point every interface could be used, I just pick the first that is
+   not a loopback device).
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq smtpmail-stream-type 'ssl)
 
@@ -1043,7 +1052,6 @@ returned; this may not be the interface used for networking."
 	   (car int-list)
 	   (car (assq-delete-all '"lo" int-list)))))
 
-
      (setq smtpmail-local-domain
        (concat "["
 	 (format-network-address
@@ -1053,9 +1061,12 @@ returned; this may not be the interface used for networking."
 
 
    Now comes the most important part of the mu4e configuration, the
-   contexts. Many variables used by mu4e can be set via the context
-   system. These variables will be used in various ways, also
-   internally from the Emacs built-in mail support.
+   contexts. mu4e's context system allows for setting many variables
+   individually for each context, or account.  There is no need that
+   these variables are only those of mu4e, the context changing
+   function just sets all variables specified for the new context to
+   the given value.  For example you may also set some variables for
+   the Emacs built-in mail support system.
 
    With ~mu4e-contexts~ the quoting with backtick `, single quote ',
    and comma , is important. To be honest it is always important when
@@ -1171,19 +1182,19 @@ returned; this may not be the interface used for networking."
 
    As ~mu4e-context-switch~ sets the variables ~mapc~-ing ~set~ over
    the list, it seems a good idea to use a context-local maildir
-   prefix. This could then get ~concat~ ed with the individual maildir
-   pathes. Unfortunately the context data is stored in a Lisp struct,
-   this does not allow for functions. This means the value must be
-   fully expanded to something constant when the variable
-   ~mu4e-contexts~ is defined. The use of a macro or evaluating
+   prefix.  This could then get ~concat~ ed with the individual
+   maildir pathes.  Unfortunately a Lisp struct holds the context
+   data, this does not allow for functions.  This means the value must
+   be fully expanded to something constant when the variable
+   ~mu4e-contexts~ is defined.  The use of a macro or evaluating
    functions at the time the construction macro is expanded does not
-   work either. This approach would use the same value for all
+   work either.  This approach would use the same value for all
    contexts.
 
-   With the contexts defined the list of own mail addresses can be
-   generated from the mail addresses in all contexts. If further
-   addresses should go in this list, these have to be added
-   manually. This list is used for filtering purposes.
+
+   Generate the list of own mail addresses from the addresses defined
+   in all contexts.  Manually add further addresses, that should go in
+   this list.  This list is used for filtering purposes.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq mu4e-user-mail-address-list
        (delq nil
@@ -1195,8 +1206,8 @@ returned; this may not be the interface used for networking."
 
    smtpmail can take a very long time to send the mails, specially
    when there are large attachments. To prevent this lag use
-   asynchronous functions. There are some issues with this, some users
-   even report silent failures, so maybe you want to send your
+   asynchronous functions.  There are some issues with this, some
+   users even report silent failures, so maybe you want to send your
    messages using another solution.
    #+BEGIN_SRC emacs-lisp :tangle yes
      ;; (require 'smtpmail-async)
@@ -1205,14 +1216,23 @@ returned; this may not be the interface used for networking."
    #+END_SRC
 
 * Some other ideas:
-  - company-bibtex   :: use bibtex files as backend
-  - company-reftex   :: backend based on RefTeX, this is the standard
-       in emacs. Maybe a better solution than bibtex only. Seems very
-       powerful, but AucTeX centered.
-  - company-math     :: completion for math typesetting, mainly LaTeX
-       and Org mode
-  - writegood mode   :: highlights text based on weasel-words, passive
-       voice and duplicate words.
+  - company-bibtex :: use bibtex files as backend
+  - company-reftex :: backend based on RefTeX, this is the standard in
+                      emacs. Maybe a better solution than bibtex
+                      only. Seems very powerful, but AucTeX centered.
+  - company-math   :: completion for math typesetting, mainly LaTeX
+                      and Org mode
+  - writegood mode :: highlights text based on weasel-words, passive
+                      voice and duplicate words.
+  - writeroom-mode :: just text, no distraction, no mode-line etc
+                      todo: try to disable some modes on startup,
+                      e.g. company.
   - artbollocks-mode :: similar to writegood mode
-           
+  - built-in things  :: these may change a lot directly
+    - visual-fill-column-mode :: use this for smaller and centered
+         text areas; not exactly built-in
+    - line-spacing :: set this variable in text
+                      buffers.
+
+
 
