@@ -708,6 +708,31 @@
      (semantic-mode 1)
    #+end_src
 
+   To jump to the correct position of a function in e.g. a header file
+   use ~semantic-ia-fast-jump~. This seems not to work well in the
+   local project. So use a different keybinding.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (define-key c-mode-map (kbd "s-M-.") #'semantic-ia-fast-jump)
+   #+END_SRC
+   
+   Display tags in another buffer. Bind this to =M-.= as this is the best fit
+   for jumping to something interesting up to now.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (defun semantic-display-tag (&optional pt)
+       "Display tag at point."
+       (interactive "d")
+       (unless pt (setq pt (point)))
+       (let (analyze tag buf loc start pt)
+         (when (and (setq analyze (semantic-analyze-current-context pt))
+                    (setq tag (semantic-analyze-interesting-tag analyze))
+                    (setq buf (semantic-tag-buffer tag))
+                    (setq start (semantic-tag-start tag)))
+           (with-selected-window (display-buffer buf #'display-buffer-pop-up-window)
+             (goto-char start)
+             (recenter)))))
+     (define-key semantic-mode-map (kbd "M-.") #'semantic-display-tag)
+   #+END_SRC
+
 ** Python
    Use iPython for more comfort
    #+begin_src emacs-lisp
@@ -748,13 +773,42 @@
 ** C/C++
    These languages use the c-mode of Emacs, like many other,
    e.g. java, so I can handle them in one.
-   
+
+*** Gtags
+    Not really sure if this is really a good idea. gtags itself is lacking some
+    very important features like jumping to a system include file definition.
+    gtags uses GNU GLOBAL for source code tagging.
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (setq
+       helm-gtags-ignore-case t
+       helm-gtags-auto-update t
+       helm-gtags-use-input-at-cursor t
+       helm-gtags-pulse-at-cursor t
+       helm-gtags-prefix-key "\C-cg"
+       helm-gtags-suggested-key-mapping t
+       )
+
+      (require 'helm-gtags)
+      ;; Enable helm-gtags-mode
+      (add-hook 'dired-mode-hook 'helm-gtags-mode)
+      (add-hook 'eshell-mode-hook 'helm-gtags-mode)
+      (add-hook 'c-mode-hook 'helm-gtags-mode)
+      (add-hook 'c++-mode-hook 'helm-gtags-mode)
+      (add-hook 'asm-mode-hook 'helm-gtags-mode)
+
+      (define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
+      (define-key helm-gtags-mode-map (kbd "C-j") 'helm-gtags-select)
+      (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
+      (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
+      (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+      (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
+    #+END_SRC
+
 *** Disassembling
     Use disaster for disassembling the code generated from the source
     of this buffer, i.e. when editing main.c generate main.o and then
     disassemble it with ~objdump~. This is a patched version also
-    working with Fortran, thus the fortran-mode-map also has to be
-    extended.
+    working with Fortran, thus also extend the fortran-mode-map.
     #+BEGIN_SRC emacs-lisp :tangle yes
       (add-to-list 'load-path "~/.emacs.d/disaster")
       (require 'disaster)
