@@ -960,13 +960,25 @@
        (imagemagick-register-types))
    #+END_SRC
 
+   Enable not only ~visual-line-mode~, but also
+   ~visual-fill-column-mode~. This improves the readability.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (define-key mu4e-view-mode-map (kbd "w")
+       #'(lambda ()
+           (interactive)
+           (visual-fill-column-mode 'toggle)
+           (visual-line-mode 'toggle)))
+   #+END_SRC
+
 ** Marking
    Managing mails in mu4e works via marks, this is similar to dired or
    many other list based solutions. Unfortunately all marks are
    deleted if the first action on each message is executed (it makes
    sense to do it like this), so it is not possible to mark a bunch of
-   messages as read and then refile it, i.e. making an archive. So a
-   new mark is needed.
+   messages as read and then refile it, i.e. making an archive. So
+   this approach needs a separate mark.  The dault, built-in archive
+   a.k.a. refile mark does not mark messages as read, it only adds the
+   seen and removes the new flag.
 
    #+BEGIN_SRC emacs-lisp :tangle yes
      (plist-put (cdr (assoc 'refile mu4e-marks)) :action
