@@ -423,6 +423,11 @@
      (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
    #+END_SRC
 
+   Follow symlinks without asking.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (setq vc-follow-symlinks t)
+   #+END_SRC
+
 * Font
   Use Fira Code font.  This font has ligatures built-in that are
   designed for code development.  This is an excellent font for
