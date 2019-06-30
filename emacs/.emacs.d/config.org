@@ -423,6 +423,12 @@
      (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
    #+END_SRC
 
+   Use =keychain= to get access to ssh-agent and gpg-agent. This removes
+   unnecessary password prompts.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (keychain-refresh-environment)
+   #+END_SRC
+
    Follow symlinks without asking.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq vc-follow-symlinks t)
@@ -1324,6 +1330,8 @@ returned; this may not be the interface used for networking."
    #+END_SRC
 
 * Some other ideas:
+  - tramp          :: access files and directories remotely, bahaves as if tey
+                      were local
   - company-bibtex :: use bibtex files as backend
   - company-reftex :: backend based on RefTeX, this is the standard in
                       emacs. Maybe a better solution than bibtex
