@@ -94,3 +94,8 @@ source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 # this is what the man page says to do.
 GPG_TTY=$(tty)
 export GPG_TTY
+
+# for use inside emacs with `shell'
+if [ -n "$INSIDE_EMACS" ]; then
+    export TERM=dumb
+fi
