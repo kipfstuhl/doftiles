@@ -1,0 +1,3 @@
+# minimal output, eval everything to set everything, work with ssh-agent and
+# gpg-agent, load two keys id_rsa (for ssh) and 795A083...
+eval `keychain --quiet --eval --agents gpg,ssh id_rsa 795A08131E83662E45E9316F2AA43D16A7BF95CC`
