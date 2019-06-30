@@ -81,7 +81,7 @@
  '(org-agenda-files (quote ("~/example.org")))
  '(package-selected-packages
    (quote
-    (pinentry sly helm-gtags ledger-mode visual-fill-column writegood-mode helm-bibtex htmlize github-review yasnippet-snippets yasnippet helm go-mode hideshow-org rust-playground interleave pdf-tools company company-auctex company-c-headers company-jedi company-racer fd-dired fzf auctex lua-mode magithub nyan-mode paradox multiple-cursors ac-c-headers ac-math toml-mode ac-octave auto-complete-c-headers ssh slime-volleyball slime-theme slime-ritz slime-docker slime-annot python3-info python-info python-docstring org matlab-mode markdown-mode magit jedi-direx google-maps german-holidays ess-view ess-smart-underscore ess-smart-equals ess-R-object-popup ess-R-data-view ein-mumamo cython-mode cuda-mode cargo calfw c-eldoc auctex-lua auctex-latexmk aes ac-slime)))
+    (forge pinentry sly helm-gtags ledger-mode visual-fill-column writegood-mode helm-bibtex htmlize github-review yasnippet-snippets yasnippet helm go-mode hideshow-org rust-playground interleave pdf-tools company company-auctex company-c-headers company-jedi company-racer fd-dired fzf auctex lua-mode nyan-mode paradox multiple-cursors ac-c-headers ac-math toml-mode ac-octave auto-complete-c-headers ssh slime-volleyball slime-theme slime-ritz slime-docker slime-annot python3-info python-info python-docstring org matlab-mode markdown-mode magit jedi-direx google-maps german-holidays ess-view ess-smart-underscore ess-smart-equals ess-R-object-popup ess-R-data-view ein-mumamo cython-mode cuda-mode cargo calfw c-eldoc auctex-lua auctex-latexmk aes ac-slime)))
  '(paradox-github-token t)
  '(prettify-symbols-unprettify-at-point (quote right-edge)))
 (custom-set-faces

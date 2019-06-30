@@ -325,9 +325,13 @@
      (global-set-key (kbd "C-x g") 'magit-status)
    #+END_SRC
 
-   Make Magit and GitHub work together like a charm
+   Use the newer =forge= package instead of =magithub=, most features of
+   magithub should be integrated into forge. The only thing that is missing is
+   the dashboard view for Github. Forge allows also to use other git forges,
+   such as Gitlab, Gitea or Gogs.
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (require 'magithub)
+     (with-eval-after-load 'magit
+         (require 'forge))
    #+END_SRC
 
 ** Dired
