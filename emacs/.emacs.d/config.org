@@ -414,6 +414,11 @@
      (setq-default visual-fill-column-center-text t)
    #+END_SRC
 
+   Prefer encrypted auth source
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
+   #+END_SRC
+
 * Font
   Use Fira Code font.  This font has ligatures built-in that are
   designed for code development.  This is an excellent font for
