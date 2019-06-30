@@ -747,6 +747,34 @@
              (".*" . browse-url-default-browser)))
    #+END_SRC
 
+** Emacs Lisp
+   Use ~xref-find-definitions~ for searching definitions of functions and
+   variables. Semantic does not work very well, but xref does in Emacs Lisp
+   buffers.
+
+   This turns out to be a bit demanding in this setting. The semantic mode
+   binding for =M-.= should be available in other buffers, but not in Emacs Lisp
+   buffers.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (defun local-set-minor-mode-key (mode key def)
+       "Overrides a minor mode keybinding for the local
+     buffer, by creating or altering keymaps stored in buffer-local
+     `minor-mode-overriding-map-alist'."
+       (let* ((oldmap (cdr (assoc mode minor-mode-map-alist)))
+              (newmap (or (cdr (assoc mode minor-mode-overriding-map-alist))
+                          (let ((map (make-sparse-keymap)))
+                            (set-keymap-parent map oldmap)
+                            (push `(,mode . ,map) minor-mode-overriding-map-alist)
+                            map))))
+         (define-key newmap key def)))
+   #+END_SRC
+
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (add-hook 'emacs-lisp-mode-hook (local-set-minor-mode-key
+                                      'semantic-mode (kbd "M-.")
+                                      #'xref-find-definitions))
+   #+END_SRC
+
 ** Semantic Mode
    #+begin_src emacs-lisp
      (global-ede-mode t)                      ; Enable the Project management system
