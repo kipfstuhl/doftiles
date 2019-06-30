@@ -1,0 +1,7 @@
+offlineimap -a T-Online & pid1=$!
+offlineimap -a DLRG-Jugend-Bayern & pid2=$!
+
+wait $pid1
+wait $pid2
+echo "Synchronized mails"
+echo "Last execution: $(date)"
