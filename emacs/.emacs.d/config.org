@@ -434,6 +434,13 @@
      (setq vc-follow-symlinks t)
    #+END_SRC
 
+   Do not make another frame for ediff control panel. This keeps everything
+   inside the original frame and starts the control panel as a minimal one
+   liner.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+   #+END_SRC
+
 * Font
   Use Fira Code font.  This font has ligatures built-in that are
   designed for code development.  This is an excellent font for
