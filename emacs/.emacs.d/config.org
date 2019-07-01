@@ -62,13 +62,13 @@
 
   For talking to gpg-agent, this is not so easy to get right.
   #+BEGIN_SRC emacs-lisp :tangle yes
-    (defun kludge-gpg-agent ()
-      (if (display-graphic-p)
-	  (setenv "DISPLAY" (terminal-name))
-	(setenv "GPG_TTY" (terminal-name))
-	(setenv "DISPLAY")))
+    ;; (defun kludge-gpg-agent ()
+    ;;   (if (display-graphic-p)
+    ;;       (setenv "DISPLAY" (terminal-name))
+    ;;     (setenv "GPG_TTY" (terminal-name))
+    ;;     (setenv "DISPLAY")))
 
-    (add-hook 'window-configuration-change-hook 'kludge-gpg-agent)
+    ;; (add-hook 'window-configuration-change-hook 'kludge-gpg-agent)
   #+END_SRC
   Enter password in Minibuffer instead of gpg-agents pinentry program.
   #+BEGIN_SRC emacs-lisp :tangle yes
@@ -426,7 +426,7 @@
    Use =keychain= to get access to ssh-agent and gpg-agent. This removes
    unnecessary password prompts.
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (keychain-refresh-environment)
+     ;(keychain-refresh-environment)
    #+END_SRC
 
    Follow symlinks without asking.
