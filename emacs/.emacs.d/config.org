@@ -770,9 +770,10 @@
    #+END_SRC
 
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (add-hook 'emacs-lisp-mode-hook (local-set-minor-mode-key
-                                      'semantic-mode (kbd "M-.")
-                                      #'xref-find-definitions))
+     (add-hook 'emacs-lisp-mode-hook
+               (lambda ()
+                 (local-set-minor-mode-key 'semantic-mode (kbd "M-.")
+                                           #'xref-find-definitions)))
    #+END_SRC
 
 ** Semantic Mode
