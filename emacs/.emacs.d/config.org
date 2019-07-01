@@ -438,7 +438,7 @@
    inside the original frame and starts the control panel as a minimal one
    liner.
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+     (setq ediff-window-setup-function #'ediff-setup-windows-plain)
    #+END_SRC
 
 * Font
