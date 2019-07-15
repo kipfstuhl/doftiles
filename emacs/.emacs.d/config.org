@@ -973,10 +973,12 @@
   see its [[file:~/dotfiles/offlineimap/.offlineimaprc][configuration]].
   #+BEGIN_SRC emacs-lisp :tangle yes
     (require 'mu4e)
+    ;; (require 'smtpmail)
+    ;; (require 'sendmail)
+    (require 'org-mu4e)                     ;use mu4e and org together
 
-    (setq mail-user-agent 'mu4e-user-agent)
     (setq mu4e-maildir "~/Mail")		;where mails are stored
-    (setq mu4e-update-interval 300)	     	;seconds to wait for updating
+    (setq mu4e-update-interval 600)	     	;seconds to wait for updating
   #+END_SRC
 
   Here some general settings. These are just for convenience and don't
@@ -986,8 +988,6 @@
   minibuffer you want to read, e.g. a ~comleting-read~ prompt.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (setq mu4e-completing-read-function 'completing-read
-          message-kill-buffer-on-exit t
-          message-send-mail-function 'smtpmail-send-it
           mu4e-hide-index-messages t)
   #+END_SRC
 
@@ -999,6 +999,17 @@
           mu4e-headers-visible-columns 100
           mu4e-headers-visible-lines 15)
     (setq mu4e-headers-include-related nil)
+  #+END_SRC
+
+  Helper function to read the signature from a file. This prevents to store a
+  long literal string in this config, in addition it helps to separate provate
+  data from the repository.
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    (defun get-string-from-file (file)
+      "Retrun the content of FILE as a string"
+      (with-temp-buffer
+        (insert-file-contents (expand-file-name file))
+        (buffer-string)))
   #+END_SRC
 
 ** Listing Masils
@@ -1224,25 +1235,25 @@ sent."
    point every interface could be used, I just pick the first that is
    not a loopback device).
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq smtpmail-stream-type 'ssl)
+     ;; (setq smtpmail-stream-type 'ssl)
 
      (defun get-connected-network-interface ()
        "Returns a alist with one connected network interface.
 
-If only the loopback device is registered this is returned.  The
-return value is an alist like `network-interface-list' return
-values.  The first value, that is not the loopback device is
-returned; this may not be the interface used for networking."
+     If only the loopback device is registered this is returned.  The
+     return value is an alist like `network-interface-list' return
+     values.  The first value, that is not the loopback device is
+     returned; this may not be the interface used for networking."
        (let ((int-list (network-interface-list)))
-	 (if (= 1 (seq-length int-list))
-	   (car int-list)
-	   (car (assq-delete-all '"lo" int-list)))))
+         (if (= 1 (seq-length int-list))
+             (car int-list)
+           (car (assq-delete-all '"lo" int-list)))))
 
-     (setq smtpmail-local-domain
-       (concat "["
-	 (format-network-address
-	   (seq-take (cdr (get-connected-network-interface)) 4))
-	 "]"))
+     ;; (setq smtpmail-local-domain
+     ;;   (concat "["
+     ;;     (format-network-address
+     ;;       (seq-take (cdr (get-connected-network-interface)) 4))
+     ;;     "]"))
    #+END_SRC
 
 
@@ -1306,10 +1317,12 @@ returned; this may not be the interface used for networking."
                                                           ("/T-Online/INBOX.Sent"   . ?s)
                                                           ("/T-Online/INBOX.Drafts" . ?e)
                                                           ("/T-Online/INBOX.Trash"  . ?m))))
-                       (smtpmail-smtp-server        . "securesmtp.t-online.de")
-                       (smtpmail-smtp-service       . 465)
-                       (smtpmail-smtp-user          . "jonas.kipfstuhl@t-online.de")
-                       (smtpmail-mail-address       . "jonas.kipfstuhl@t-online.de")))
+                       (mu4e-compose-signature      . 't)
+                       ;; (smtpmail-smtp-server        . "securesmtp.t-online.de")
+                       ;; (smtpmail-smtp-service       . 465)
+                       ;; (smtpmail-smtp-user          . "jonas.kipfstuhl@t-online.de")
+                       ;; (smtpmail-mail-address       . "jonas.kipfstuhl@t-online.de")
+                       ))
              ,(make-mu4e-context
                :name "DLRG"
                :enter-func (lambda () (mu4e-message "Kontext DLRG"))
@@ -1358,10 +1371,11 @@ returned; this may not be the interface used for networking."
                                                           ("/DLRG-J-B/INBOX.Sent"   . ?s)
                                                           ("/DLRG-J-B/INBOX.Drafts" . ?e)
                                                           ("/DLRG-J-B/INBOX.Trash"  . ?m))))
-                       (smtpmail-smtp-server        . "mail.dlrg.de")
-                       (smtpmail-smtp-service       . 465)
-                       (smtpmail-smtp-user          . "j-ljs.bayern-jonas.kipfstuhl")
-                       (smtpmail-mail-address       . "jonas.kipfstuhl@bayern.dlrg-jugend.de")
+                       (mu4e-compose-signature      .  ,(get-string-from-file "~/mail-signatur-dlrg.txt"))
+                       ;; (smtpmail-smtp-server        . "mail.dlrg.de")
+                       ;; (smtpmail-smtp-service       . 465)
+                       ;; (smtpmail-smtp-user          . "j-ljs.bayern-jonas.kipfstuhl")
+                       ;; (smtpmail-mail-address       . "jonas.kipfstuhl@bayern.dlrg-jugend.de")
                        ;; (smtpmail-local-domain       . "bayern.dlrg-jugend.de")
                        ))))
    #+END_SRC
@@ -1377,7 +1391,6 @@ returned; this may not be the interface used for networking."
    work either.  This approach would use the same value for all
    contexts.
 
-
    Generate the list of own mail addresses from the addresses defined
    in all contexts.  Manually add further addresses, that should go in
    this list.  This list is used for filtering purposes.
@@ -1390,6 +1403,60 @@ returned; this may not be the interface used for networking."
 	   mu4e-contexts)))
    #+END_SRC
 
+** Sending Mail
+   Sending mail with msmtpq using msmtp and a simple queuing script, this has
+   good performance since Emacs does not wait for the sendign via internet,
+   which can take a while with attachments.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (setq mail-user-agent 'mu4e-user-agent  ; set mua header in mails
+           message-sendmail-extra-arguments '("--read-envelope-from")
+           message-sendmail-f-is-evil t
+           message-sendmail-function 'message-sendmail-with-sendmail
+           send-mail-function 'message-send-mail-with-sendmail
+           sendmail-program "/home/jonas/bin/msmtpqueue/msmtp-enqueue.sh"
+           message-kill-buffer-on-exit t     ; kill old messages when sent
+     )
+   #+END_SRC
+
+   Run the mail queue in a background process and inform the user if it has not
+   been successful.
+   #+begin_src emacs-lisp :tangle yes
+     (defun msmtpsq-fail-sentinel (process event)
+       "Informs the user if the process has failed"
+       (cond ((eq (process-status process) 'exit)
+              (message "msmtpq-runqueue has succeeded")
+              (let ((proc-buf (process-buffer process)))
+                (when (buffer-name proc-buf)
+                  (with-current-buffer proc-buf
+                    (set-buffer-modified-p nil)
+                    (kill-buffer proc-buf)))))
+             ((memq (process-status process) '(failed signal))
+              (lwarn '(msmtp) :error "msmtpq-runqueue has failed! For info see %s" (process-buffer process)))))
+
+     (defun msmtpq-runqueue ()
+       "Runs the msmtp queue.
+
+     Uses the msmtpq-runqueue.sh script provided by the msmtp
+     package. In these scripts the queue directory can be set, see
+     there for more information."
+       (interactive)
+       (let* ((buf-name "*msmtp-runqueue output*")
+              (buffer  (get-buffer-create buf-name)))
+         (with-current-buffer buffer
+           (erase-buffer)
+           (let ((proc
+                  (start-process
+                   "msmtpq-run" buffer
+                   "/home/jonas/bin/msmtpqueue/msmtp-runqueue.sh")))
+             (set-process-sentinel proc 'msmtpsq-fail-sentinel)))))
+
+     (define-key 'mu4e-main-mode-map    (kbd "C-c C-r") 'msmtpq-runqueue)
+     (define-key 'mu4e-headers-mode-map (kbd "C-c C-r") 'msmtpq-runqueue)
+     (define-key 'mu4e-view-mode-map    (kbd "C-c C-r") 'msmtpq-runqueue)
+   #+end_src
+
+
+   OLD text:
    smtpmail can take a very long time to send the mails, specially
    when there are large attachments. To prevent this lag use
    asynchronous functions.  There are some issues with this, some
