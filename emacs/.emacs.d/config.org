@@ -38,7 +38,7 @@
   #+begin_src emacs-lisp
     (menu-bar-mode -1)
     (blink-cursor-mode -1)
-    (column-number-mode)
+    (column-number-mode t)
     (display-time-mode t)
   #+end_src
   
@@ -79,13 +79,13 @@
 
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-c r") 'replace-string) ; non-qery replace
-						   ; keybinding
+                                                   ; keybinding
     (global-set-key (kbd "C-x C-b") 'ibuffer)      ; better overview of buffers
     (global-set-key (kbd "C-c c") 'comment-or-uncomment-region)
     (global-set-key (kbd "C-c u") 'uncomment-region)
 
-    (global-set-key (kbd "C-c C-f") 'fzf)	      ;fuzzy finder
-    (global-set-key (kbd "C-c f") 'fzf-directory) ;
+    (global-set-key (kbd "C-c C-f") 'fzf)          ;fuzzy finder
+    (global-set-key (kbd "C-c f") 'fzf-directory)  ;
   #+end_src
 
   My notebook has a problem with Shift and Meta keys at the same time,
@@ -1379,6 +1379,9 @@ returned; this may not be the interface used for networking."
   - writeroom-mode :: just text, no distraction, no mode-line etc
                       todo: try to disable some modes on startup,
                       e.g. company.
+  - fd-dired       :: use the faster, better and rustier fd program instead of
+                      standard find
+  - sunrise-commander :: similar to midnight commander, but uses dired inside Emacs
   - artbollocks-mode :: similar to writegood mode
   - built-in things  :: these may change a lot directly
     - line-spacing   :: set this variable in text
