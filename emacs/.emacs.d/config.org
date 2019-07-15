@@ -440,6 +440,13 @@
      (setq ediff-window-setup-function #'ediff-setup-windows-plain)
    #+END_SRC
 
+   Create small function to start term with zsh without asking.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (defun zsh-term ()
+       (interactive)
+       (term "/bin/zsh"))
+   #+END_SRC
+
 * Font
   Use Fira Code font.  This font has ligatures built-in that are
   designed for code development.  This is an excellent font for
