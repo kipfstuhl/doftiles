@@ -1,0 +1,5 @@
+#!/bin/sh
+# message-sendmail-extra-arguments does not really work in emacs
+# so it's a little workaround
+# makes msmtp to read "From:" field and to use corresponding account
+/usr/bin/msmtp --read-envelope-from $*
