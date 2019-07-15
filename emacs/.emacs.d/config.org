@@ -465,6 +465,18 @@
        (term "/bin/zsh"))
    #+END_SRC
 
+   new text mode
+   #+begin_src emacs-lisp :tangle yes
+     (define-derived-mode my-text-mode text-mode "enhanced text"
+       "my very own enhanced text mode"
+       (visual-line-mode 1)
+       (visual-fill-column-mode 1)
+       (ispell-change-dictionary "de_DE")
+       (flyspell-mode 1)
+       (setq-local paragraph-start ".*$")
+       (setq-local paragraph-separate "[ \t\f]*$"))
+   #+end_src
+
 * Font
   Use Fira Code font.  This font has ligatures built-in that are
   designed for code development.  This is an excellent font for
