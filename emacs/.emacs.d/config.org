@@ -81,8 +81,7 @@
     (global-set-key (kbd "C-c r") 'replace-string) ; non-qery replace
                                                    ; keybinding
     (global-set-key (kbd "C-x C-b") 'ibuffer)      ; better overview of buffers
-    (global-set-key (kbd "C-c c") 'comment-or-uncomment-region)
-    (global-set-key (kbd "C-c u") 'uncomment-region)
+    (global-set-key (kbd "C-c c") 'org-capture)    ; get something into org mode
 
     (global-set-key (kbd "C-c C-f") 'fzf)          ;fuzzy finder
     (global-set-key (kbd "C-c f") 'fzf-directory)  ;
@@ -671,6 +670,12 @@
    #+END_SRC
 
 * Programming Modes
+  Add some convenient keybindings, these used to be in the global map, but fit
+  better in programming only maps.
+  #+begin_src emacs-lisp :tangle yes
+    (define-key prog-mode-map (kbd "C-c c") 'comment-or-uncomment-region)
+    (define-key prog-mode-map (kbd "C-c u") 'uncomment-region)
+  #+end_src
 ** Rust
    Add some useful modes, like cargo, racer and eldoc, tho the rust
    mode hook.
