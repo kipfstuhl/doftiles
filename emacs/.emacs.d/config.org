@@ -109,6 +109,11 @@
       ;;(global-set-key (kbd "C-c c") 'org-capture)
       (global-set-key (kbd "C-c b") 'org-switchb)
     #+end_src
+    
+    Disable ede-mode, the Emacs Development Environment, when entering Org mode.
+    #+begin_src emacs-lisp :tangle yes
+      (add-hook 'org-mode-hook (lambda () (ede-minor-mode -1)))
+    #+end_src
 
     Fix some keybindings for Org mode, my Lenovo Notebook does not like
     shift with other modifiers.
