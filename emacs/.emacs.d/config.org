@@ -1295,6 +1295,8 @@ sent."
                        (mu4e-drafts-folder          . "/T-Online/INBOX.Drafts")
                        (mu4e-trash-folder           . "/T-Online/INBOX.Trash")
                        (mu4e-junk-folder            . "/T-Online/INBOX.Junk")
+                       (mu4e-refile-folder          . (lambda (msg)
+                                                        (concat "/T-Online/Archiv/" (get-date-directory msg))))
                        (mu4e-get-mail-command       . "offlineimap -a T-Online")
                        (mu4e-query-rewrite-function . (lambda (expr)
                                                         ;; see explanation in other mu4e-context!
