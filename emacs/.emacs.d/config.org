@@ -131,6 +131,19 @@
     #+BEGIN_SRC emacs-lisp :tangle yes
       (add-hook 'org-mode-hook 'auto-fill-mode)
     #+END_SRC
+    
+    Set files for the agenda.
+    #+begin_src emacs-lisp :tangle yes
+      (setq org-agenda-files `(,(expand-file-name "~/todo.org")))
+    #+end_src
+
+    Capture e-Mails from mu4e.
+    #+begin_src emacs-lisp :tangle yes
+      (require 'org-mu4e)
+      (setq org-capture-templates
+            '(("t" "todo" entry (file+headline "~/todo.org" "Aufgaben")
+               "* TODO [#A] %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%a\n")))
+    #+end_src
 
 *** Handling Links
     
