@@ -142,6 +142,14 @@
       (setq org-agenda-files `(,(expand-file-name "~/todo.org")))
     #+end_src
 
+    Set the defaults for agenda view: time span, start with a clockreport and
+    extend the report to be finer grained, i.e. go deeper in the tree.
+    #+begin_src emacs-lisp :tangle yes
+      (setq org-agenda-span 'fortnight
+            org-agenda-start-with-clockreport-mode t
+            org-agenda-clockreport-parameter-plist '(:link t :maxlevel 3))
+    #+end_src
+
     Capture e-Mails from mu4e.
     #+begin_src emacs-lisp :tangle yes
       (require 'org-mu4e)
