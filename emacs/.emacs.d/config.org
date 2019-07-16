@@ -479,10 +479,11 @@
        "my very own enhanced text mode"
        (visual-line-mode 1)
        (visual-fill-column-mode 1)
+       (setq-local paragraph-start ".*$")
+       (setq-local paragraph-separate "[ \t\f]*$")
        (ispell-change-dictionary "de_DE")
        (flyspell-mode 1)
-       (setq-local paragraph-start ".*$")
-       (setq-local paragraph-separate "[ \t\f]*$"))
+       (flyspell-buffer))
    #+end_src
 
 * Font
