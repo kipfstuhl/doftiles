@@ -1004,7 +1004,7 @@
   #+BEGIN_SRC emacs-lisp :tangle yes
     (require 'mu4e)
     ;; (require 'smtpmail)
-    ;; (require 'sendmail)
+    (require 'sendmail)
     (require 'org-mu4e)                     ;use mu4e and org together
 
     (setq mu4e-maildir "~/Mail")		;where mails are stored
@@ -1447,6 +1447,7 @@ sent."
            send-mail-function 'message-send-mail-with-sendmail
            sendmail-program "/home/jonas/bin/msmtpqueue/msmtp-enqueue.sh"
            message-kill-buffer-on-exit t     ; kill old messages when sent
+           message-send-mail-functin 'message-send-mail-with-sendmail
      )
    #+END_SRC
 
