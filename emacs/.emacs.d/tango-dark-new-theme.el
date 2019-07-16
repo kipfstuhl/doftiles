@@ -240,6 +240,18 @@ Without ugly boxes but with Magit.")
     ;; pulse faces, used also by semantic for jumps
     ;; `(pulse-highlight-face ((,class (:inherit highlight))))
     `(pulse-highlight-start-face ((,class (:inherit next-error))))
+    ;; Org mode faces
+    `(org-agenda-structure ((,class (:foreground ,choc-2))))
+    `(org-agenda-clocking ((,class (:foreground ,choc-3))))
+    ;; `(org-agenda-done ((,class (:foreground ,cham-3)))) ; maybe have to adjust this
+    `(org-done ((,class (:foreground ,cham-1 :weight bold))))
+    `(org-date ((,class (:foreground ,blue-0))))
+    `(org-footnote ((,class (:foreground ,blue-0))))
+    `(org-scheduled ((,class (:foreground ,cham-2))))
+    `(org-scheduled-previously ((,class (:foreground ,choc-2))))
+    `(org-scheduled-today ((,class (:foreground ,cham-2))))
+    `(org-sexp-date ((,class (:foreground ,blue-0))))
+    `(org-table ((,class (:foreground ,cham-2))))
     )
   ;; PDF View / PDF Tools
   ;; this is only a variable, but it is something that belongs to a theme
