@@ -19,6 +19,15 @@ case "$OPTIONS" in
 	;;
 esac
 
+# check if GPG keys are unlocked for extracting the authentication information
+# like passwords
+# if [ -z "$GPG_AGENT_INFO" ]; then
+if ! pgrep -a gpg-agent 1>/dev/null; then
+    echo "Access to GPG currently not possible."
+    echo "Run keychain and try again."
+    exit 1
+fi
+
 # wait for a lock that another instance has set
 WAIT=0
 while [ -e "$LOCKFILE" -a "$WAIT" -lt "$MAXWAIT" ]; do
