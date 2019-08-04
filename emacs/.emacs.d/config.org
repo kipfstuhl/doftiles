@@ -449,7 +449,10 @@
    #+END_SRC
 
    Use =keychain= to get access to ssh-agent and gpg-agent. This removes
-   unnecessary password prompts.
+   unnecessary password prompts. Cannot refresh it if keychain was not started
+   already. To do so one could execute keychain in the login script or
+   comparably, but this seems not the best solution to me. So I stick with the
+   "solution" to run keychain manually and afterwards do this inside emacs.
    #+BEGIN_SRC emacs-lisp :tangle yes
      ;(keychain-refresh-environment)
    #+END_SRC
@@ -1457,6 +1460,8 @@ sent."
            sendmail-program "/home/jonas/bin/msmtpqueue/msmtp-enqueue.sh"
            message-kill-buffer-on-exit t     ; kill old messages when sent
            message-send-mail-functin 'message-send-mail-with-sendmail
+           message-forward-before-signature nil
+           message-cite-reply-position 'above
      )
    #+END_SRC
 
