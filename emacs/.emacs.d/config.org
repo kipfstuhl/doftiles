@@ -48,6 +48,11 @@
   #+end_src
   
 * General Settings  
+  Add own Lisp Directory to load-path.
+  #+begin_src emacs-lisp :tangle yes
+    (add-to-list 'load-path "~/.emacs.d/lisp")
+  #+end_src
+
 ** Emacs Server
   Start Emacs server for being able to use emacsclient do not start it
   when already running, this is particularly useful if you edit the
@@ -476,17 +481,11 @@
        (term "/bin/zsh"))
    #+END_SRC
 
-   new text mode
+   My new text mode has grown a bit. I have additinal plans, so I prepared a
+   separate file for this mode, for example something like org-cycle would be
+   very useful. For now, just load it.
    #+begin_src emacs-lisp :tangle yes
-     (define-derived-mode my-text-mode text-mode "enhanced text"
-       "my very own enhanced text mode"
-       (visual-line-mode 1)
-       (visual-fill-column-mode 1)
-       (setq-local paragraph-start ".*$")
-       (setq-local paragraph-separate "[ \t\f]*$")
-       (ispell-change-dictionary "de_DE")
-       (flyspell-mode 1)
-       (flyspell-buffer))
+     (require 'my-outline)
    #+end_src
 
 * Font
@@ -698,11 +697,10 @@
   uses these results, but does discard the call to post-complete,
   which results in template expansion.
   #+BEGIN_SRC emacs-lisp :tangle yes
-    (add-to-list 'load-path "~/.emacs.d/lisp")
     (require 'company-my-clang)
     (add-to-list 'company-backends 'company-my-clang)
   #+END_SRC
-
+  
 * Bibliography
 ** helm-bibtex
    Nice mode for organizing BibTeX references.
