@@ -1054,7 +1054,7 @@
         (buffer-string)))
   #+END_SRC
 
-** Listing Masils
+** Listing Mails
    In mu4e the mail list is called header mode. This is just the list
    of currently selected mails, e.g. in one maildir or by a
    search. Strictly speaking everything is a search in the mu and mu4e
@@ -1086,7 +1086,7 @@
    need to be larger.  The default scrolling is not the best, so I try
    to improve on it.
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq mu4e-view-html-plaintext-ratio-heuristic 10)
+     (setq mu4e-view-html-plaintext-ratio-heuristic 20)
      ;; (setq mu4e-view-scroll-to-next nil)	;not needed anymore
      (define-key mu4e-view-mode-map (kbd "SPC") #'(lambda ()
 						    (interactive)
