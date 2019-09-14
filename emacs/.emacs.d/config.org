@@ -83,13 +83,15 @@
 ** Non-Specific Keybindings
 
   #+begin_src emacs-lisp
-    (global-set-key (kbd "C-c r") 'replace-string) ; non-qery replace
-                                                   ; keybinding
-    (global-set-key (kbd "C-x C-b") 'ibuffer)      ; better overview of buffers
-    (global-set-key (kbd "C-c c") 'org-capture)    ; get something into org mode
+    (global-set-key (kbd "C-c r") 'replace-string)           ; non-qery replace
+                                                             ; keybinding
+    (global-set-key (kbd "C-x C-b") 'ibuffer)                ; better overview of buffers
+    (global-set-key (kbd "C-c c") 'org-capture)              ; get something into org mode
 
-    (global-set-key (kbd "C-c C-f") 'fzf)          ;fuzzy finder
-    (global-set-key (kbd "C-c f") 'fzf-directory)  ;
+    (global-set-key (kbd "C-c C-f") 'fzf)                    ; fuzzy finder
+    (global-set-key (kbd "C-c f") 'fzf-directory)            ;
+
+    (global-set-key (kbd "C-x M-k") 'kill-buffer-and-window) ; easier to reach
   #+end_src
 
   My notebook has a problem with Shift and Meta keys at the same time,
