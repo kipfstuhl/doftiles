@@ -1491,6 +1491,7 @@ sent."
               (buffer  (get-buffer-create buf-name)))
          (with-current-buffer buffer
            (erase-buffer)
+           (message "running msmtpqueue ...")
            (let ((proc
                   (start-process
                    "msmtpq-run" buffer

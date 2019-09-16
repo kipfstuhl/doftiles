@@ -103,6 +103,8 @@
 ;;  '(add-to-list 'Tex-command-list
 ;;		'("LuaLaTex" "lualatex %s" TeX-run-comman t t :help "Run LuaLaTex") t))
 
+(setq vc-follow-symlinks t)             ;follow links without asking
+
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 (org-babel-load-file (locate-user-emacs-file "config.org"))
