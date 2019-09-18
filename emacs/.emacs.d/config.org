@@ -1212,6 +1212,9 @@ sent."
                                                         ;; try to understand some of the mu find
                                                         ;; syntax, at this point nothing is known
                                                         (cond
+                                                         ((= (length expr) 0)
+                                                          ;no input -> display everything in this account
+                                                          "maildir:/T-Online/")
                                                          ((string-match-p "\\(^\\|[[:blank:]]\\)maildir:" expr)
                                                           expr)
                                                          ;; be a bit efficient and don't use regexps
@@ -1266,6 +1269,9 @@ sent."
                                                         ;; try to understand some of the mu find
                                                         ;; syntax, at this point nothing is known
                                                         (cond
+                                                         ((= (length expr) 0)
+                                                          ;no input -> display everything in this account
+                                                          "maildir:/DLRG-J-B/")
                                                          ((string-match-p "\\(^\\|[[:blank:]]\\)maildir:" expr)
                                                           expr)
                                                          ;; be a bit efficient and don't use regexps
