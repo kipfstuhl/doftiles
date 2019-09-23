@@ -490,6 +490,11 @@
      (require 'my-outline)
    #+end_src
 
+   Emacs can use dig or other DNS lookup programs.
+   #+begin_src emacs-lisp :tangle yes
+     (setq dig-program "drill")
+   #+end_src
+
 * Font
   Use Fira Code font.  This font has ligatures built-in that are
   designed for code development.  This is an excellent font for
