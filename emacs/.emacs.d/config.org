@@ -380,6 +380,8 @@
                                           ("\\.pptx\\'" "libreoffice")
                                           ("\\.xls\\'" "libreoffice")
                                           ("\\.xlsx\\'" "libreoffice")))
+     (define-key dired-mode-map (kbd "M-p") 'dired-up-directory)
+     (setq dired-isearch-filenames 'dwim)
    #+END_SRC
 
 ** AUCTeX
