@@ -112,7 +112,7 @@ Without ugly boxes but with Magit.")
     `(mu4e-trashed-face             ((,class (:inherit shadow
 						:strike-through t))))
     `(mu4e-draft-face                ((,class (:inherit font-lock-string-face))))
-    `(mu4e-flagged-face              ((,class (:foreground ,red-3 :weight bold))))
+    `(mu4e-flagged-face              ((,class (:foreground ,red-0 :weight bold))))
     `(mu4e-replied-face              ((,class (:inherit shadow))))
     `(mu4e-forward-face              ((,class (:inherit shadow))))
     `(mu4e-header-face               ((,class (:inherit default))))
