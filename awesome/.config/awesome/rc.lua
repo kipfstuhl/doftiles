@@ -16,6 +16,8 @@ require("awful.hotkeys_popup.keys")
 -- use lain library
 local lain = require("lain")
 
+-- helper for multiple monitors
+local xrandr = require("xrandr")
 
 -- set locale
 os.setlocale("de_DE.UTF-8", "time")
@@ -490,7 +492,8 @@ globalkeys = gears.table.join(
 	  myscreen = awful.screen.focused()
 	  myscreen.mywibox.visible = not myscreen.mywibox.visible
        end,
-       {description = "toggle wibar", group = "awesome"})
+       {description = "toggle wibar", group = "awesome"}),
+    awful.key({ modkey }, "d", function() xrandr.xrandr() end)
 )
 
 clientkeys = gears.table.join(
