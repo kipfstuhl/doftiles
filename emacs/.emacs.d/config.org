@@ -892,8 +892,10 @@
     (require 'sendmail)
     (require 'org-mu4e)                     ;use mu4e and org together
 
-    (setq mu4e-maildir "~/Mail")		;where mails are stored
-    (setq mu4e-update-interval 600)	     	;seconds to wait for updating
+    (setq mu4e-maildir "~/Mail")            ;where mails are stored
+    (setq mu4e-update-interval 600)         ;seconds to wait for updating
+
+    (global-set-key (kbd "C-c m") 'mu4e     ;jump to mu4e from everywhere
   #+END_SRC
 
   Here some general settings. These are just for convenience and don't
