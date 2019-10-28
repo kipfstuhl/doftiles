@@ -895,7 +895,7 @@
     (setq mu4e-maildir "~/Mail")            ;where mails are stored
     (setq mu4e-update-interval 600)         ;seconds to wait for updating
 
-    (global-set-key (kbd "C-c m") 'mu4e     ;jump to mu4e from everywhere
+    (global-set-key (kbd "C-c m") 'mu4e)    ;jump to mu4e from everywhere
   #+END_SRC
 
   Here some general settings. These are just for convenience and don't
@@ -1413,10 +1413,11 @@ sent."
                       e.g. company.
   - fd-dired       :: use the faster, better and rustier fd program instead of
                       standard find
+  - org-brain      :: something like a storage for ideas, this works by using
+                      cross-references a lot; some similarity to a slip box/card
+                      index
   - sunrise-commander :: similar to midnight commander, but uses dired inside Emacs
-  - artbollocks-mode :: similar to writegood mode
-  - built-in things  :: these may change a lot directly
-    - line-spacing   :: set this variable in text
-                        buffers.
-  - visual-fill-column-mode :: use this for smaller and centered
-       text areas
+  - artbollocks-mode  :: similar to writegood mode
+  - built-in things   :: these may change a lot directly
+    - line-spacing    :: set this variable in text buffers.
+  - visual-fill-column-mode :: use this for smaller and centered text areas
