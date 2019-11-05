@@ -5,7 +5,7 @@ map f     scroll half-down
 map b     scroll half-up
 map <A-n> scroll full-down
 map <A-p> scroll full-up
-map <C-s> search next
-map <C-r> search previous
+map <C-s> search forward
+map <C-r> search backward
 map <C-o> follow
 map <A-r> rotate rotate-ccw
