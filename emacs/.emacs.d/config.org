@@ -265,7 +265,8 @@
       (org-babel-do-load-languages
        'org-babel-load-languages
        '((emacs-lisp . t)
-         (lisp . t)))
+         (lisp . t)
+         (matlab . t)))
       (setq org-babel-lisp-eval-fn 'sly-eval)
     #+END_SRC
 
