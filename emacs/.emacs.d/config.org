@@ -800,8 +800,9 @@
    #+begin_src emacs-lisp
      (require 'hideshow-org)
      (add-hook 'prog-mode-hook
-	       #'hs-org/minor-mode)
+               #'hs-org/minor-mode)
    #+end_src
+   Matlab mode does not inherit from =prog-mode=.
 
 ** Fortran
    Use Fortran mode also for pfUnit (.pf) files, this is a unit test
@@ -890,6 +891,20 @@
           "atexit( () -> run(`$(append!(Base.julia_cmd().exec, [\"-q\"]))`) ); exit()")))
    #+END_SRC
    
+** Matlab
+   #+begin_src emacs-lisp :tangle yes
+     (require 'matlab)
+   #+end_src
+   Matlab mode is not an inherited mode, so it is not a programming mode ...
+
+   Nevertheless use the programming font and automatic code folding.
+   #+begin_src emacs-lisp :tangle yes
+     (add-hook 'matlab-mode-hook
+               #'fira-code-mode)
+     (add-hook 'matlab-mode-hook
+               #'hs-org/minor-mode)
+   #+end_src
+
 * E-Mail
   I use mu4e for mails. ~mu~ is just a mail-indexer for fast searches,
   mails have to be retrieved by another program. I use ~offlineimap~,
