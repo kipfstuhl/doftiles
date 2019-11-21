@@ -79,7 +79,7 @@ alias icat="kitty +kitten icat"
 
 # setup for emacsclient
 export ALTERNATE_EDITOR=""
-export EDITOR=emacsclient
+export EDITOR="emacsclient -n"
 
 # fuzzy find
 source /usr/share/fzf/key-bindings.zsh
