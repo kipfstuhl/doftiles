@@ -486,6 +486,13 @@
        (term "/bin/zsh"))
    #+END_SRC
 
+   Use shell-pop, this is something like guake or any other dropdown terminal.
+   #+begin_src emacs-lisp :tangle yes
+     (require 'shell-pop)
+     (global-set-key (kbd "s-v") 'shell-pop)
+     (setq shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))
+   #+end_src
+
    My new text mode has grown a bit. I have additinal plans, so I prepared a
    separate file for this mode, for example something like org-cycle would be
    very useful. For now, just load it.
