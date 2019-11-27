@@ -1,0 +1,4 @@
+alias vo view-file-other-window $1
+alias vf view-file $1
+alias fo find-file-other-window $1
+alias ff find-file $1
