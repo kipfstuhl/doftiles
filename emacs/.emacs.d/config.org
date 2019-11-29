@@ -486,11 +486,17 @@
        (term "/bin/zsh"))
    #+END_SRC
 
-   Use shell-pop, this is something like guake or any other dropdown terminal.
+   Use shell-pop, this is something like guake or any other dropdown
+   terminal. The only bad thing about this is the customization. If you use the
+   customize functionality everything is fine, but if not, you will get
+   trouble. This is the reason for using a function, that was intended for
+   internal use only, for setting the shell type.
    #+begin_src emacs-lisp :tangle yes
      (require 'shell-pop)
      (global-set-key (kbd "s-v") 'shell-pop)
-     (setq shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))
+     (global-set-key (kbd "s-`") 'shell-pop) ;my bad keyboard has some benefits
+     (setq shell-pop-shell-type '("eshell" "*esh-pop*" (lambda () (eshell))))
+     (shell-pop--set-shell-type 'shell-pop-shell-type shell-pop-shell-type)
    #+end_src
 
    My new text mode has grown a bit. I have additinal plans, so I prepared a
