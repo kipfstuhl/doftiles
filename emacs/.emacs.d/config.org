@@ -415,8 +415,30 @@
    #+END_SRC
 
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq reftex-plug-into-AUCTeX nil)
+     (require 'reftex)
+     (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+     (add-hook 'LaTeX-mode-hook 'auto-fill-mode)
+     (setq reftex-plug-into-AUCTeX t)
    #+END_SRC
+   
+   #+begin_src emacs-lisp :tangle yes
+     ;; (eval-after-load
+     ;;     "LaTeX"
+     ;;   '(TeX-add-style-hook
+     ;;     "cleveref"
+     ;;     (lambda ()
+     ;;       (if (boundp 'reftex-ref-style-alist)
+     ;;           (add-to-list
+     ;;            'reftex-ref-style-alist
+     ;;            '("Cleveref" "cleveref"
+     ;;              (("\\cref" ?c) ("\\Cref" ?C) ("\\cpageref" ?d) ("\\Cpageref" ?D)))))
+     ;;       (reftex-ref-style-activate "Cleveref")
+     ;;       (TeX-add-symbols
+     ;;        '("cref" TeX-arg-ref)
+     ;;        '("Cref" TeX-arg-ref)
+     ;;        '("cpageref" TeX-arg-ref)
+     ;;        '("Cpageref" TeX-arg-ref)))))
+   #+end_src
 
 ** Ledger-mode
    Mode for managing money with help of ledger.
