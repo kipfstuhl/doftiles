@@ -963,11 +963,16 @@
     (require 'sendmail)
     (require 'org-mu4e)                     ;use mu4e and org together
 
-    (setq mu4e-maildir "~/Mail")            ;where mails are stored
-    (setq mu4e-update-interval 600)         ;seconds to wait for updating
+    (setq mu4e-maildir "~/Mail"             ;where mails are stored
+          mu4e-update-interval 600          ;seconds to wait for updating
+          mu4e-headers-auto-update nil)     ;don't refresh after update
 
     (global-set-key (kbd "C-c m") 'mu4e)    ;jump to mu4e from everywhere
   #+END_SRC
+  Auto updating removes the filter after the update of the mail list. This is
+  not very useful while reading longer mails. Also sometimes it will fiddle
+  around with the cursor; getting the cursor the new position will take some
+  time.
 
   Here some general settings. These are just for convenience and don't
   do much. Use ~completing-read~, as the standard
@@ -985,8 +990,8 @@
   #+BEGIN_SRC emacs-lisp :tangle yes
     (setq mu4e-split-view 'horizontal
           mu4e-headers-visible-columns 100
-          mu4e-headers-visible-lines 15)
-    (setq mu4e-headers-include-related nil)
+          mu4e-headers-visible-lines 15
+          mu4e-headers-include-related nil)
   #+END_SRC
 
   Helper function to read the signature from a file. This prevents to store a
