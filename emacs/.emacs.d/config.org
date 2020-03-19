@@ -952,6 +952,63 @@
      (add-hook 'matlab-mode-hook
                #'hs-org/minor-mode)
    #+end_src
+   
+   Remove the splash screen when matlab starts, use less indenting
+   #+begin_src emacs-lisp :tangle yes
+     (setq matlab-shell-command-switches '("-nodesktop" "-nosplash"))
+     (setq matlab-indent-level 2)
+   #+end_src
+   
+   Fix the ~matlab-shell-run-region-or-line~ function for executing single
+   lines. I had to add some helper functions for this to work, strangely there
+   are functions for previous line but not next line in matlab mode. This
+   redefines a funuction defined in ~matlab-mode~.
+   #+begin_src emacs-lisp :tangle yes
+     (defun matlab-find-next-line ()
+       "Recurse forwards until a code line is found."
+       (if (= 1 (forward-line 1))
+           nil
+         (if (or (matlab-ltype-empty)
+                 (matlab-ltype-comm))
+             (matlab-find-next-line)
+           t)))
+
+     (defun matlab-next-line ()
+       "Go to the next line of code.  Return nil if not found."
+       (interactive)
+       (let ((old-point (point)))
+         (if (matlab-find-next-line)
+             t
+           (goto-char old-point) nil)))
+
+     (with-eval-after-load "matlab-shell"
+       (defun matlab-shell-run-region-or-line ()
+         "Run region from BEG to END and display result in MATLAB shell.
+     If region is not active run the current line and go to the next
+     code line.
+     This command requires an active MATLAB shell."
+         (interactive)
+         (if (and transient-mark-mode mark-active)
+             (matlab-shell-run-region (mark) (point))
+           (let ((beg (matlab-point-at-bol))
+                 (end (matlab-point-at-eol)))
+             (matlab-next-line)
+             (matlab-shell-run-region beg end)))))
+   #+end_src
+   
+   Add the ability to run the whole matlab buffer without saving the file.
+   #+begin_src emacs-lisp :tangle yes
+     (defun matlab-shell-run-buffer (&optional noshow)
+       "Run the content of current buffer in a batalb shell."
+       (interactive)
+       (let ((beg (save-excursion (goto-char (point-min))
+                                    (point)))
+             (end (save-excursion (goto-char (point-max))
+                                    (point))))
+         (matlab-shell-run-region beg end noshow)))
+
+     (define-key matlab-mode-map (kbd "C-c C-b") #'matlab-shell-run-buffer)
+   #+end_src
 
 * E-Mail
   I use mu4e for mails. ~mu~ is just a mail-indexer for fast searches,
