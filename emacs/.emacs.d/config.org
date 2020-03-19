@@ -626,6 +626,26 @@
            (interactive)
            (biblio-download--action (biblio--selection-metadata-at-point))))
    #+END_SRC
+   
+   Set some paths.
+   #+begin_src emacs-lisp :tangle yes
+     (setq bibtex-completion-bibliography "~/dokumente/Uni/master/thesis/thesis.bib")
+     (setq bibtex-completion-library-path "~/dokumente/Uni/master/pdf")
+   #+end_src
+   
+   Open PDF files with default PDF viewer
+   #+begin_src emacs-lisp :tangle yes
+     (setq bibtex-completion-pdf-open-function
+       (lambda (fpath)
+         (call-process "xdg-open" nil 0 nil fpath)))
+   #+end_src
+
+   Fast access to helm-bibtex.
+   #+begin_src emacs-lisp :tangle yes
+     (require 'latex)
+     (define-key LaTeX-mode-map (kbd "C-c i") #'helm-bibtex)
+     (define-key bibtex-mode-map (kbd "C-c i") #'helm-bibtex)
+   #+end_src
 
 * Programming Modes
   Add some convenient keybindings, these used to be in the global map, but fit
