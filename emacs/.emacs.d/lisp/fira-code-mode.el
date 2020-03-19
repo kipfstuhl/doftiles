@@ -20,10 +20,10 @@
           (prefix ())
           (suffix '(?\s (Br . Br)))
           (n 1))
-     (while (< n width)
-       (setq prefix (append prefix '(?\s (Br . Bl))))
-       (setq n (1+ n)))
-     (cons s (append prefix suffix (list (decode-char 'ucs code))))))
+         (while (< n width)
+           (setq prefix (append prefix '(?\s (Br . Bl))))
+           (setq n (1+ n)))
+         (cons s (append prefix suffix (list (decode-char 'ucs code))))))
      list)))
 
 (defconst fira-code-mode--ligatures
@@ -40,6 +40,17 @@
     "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<" "<~"
     "<~~" "</" "</>" "~@" "~-" "~=" "~>" "~~" "~~>" "%%"
     "x" ":" "+" "+" "*"))
+    ;; ":" "+" "+" "*"))
+
+(defconst fira-code-mode--faulty-ligatures
+  '("x"))
+
+(defun fira-code-mode--adjust-alist (list)
+  "Remove unnecessary symbols from the list"
+  (remove-if
+   (lambda (elt)
+     (member (car elt) fira-code-mode--faulty-ligatures))
+   list))
 
 (defvar fira-code-mode--old-prettify-alist)
 
@@ -48,7 +59,8 @@
   (when (display-graphic-p)
     (setq-local fira-code-mode--old-prettify-alist prettify-symbols-alist)
     (setq-local prettify-symbols-alist
-                (append (fira-code-mode--make-alist fira-code-mode--ligatures)
+                (append (fira-code-mode--adjust-alist
+                         (fira-code-mode--make-alist fira-code-mode--ligatures))
                         fira-code-mode--old-prettify-alist))
     (prettify-symbols-mode t)))
 
