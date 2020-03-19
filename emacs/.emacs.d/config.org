@@ -17,11 +17,15 @@
   new, graphical frame.  This also works in server-mode if it is
   called as ~emacsclient~, or ~emacsclient -c~.
   #+begin_src emacs-lisp
+    ;; (defun new-frame-setup (frame)
+    ;;   (when (display-graphic-p frame)
+    ;;     (progn
+    ;;       (tool-bar-mode -1)
+    ;;       (scroll-bar-mode -1))))
     (defun new-frame-setup (frame)
-      (when (display-graphic-p frame)
-	(progn
-	  (tool-bar-mode -1)
-	  (scroll-bar-mode -1))))
+        (progn
+          (tool-bar-mode -1)
+          (scroll-bar-mode -1)))
     (add-hook 'after-make-frame-functions 'new-frame-setup)
   #+end_src
   
@@ -1531,7 +1535,10 @@ sent."
    #+END_SRC
 
 * Some other ideas:
-  - tramp          :: access files and directories remotely, bahaves as if tey
+  - hyperbole      :: interesting package, "information enabler", makes
+                      documents "active" with links and buttons
+  - zpresent       :: presentations within Emacs, using Org files
+  - tramp          :: access files and directories remotely, behaves as if they
                       were local
   - company-bibtex :: use bibtex files as backend
   - company-reftex :: backend based on RefTeX, this is the standard in
