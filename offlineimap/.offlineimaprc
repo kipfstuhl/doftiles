@@ -33,6 +33,7 @@ localfolders = ~/Mail/T-Online
 sync_deletes = yes
 utime_from_header = yes
 filename_use_mail_timestamp = yes
+folderfilter = lambda foldername: not foldername.startswith('Archiv')
 
 [Repository T-Online-Remote]
 type = IMAP
