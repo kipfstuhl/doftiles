@@ -1599,6 +1599,8 @@ sent."
                       e.g. company.
   - fd-dired       :: use the faster, better and rustier fd program instead of
                       standard find
+  - python         :: try language server or anaconda-mode (jedi and python.el
+                      are not the best ones)
   - org-brain      :: something like a storage for ideas, this works by using
                       cross-references a lot; some similarity to a slip box/card
                       index
