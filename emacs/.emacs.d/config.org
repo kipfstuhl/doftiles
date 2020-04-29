@@ -1070,7 +1070,7 @@
     (require 'sendmail)
     (require 'org-mu4e)                     ;use mu4e and org together
 
-    (setq mu4e-maildir "~/Mail"             ;where mails are stored
+    (setq ;mu4e-maildir "~/Mail"             ;where mails are stored
           mu4e-update-interval 600          ;seconds to wait for updating
           mu4e-headers-auto-update nil)     ;don't refresh after update
 
@@ -1562,9 +1562,9 @@ sent."
                    "/home/jonas/bin/msmtpqueue/msmtp-runqueue.sh")))
              (set-process-sentinel proc 'msmtpsq-fail-sentinel)))))
 
-     (define-key 'mu4e-main-mode-map    (kbd "C-c C-r") 'msmtpq-runqueue)
-     (define-key 'mu4e-headers-mode-map (kbd "C-c C-r") 'msmtpq-runqueue)
-     (define-key 'mu4e-view-mode-map    (kbd "C-c C-r") 'msmtpq-runqueue)
+     (define-key mu4e-main-mode-map    (kbd "C-c C-r") 'msmtpq-runqueue)
+     (define-key mu4e-headers-mode-map (kbd "C-c C-r") 'msmtpq-runqueue)
+     (define-key mu4e-view-mode-map    (kbd "C-c C-r") 'msmtpq-runqueue)
    #+end_src
 
 
