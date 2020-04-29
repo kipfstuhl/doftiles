@@ -16,4 +16,5 @@ echo "Synchronized mails"
 echo "Last execution: $(date)"
 echo
 
-mu index -m ~/Mail
+#mu index -m ~/Mail
+mu index
