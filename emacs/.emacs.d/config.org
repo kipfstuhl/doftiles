@@ -1001,9 +1001,11 @@
                #'hs-org/minor-mode)
    #+end_src
    
-   Remove the splash screen when matlab starts, use less indenting
+   Remove the splash screen when matlab starts, but start a JVM.  This is
+   required for auto completion.  Use less indenting.
    #+begin_src emacs-lisp :tangle yes
-     (setq matlab-shell-command-switches '("-nodesktop" "-nosplash"))
+     (setq matlab-shell-command-switches
+           '("-nodesktop" "-nosplash"))
      (setq matlab-indent-level 2)
    #+end_src
    
