@@ -1,11 +1,16 @@
 # check if functions are unreachable now
-map n     scroll down
-map p     scroll up
-map f     scroll half-down
-map b     scroll half-up
-map <A-n> scroll full-down
-map <A-p> scroll full-up
-map <C-s> search forward
-map <C-r> search backward
-map <C-o> follow
-map <A-r> rotate rotate-ccw
+map n         scroll down
+map p         scroll up
+map f         scroll half-down
+map b         scroll half-up
+map <A-n>     scroll full-down
+map <A-p>     scroll full-up
+map <C-s>     search forward
+map <C-r>     search backward
+map <C-o>     follow
+map <A-r>     rotate rotate-ccw
+map <C-Space> navigate next
+map <A-Space> navigate previous
+
+set scroll-step 80              #faster scrolling with touchpad
+set font "FiraCode 9"             #nice font
