@@ -425,6 +425,44 @@
      (setq reftex-plug-into-AUCTeX t)
    #+END_SRC
    
+   Make some convenient key bindings for inserting math.
+   #+begin_src emacs-lisp :tangle yes
+     (defun my-LaTeX-math-mathbb (char dollar)
+       "Insert {\Bbb CHAR} or \mathbb{CHAR} if latex2e is in
+     TeX-style-list.  If DOLLAR is non-nil, put $'s around it."
+       (interactive "*c\nP")
+       (if dollar (insert "$"))
+       (if (member "latex2e" (TeX-style-list))
+           (insert "\\mathbb{" (char-to-string char) "}")
+         (insert "{\\Bbb " (char-to-string char) "}"))
+       (if dollar (insert "$")))
+
+     (defun my-LaTeX-math-bar (char dollar)
+       "Insert {\bar CHAR} or \bar{CHAR} if latex2e is in
+     TeX-style-list.  If DOLLAR is non-nil, put $'s around it."
+       (interactive "*c\nP")
+       (if dollar (insert "$"))
+       (if (member "latex2e" (TeX-style-list))
+           (insert "\\bar{" (char-to-string char) "}")
+         (insert "{\\bar " (char-to-string char) "}"))
+       (if dollar (insert "$")))
+
+     (defun my-LaTeX-math-tile (char dollar)
+       "Insert {\tilde CHAR} or \tilde{CHAR} if latex2e is in
+     TeX-style-list.  If DOLLAR is non-nil, put $'s around it."
+       (interactive "*c\nP")
+       (if dollar (insert "$"))
+       (if (member "latex2e" (TeX-style-list))
+           (insert "\\tile{" (char-to-string char) "}")
+         (insert "{\\tilde " (char-to-string char) "}"))
+       (if dollar (insert "$")))
+
+     (setq LaTeX-math-list ())
+     (add-to-list 'LaTeX-math-list '("=" my-LaTeX-math-mathbb "" nil))
+     (add-to-list 'LaTeX-math-list '("_" my-LaTeX-math-bar "" nil))
+     (add-to-list 'LaTeX-math-list '("~" my-LaTeX-math-bar "" nil))
+   #+end_src
+   
    #+begin_src emacs-lisp :tangle yes
      ;; (eval-after-load
      ;;     "LaTeX"
@@ -442,6 +480,12 @@
      ;;        '("Cref" TeX-arg-ref)
      ;;        '("cpageref" TeX-arg-ref)
      ;;        '("Cpageref" TeX-arg-ref)))))
+   #+end_src
+   
+   Make the includegraphics macro insertion dialog to display relevant files.
+   #+begin_src emacs-lisp :tangle yes
+     (setq LaTeX-includegraphics-read-file
+           'LaTeX-includegraphics-read-file-relative)
    #+end_src
 
 ** Ledger-mode
