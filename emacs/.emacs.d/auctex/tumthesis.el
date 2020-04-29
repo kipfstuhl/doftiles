@@ -8,7 +8,7 @@
                                   "amssymb" "ntheorem" "tabularx"
                                   "booktabs" "xspace" "listings"
                                   "imakeidx" "footmics" "caption"
-                                  "hyperref" "cleverref" "commath")
+                                  "hyperref" "cleverref" "commath" "fixme")
              (if (boundp 'reftex-ref-style-alist)
                  (add-to-list
                   'reftex-ref-style-alist
@@ -19,4 +19,27 @@
               '("cref" TeX-arg-ref)
               '("Cref" TeX-arg-ref)
               '("cpageref" TeX-arg-ref)
-              '("Cpageref" TeX-arg-ref)))))
+              '("Cpageref" TeX-arg-ref))
+             (LaTeX-add-environments
+              '("theorem" LaTeX-env-label)
+              '("lemma"   LaTeX-env-label)
+              '("corollary" LaTeX-env-label)
+              '("conjecture" LaTeX-env-label)
+              '("remark"  LaTeX-env-label)
+              '("definition" LaTeX-env-label)
+              '("problem" LaTeX-env-label)
+              '("example" LaTeX-env-label)
+              '("proof"   LaTeX-env-label))
+             (dolist (el '(("theorem" . "th:")
+                           ("lemma"   . "th:")))
+               (add-to-list 'LaTeX-label-alist el))
+             (dolist (el '(("theorem" ?h "th:" "~\\ref{%s}" nil ("Theorem" "th.") nil)
+                           ("lemma"   ?h "th:" "~\\ref{%s}" nil ("Theorem" "th.") nil)))
+               (add-to-list 'reftex-label-alist el))
+             ;; (add-to-list
+             ;;  'reftex-label-alist
+             ;;  '(("theorem" ?h "th:" "~\\ref{%s}" t ("theorem" "th."))))
+             )))
+
+
+
