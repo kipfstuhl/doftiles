@@ -252,6 +252,8 @@ Without ugly boxes but with Magit.")
     `(org-scheduled-today ((,class (:foreground ,cham-2))))
     `(org-sexp-date ((,class (:foreground ,blue-0))))
     `(org-table ((,class (:foreground ,cham-2))))
+    ;; TeX faces
+    `(font-latex-script-char-face ((,class (:foreground ,red-0))))
     )
   ;; PDF View / PDF Tools
   ;; this is only a variable, but it is something that belongs to a theme

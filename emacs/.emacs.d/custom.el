@@ -32,7 +32,7 @@
       (context-mode)
       :help "Run ConTeXt until completion")
      ("BibTeX" "bibtex %s" TeX-run-BibTeX nil t :help "Run BibTeX")
-     ("Biber" "biber %s" TeX-run-Biber nil t :help "Run Biber")
+     ("Biber" "biber --isbn-normalise %s" TeX-run-Biber nil t :help "Run Biber")
      ("View" "%V" TeX-run-discard-or-function t t :help "Run Viewer")
      ("Print" "%p" TeX-run-command t t :help "Print the file")
      ("Queue" "%q" TeX-run-background nil t :help "View the printer queue" :visible TeX-queue-command)
