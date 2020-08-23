@@ -974,6 +974,7 @@
    #+BEGIN_SRC emacs-lisp :tangle yes
      (require 'julia-mode)
      (require 'julia-repl)
+     (add-hook 'julia-mode-hook 'julia-repl-mode)
    #+END_SRC
 
    Behave like other repl modes
