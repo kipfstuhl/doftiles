@@ -23,4 +23,4 @@ _darcs
 ^/LICENSE.*
 ^/COPYING
 
-.emacs.d/config.el
+#.emacs.d/config.el
