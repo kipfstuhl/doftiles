@@ -1121,6 +1121,12 @@
         (buffer-string)))
   #+END_SRC
 
+** Bookmarks
+   Search queries that are used often can be stored as bookmarks.
+   #+begin_src emacs-lisp :tangle yes
+     (mu4e-bookmark-define "flag:attach" "Messages with attachments" ?a)
+   #+end_src
+
 ** Listing Mails
    In mu4e the mail list is called header mode. This is just the list
    of currently selected mails, e.g. in one maildir or by a
@@ -1576,6 +1582,25 @@ sent."
      (define-key mu4e-view-mode-map    (kbd "C-c C-r") 'msmtpq-runqueue)
    #+end_src
 
+   Check the queue for mails still to be sent and if there are some, ask whether
+   they should be sent or not.  Note that the check does only search for files
+   in the folder, this is not the best method but works.  The funciton
+   ~directory-files~ also returns =.= and =..= as files in the directory.  As
+   mu4e does not offer an exit hook, I monkey patched the quit function with my
+   advice.
+   #+begin_src emacs-lisp :tangle yes
+     (defun check-msmtpqueue ()
+       "Check the msmtp queue-directory for files still to be
+     sent. Optionally send them"
+       (interactive)
+       (let ((number-of-files (length (directory-files "~/.msmtpqueue"))))
+         ;; this is not the best check, but works so far
+         (when (and (> number-of-files 2)
+                    (y-or-n-p "There are still messages in the queue. Run msmtp?"))
+           (msmtpq-runqueue))))
+
+     (advice-add 'mu4e-quit :before #'check-msmtpqueue)
+   #+end_src
 
    OLD text:
    smtpmail can take a very long time to send the mails, specially
