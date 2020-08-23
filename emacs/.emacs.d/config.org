@@ -884,8 +884,8 @@
    Use iPython for more comfort
    #+begin_src emacs-lisp
    (require 'python)
-   (setq python-shell-interpreter "ipython"
-         python-shell-interpreter-args "--simple-prompt -i")
+   (setq python-shell-interpreter "jupyter"
+         python-shell-interpreter-args "console --simple-prompt")
    #+end_src
 
    Jedi as back-end for company
