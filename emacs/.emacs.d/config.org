@@ -883,19 +883,28 @@
 ** Python
    Use iPython for more comfort
    #+begin_src emacs-lisp
-   (require 'python)
-   (setq python-shell-interpreter "jupyter"
-         python-shell-interpreter-args "console --simple-prompt")
+     ;; (require 'python)
+   #+end_src
+
+   Use elpy for Python support.
+   #+begin_src emacs-lisp :tangle yes
+     (require 'elpy)
+     (elpy-enable)
+     (setq python-shell-interpreter "jupyter"
+           python-shell-interpreter-args "console --simple-prompt"
+           python-shell-prompt-detect-failure-warning nil)
+     (add-to-list 'python-shell-completion-native-disabled-interpreters
+                  "jupyter")
    #+end_src
 
    Jedi as back-end for company
    #+begin_src emacs-lisp
-     (add-hook 'python-mode-hook
-	       (lambda ()
-	         (add-to-list 'company-backends 'company-jedi)))
-     (setq jedi:environment-root "jedi")  ; or any other name you like
-     (setq py-python-command "/usr/bin/python3")
-     (define-key python-mode-map (kbd "TAB") 'company-indent-or-complete-common)
+     ;; (add-hook 'python-mode-hook
+     ;;           (lambda ()
+     ;;             (add-to-list 'company-backends 'company-jedi)))
+     ;; (setq jedi:environment-root "jedi")  ; or any other name you like
+     ;; (setq py-python-command "/usr/bin/python3")
+     ;; (define-key python-mode-map (kbd "TAB") 'company-indent-or-complete-common)
    #+end_src
 
 ** Code folding
