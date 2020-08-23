@@ -41,13 +41,13 @@ Without ugly boxes but with Magit.")
       (orange-1 "#fcaf3e") (orange-2 "#f57900") (orange-3 "#ce5c00")
       (choc-1 "#e9b96e") (choc-2 "#c17d11") (choc-3 "#8f5902")
       (cham-1 "#8ae234") (cham-2 "#50c003") (cham-3 "#4e9a30")
-      (blue-1 "#729fb8") (blue-2 "#346574") (blue-3 "#204a57") ;check values for 2&3
+      (blue-1 "#729fb8") (blue-2 "#346590") (blue-3 "#204a57") ;check values for 2&3
       (plum-1 "#d080c7") (plum-2 "#75507b") (plum-3 "#5c3566")
       (red-1 "#ef2929")  (red-2 "#cc0000")  (red-3 "#a40000")
       (alum-1 "#eeeeec") (alum-2 "#d3d7cf") (alum-3 "#babdb6")
       (alum-4 "#888a85") (alum-5 "#555753") (alum-6 "#2e3436")
       ;; Not in Tango palette; used for better contrast.
-      (cham-0 "#b4fa70") (blue-0 "#80b4d7") (plum-0 "#e9b2e3")
+      (cham-0 "#b4fa70") (blue-0 "#50c4dd") (plum-0 "#e9b2e3")
       (red-0 "#ff4b4b")  (alum-5.5 "#41423f") (alum-7 "#212526"))
 
   (custom-theme-set-variables
@@ -92,6 +92,7 @@ Without ugly boxes but with Magit.")
     ;; Escape and prompt faces
     `(minibuffer-prompt ((,class (:foreground ,cham-2))))
     `(escape-glyph ((,class (:foreground ,butter-3))))
+    `(homoglyph ((,class (:foreground ,butter-3))))
     `(error ((,class (:foreground ,red-0))))
     `(warning ((,class (:foreground ,orange-1))))
     `(success ((,class (:foreground ,cham-1))))
@@ -254,6 +255,12 @@ Without ugly boxes but with Magit.")
     `(org-table ((,class (:foreground ,cham-2))))
     ;; TeX faces
     `(font-latex-script-char-face ((,class (:foreground ,red-0))))
+    ;; eshell
+    `(eshell-prompt ((,class (:foreground ,choc-2))))
+    `(eshell-ls-directory ((,class (:foreground ,blue-1 :weight bold))))
+    `(eshell-ls-executable ((,class (:foreground ,cham-2 :weight bold))))
+    `(eshell-ls-symlink ((,class (:foreground ,blue-0 :weight bold))))
+    `(eshell-ls-archive ((,class (:foreground ,plum-1 :weight bold))))
     )
   ;; PDF View / PDF Tools
   ;; this is only a variable, but it is something that belongs to a theme
