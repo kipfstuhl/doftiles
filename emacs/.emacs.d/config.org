@@ -595,7 +595,7 @@
   Its size is 10.5pt.
   #+begin_src emacs-lisp
     (add-to-list 'default-frame-alist 
-                 '(font . "-*-Fira Code-*-*-*-*-*-105-*-*-*-*-*-*"))
+                 '(font . "-*-Fira Mono-*-*-*-*-*-105-*-*-*-*-*-*"))
   #+end_src
 
   Use a minor mode for Fira Code ligatures, this minor mode does not really
