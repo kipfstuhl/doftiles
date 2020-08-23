@@ -123,7 +123,10 @@
     
     Disable ede-mode, the Emacs Development Environment, when entering Org mode.
     #+begin_src emacs-lisp :tangle yes
-      (add-hook 'org-mode-hook (lambda () (ede-minor-mode -1)))
+      (defun deactivate-ede-minor-mode ()
+        (ede-minor-mode -1))
+      (add-hook 'org-mode-hook #'deactivate-ede-minor-mode)
+      ;; (add-hook 'org-mode-hook (lambda () (ede-minor-mode -1)))
     #+end_src
 
     Fix some keybindings for Org mode, my Lenovo Notebook does not like
@@ -253,6 +256,12 @@
       (add-hook 'org-mode-hook 'org-faces-setup)
       (setq org-src-fontify-natively t)
     #+END_SRC
+
+    Change behavior of Org when editing source code blocks, by default it
+    destroys the window layout in the current frame.
+    #+begin_src emacs-lisp :tangle yes
+      (setq org-src-window-setup 'other-window)
+    #+end_src
 
     Enalbe yasnippet minor mode in Org. This allows for *fast* creation
     of code blocks. For better code block indentig set the tab to
