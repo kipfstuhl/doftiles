@@ -896,6 +896,13 @@
      (add-to-list 'python-shell-completion-native-disabled-interpreters
                   "jupyter")
    #+end_src
+   
+   Do not use semantic mode together with elpy.  For me semantic only displays
+   erros with the imports and does not really add functionality.
+   In order to do so, use the common lisp version of ~delete~.
+   #+begin_src emacs-lisp :tangle yes
+     (delete* 'python-mode semantic-new-buffer-setup-functions :key 'car)
+   #+end_src
 
    Jedi as back-end for company
    #+begin_src emacs-lisp
