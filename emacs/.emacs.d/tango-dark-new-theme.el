@@ -261,6 +261,8 @@ Without ugly boxes but with Magit.")
     `(eshell-ls-executable ((,class (:foreground ,cham-2 :weight bold))))
     `(eshell-ls-symlink ((,class (:foreground ,blue-0 :weight bold))))
     `(eshell-ls-archive ((,class (:foreground ,plum-1 :weight bold))))
+    ;; indentation highlight
+    `(highlight-indentation-face ((,class (:background ,alum-5.5)))) ;see semantic func current tago
     )
   ;; PDF View / PDF Tools
   ;; this is only a variable, but it is something that belongs to a theme
