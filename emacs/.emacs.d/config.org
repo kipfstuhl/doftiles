@@ -1641,6 +1641,36 @@ sent."
      ;;   message-send-mail-function 'async-smtpmail-send-it)
    #+END_SRC
 
+
+   Some configuration options, that may make sense:
+
+   Add attachemnts at the end, regardless of the place where the attchament was added.
+   #+begin_src emacs-lisp :tangle no
+     (defun mml-attach-file--go-to-eob (orig-fun &rest args)
+       "Go to the end of buffer before attaching files."
+       (save-excursion
+         (save-restriction
+           (widen)
+           (goto-char (point-max))
+           (apply orig-fun args))))
+
+     (advice-add 'mml-attach-file :around #'mml-attach-file--go-to-eob)
+   #+end_src
+
+   Use the flowed format (desirable).
+   #+begin_src emacs-lisp :tangle no
+     (setq mu4e-compose-format-flowed t)
+   #+end_src
+
+   Keep me in the CC list
+   #+begin_src emacs-lisp :tangle no
+     (setq mu4e-compose-keep-self-cc t)
+   #+end_src
+
+   There is a way to use dired to attach files to emails: see the documentation
+   of mu4e.
+
+
 * Some other ideas:
   - hyperbole      :: interesting package, "information enabler", makes
                       documents "active" with links and buttons
