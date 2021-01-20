@@ -38,6 +38,9 @@ path=(~/bin ~/.local/bin $path[@])
 # 'Go faster' power user options from guide
 setopt AUTO_CD
 
+# batch renaming or moving files with regexes and wildcards
+autoload zmv
+
 # better word separators, default is
 # WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
 #export WORDCHARS='*?_[]~=&;!#$%^(){}<>'
