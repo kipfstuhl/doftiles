@@ -924,6 +924,11 @@
      ;; (define-key python-mode-map (kbd "TAB") 'company-indent-or-complete-common)
    #+end_src
 
+   Restart Python after changing the virtual environment.
+   #+begin_src emacs-lisp :tangle yes
+     (add-hook 'pyvenv-post-activate-hooks (lambda () pyvenv-restart-python))
+   #+end_src
+
 ** Code folding
    Emacs comes with a minor mode for code folding,
    hide-show-mode. Hideshow-org mode uses this mode for code folding
