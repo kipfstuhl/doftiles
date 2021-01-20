@@ -142,7 +142,17 @@
     Add better support for interleave mode. This mode is useful for
     making annotations and notes for PDF files.
     #+begin_src emacs-lisp
-      (define-key org-mode-map (kbd "C-c i") 'interleave-mode)
+      ;; (define-key org-mode-map (kbd "C-c i") 'interleave-mode)
+    #+end_src
+
+    Use org-noter instead of interleave mode.  The latter one had the idea, the
+    first one improves on many rough edges of interleave mode.  Nevertheless
+    there are some very strange defualts in org-noter, this seems totally
+    unnatural for Emacs.
+    #+begin_src emacs-lisp :tangle yes
+      (setq org-noter-separate-notes-from-heading t
+            org-noter-always-create-frame 'nil
+            org-noter-kill-frame-at-session-end 'nil)
     #+end_src
 
     Enable auto fill mode, this wraps lines when they are too long
