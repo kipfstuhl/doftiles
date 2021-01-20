@@ -1682,6 +1682,8 @@ sent."
 
 
 * Some other ideas:
+  - helm-ls-git    :: manage git repositories with helm
+  - helm-git-grep  :: use incremental git-grep
   - hyperbole      :: interesting package, "information enabler", makes
                       documents "active" with links and buttons
   - zpresent       :: presentations within Emacs, using Org files
