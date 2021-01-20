@@ -51,6 +51,11 @@
     (setq inhibit-startup-screen t)
   #+end_src
 
+  Turn off the bell. This can be very annoying.
+  #+begin_src emacs-lisp :tangle yes
+    (setq ring-bell-function 'ignore)
+  #+end_src
+
 * General Settings  
   Add own Lisp Directory to load-path.
   #+begin_src emacs-lisp :tangle yes
