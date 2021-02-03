@@ -1,7 +1,7 @@
 #!/bin/sh
-DEVICE_ID=$(xinput | grep "Synaptics T" | sed 's/.*id=\([0-9]*\).*/\1/')
+DEVICE_ID=$(xinput | grep "Synaptics T" | sed 's/.*id=\([0-9]\+\).*/\1/')
 
-if xinput list-props $DEVICE_ID | grep "Tapping Enabled .*1" >/dev/null
+if xinput list-props $DEVICE_ID | grep "Tapping Enabled .*:[[:space:]]*1" >/dev/null
 then
     xinput set-prop $DEVICE_ID "libinput Tapping Enabled" 0
     notify-send -u low -i mouse "Tapping disabled"
